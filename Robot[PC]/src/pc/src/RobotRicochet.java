@@ -14,16 +14,18 @@ public class RobotRicochet {
 	private static boolean connecte = false;
 	
 	public static void cartographier() throws IOException{
-		byte data=inputData.readByte();
-		switch(data){
-			case DISTANCE_GAUCHE :	// a remplacer par l'ajout des valeurs dans ta partie
-									System.out.println("gauche");
-									System.out.println((int)inputData.readByte()& (0xff));
-									break;
-			case DISTANCE_DROITE :	// a remplacer par l'ajout des valeurs dans ta partie
-									System.out.println("droite");
-									System.out.println((int)inputData.readByte()& (0xff));
-									break;
+		while(true){
+			byte data=inputData.readByte();
+			switch(data){
+				case DISTANCE_GAUCHE :	// a remplacer par l'ajout des valeurs dans ta partie
+										System.out.println("gauche");
+										System.out.println((int)inputData.readByte()& (0xff));
+										break;
+				case DISTANCE_DROITE :	// a remplacer par l'ajout des valeurs dans ta partie
+										System.out.println("droite");
+										System.out.println((int)inputData.readByte()& (0xff));
+										break;
+			}
 		}
 	}
 
@@ -38,8 +40,9 @@ public class RobotRicochet {
 		}else{
 			System.out.println("non connecté");
 		}
-		cartographier();
-		cartographier();
+		
+			cartographier();
+		//cartographier();
 	}
 
 }

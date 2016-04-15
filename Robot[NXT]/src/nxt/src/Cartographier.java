@@ -58,15 +58,22 @@ public class Cartographier extends Thread {
 	}
 	
 	public void run(){
+		boolean obstacle = false;
 		connexion();
 		depart();
-		try {
-			scanner();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while(!obstacle && !Button.ESCAPE.isDown()){
+			try {
+				scanner();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (TETE.getDistance()<40){
+				obstacle=true;
+			}else{
+				deplacement.avancer(400);
+			}
 		}
-		//deplacement.avancer();
 		Button.waitForAnyPress();
 	}
 
