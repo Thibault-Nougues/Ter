@@ -1,5 +1,6 @@
 package nxt.src;
 
+import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
@@ -27,5 +28,6 @@ public class Constantes {
 	public static final NXTRegulatedMotor MOTEUR_DROITE = Motor.C;
 	
 	public static final UltrasonicSensor TETE = new UltrasonicSensor(SensorPort.S1);
+	public static final LightSensor COULEUR = new LightSensor(SensorPort.S2);
 
 }

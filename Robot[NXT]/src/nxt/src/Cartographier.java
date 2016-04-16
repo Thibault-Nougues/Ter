@@ -44,6 +44,7 @@ public class Cartographier extends Thread {
 	}
 	
 	public void scanner() throws IOException{
+		//for(int i = 0 ; i<250;i++){System.out.println();}
 		MOTEUR_TETE.rotate(90);
 		outputData.write(DISTANCE_GAUCHE);
 		outputData.flush();
@@ -60,21 +61,40 @@ public class Cartographier extends Thread {
 	public void run(){
 		boolean obstacle = false;
 		connexion();
+		int ligne=COULEUR.readValue();
+		deplacement.avancer(50);
 		depart();
+		deplacement.avancer();
 		while(!obstacle && !Button.ESCAPE.isDown()){
-			try {
-				scanner();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			if(COULEUR.readValue()<= ligne+5 && COULEUR.readValue()>= ligne-5){
+				
+				try {
+					scanner();
+					deplacement.avancer();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}//else{
+			//	deplacement.avancer();
+			//}
 			if (TETE.getDistance()<40){
 				obstacle=true;
-			}else{
-				deplacement.avancer(400);
+				deplacement.arreter();
+			}/*else{
+				deplacement.arreter();
+			}*/
+		}
+		deplacement.demiTour();
+		obstacle=false;
+		deplacement.avancer();
+		while(!obstacle && !Button.ESCAPE.isDown()){
+			if (TETE.getDistance()<40){
+				obstacle=true;
+				deplacement.arreter();
 			}
 		}
-		Button.waitForAnyPress();
+		//Button.waitForAnyPress();
 	}
 
 }
