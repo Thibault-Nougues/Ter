@@ -1,4 +1,4 @@
-package screen;
+package pc.src;
 
 import javax.swing.table.TableColumn;
 

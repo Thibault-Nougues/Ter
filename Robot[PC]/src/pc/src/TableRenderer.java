@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package screen;
+package pc.src;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import screen.Terrain.Case;
+import pc.src.Terrain.Case;
 
 /**
  *
