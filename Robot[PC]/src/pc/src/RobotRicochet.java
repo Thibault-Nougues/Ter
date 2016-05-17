@@ -37,11 +37,12 @@ public class RobotRicochet {
 		inputData = new DataInputStream(nxtConnect.getInputStream());
 		if(connecte){
 			System.out.println("connecté");
+			cartographier();
 		}else{
 			System.out.println("non connecté");
 		}
 		
-			cartographier();
+			
 	}
 
 }
