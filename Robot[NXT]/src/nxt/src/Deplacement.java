@@ -5,6 +5,9 @@ import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import static nxt.src.Constantes.*;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.lang.Math;
 
 public class Deplacement {
@@ -65,12 +68,41 @@ public class Deplacement {
 		pilote.setTravelSpeed(SPEED);
 	}
 	
-	public void redresser(int ligne){
-		int debut=0,fin=0;
+	public void redresser(int ligne,DataOutputStream outputData) throws IOException{
+		if(COULEUR_GAUCHE.getNormalizedLightValue()<400 && COULEUR_DROITE.getNormalizedLightValue()<400){
+			int i = MOTEUR_GAUCHE.getTachoCount();
+			while(MOTEUR_GAUCHE.getTachoCount()<i+45){}
+		}else if(COULEUR_GAUCHE.getNormalizedLightValue()<400 && COULEUR_DROITE.getNormalizedLightValue()>400){
+			
+			while(COULEUR_DROITE.getNormalizedLightValue()>400)
+				MOTEUR_GAUCHE.setSpeed(0);
+			pilote.setTravelSpeed(SPEED);
+			this.avancer();
+			//Sound.beep();
+			int i = MOTEUR_DROITE.getTachoCount();
+			while(MOTEUR_DROITE.getTachoCount()<i+45){}
+		}else if(COULEUR_DROITE.getNormalizedLightValue()<400 && COULEUR_GAUCHE.getNormalizedLightValue()>400){
+			
+			while(COULEUR_GAUCHE.getNormalizedLightValue()>400)
+				MOTEUR_DROITE.setSpeed(0);
+			pilote.setTravelSpeed(SPEED);
+			this.avancer();
+			//Sound.buzz();
+			int i = MOTEUR_GAUCHE.getTachoCount();
+			while(MOTEUR_GAUCHE.getTachoCount()<i+45){}
+		}
+		/*int debut=0,fin=0;
 		int couleur_gauche=COULEUR_GAUCHE.readValue(),couleur_droite=COULEUR_DROITE.readValue();
 		if(couleur_droite>=ligne-TOLERENCE && couleur_droite<=ligne+TOLERENCE 
 			&& (couleur_gauche<ligne-TOLERENCE || couleur_gauche>ligne+TOLERENCE)){
-			couleur_gauche=COULEUR_GAUCHE.readValue();
+			//couleur_gauche=COULEUR_GAUCHE.readValue();
+			while(couleur_gauche>=ligne-TOLERENCE && couleur_gauche<=ligne+TOLERENCE){
+				MOTEUR_DROITE.setSpeed(0);
+				couleur_gauche=COULEUR_GAUCHE.readValue();
+			}
+			pilote.setTravelSpeed(SPEED);
+			this.avancer();
+			/*couleur_gauche=COULEUR_GAUCHE.readValue();
 			fin=debut=MOTEUR_DROITE.getTachoCount();
 			while((couleur_gauche<ligne-TOLERENCE || couleur_gauche>ligne+TOLERENCE)
 					&& !Button.ESCAPE.isDown()){
@@ -80,19 +112,40 @@ public class Deplacement {
 			int angle=fin-debut;
 			this.avancer();
 			MOTEUR_DROITE.rotate(angle-20);
-			this.avancer();
+			outputData.write(DISTANCE_GAUCHE);
+			outputData.flush();
+			outputData.write(angle);
+			outputData.flush();
+			
 			Sound.beep();
-			//this.arreter();
-		}
-		if(COULEUR_DROITE.readValue()!=ligne && COULEUR_GAUCHE.readValue()==ligne){
-			/*fin=debut=MOTEUR_GAUCHE.getTachoCount();
-			while(COULEUR_DROITE.readValue()!=ligne){
+			//this.arreter();*/
+		/*}
+		if(couleur_gauche>=ligne-TOLERENCE && couleur_gauche<=ligne+TOLERENCE 
+				&& (couleur_droite<ligne-TOLERENCE || couleur_droite>ligne+TOLERENCE)){
+				//couleur_droite=COULEUR_DROITE.readValue();
+				while(couleur_droite>=ligne-TOLERENCE && couleur_droite<=ligne+TOLERENCE){
+					MOTEUR_GAUCHE.setSpeed(0);
+					couleur_droite=COULEUR_DROITE.readValue();
+				}
+				pilote.setTravelSpeed(SPEED);*/
+				/*fin=debut=MOTEUR_GAUCHE.getTachoCount();
+				while((couleur_droite<ligne-TOLERENCE || couleur_droite>ligne+TOLERENCE)
+						&& !Button.ESCAPE.isDown()){
+					couleur_droite=COULEUR_DROITE.readValue();
+				}
+				
 				fin=MOTEUR_GAUCHE.getTachoCount();
-			}
-			MOTEUR_DROITE.rotate(fin-debut);
-			this.avancer();*/
-			this.arreter();
-		}
+				int angle=fin-debut;
+				this.avancer();
+				MOTEUR_GAUCHE.rotate(angle-20);
+				outputData.write(DISTANCE_DROITE);
+				outputData.flush();
+				outputData.write(angle);
+				outputData.flush();*/
+				/*this.avancer();
+				Sound.beep();
+				//this.arreter();
+			}*/
 	}
 	
 	public void test(){

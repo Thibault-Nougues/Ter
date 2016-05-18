@@ -65,14 +65,28 @@ public class Cartographier extends Thread {
 	
 	public void run(){
 		boolean obstacle = false;
-		int ligne = (COULEUR_DROITE.readValue()+COULEUR_GAUCHE.readValue())/2;
+		int ligne = (COULEUR_DROITE.getNormalizedLightValue()+COULEUR_GAUCHE.getNormalizedLightValue())/2;
 		deplacement.avancer(50);
+		System.out.println(ligne);
+		System.out.println(COULEUR_DROITE.getNormalizedLightValue());
+		System.out.println(COULEUR_GAUCHE.getNormalizedLightValue());
 		connexion();
 		
-		while(!Button.ESCAPE.isDown()){
+		while(!Button.ESCAPE.isDown() && TETE_AVANT.getDistance()>20 && !obstacle ){
 			deplacement.avancer();
-			deplacement.redresser(ligne);
+			/*if((COULEUR_DROITE.readValue()<ligne+15 && COULEUR_DROITE.readValue()>ligne-15)){
+				//deplacement.arreter();
+				Sound.beep();
+				//obstacle=true;
+			}*/
+			try {
+				deplacement.redresser(ligne,outputData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		deplacement.arreter();
 		//System.out.println(TETE.getDistance());}
 		//int i = 0;
 		/*deplacement.avancer();

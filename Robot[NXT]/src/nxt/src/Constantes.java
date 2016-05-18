@@ -23,15 +23,15 @@ public class Constantes {
 	public static final double TRACKWIDTH = 114;
 	public static final double SPEED = 250;
 	public static final double ROTATE_SPEED = 100;
-	public static final int TOLERENCE = 10;
+	public static final int TOLERENCE = 15;
 	public static DifferentialPilot pilote;
 	
 	public static final NXTRegulatedMotor MOTEUR_GAUCHE = Motor.A;
 	public static final NXTRegulatedMotor MOTEUR_TETE = Motor.B;
 	public static final NXTRegulatedMotor MOTEUR_DROITE = Motor.C;
 
-	public static final UltrasonicSensor TETE_DROITE = new UltrasonicSensor(SensorPort.S2);
-	public static final UltrasonicSensor TETE_GAUCHE = new UltrasonicSensor(SensorPort.S3);
+	public static final UltrasonicSensor TETE_AVANT = new UltrasonicSensor(SensorPort.S2);
+	public static final UltrasonicSensor TETE_ARRIERE = new UltrasonicSensor(SensorPort.S3);
 	public static final LightSensor COULEUR_DROITE = new LightSensor(SensorPort.S1);
 	public static final LightSensor COULEUR_GAUCHE = new LightSensor(SensorPort.S4);
 	
