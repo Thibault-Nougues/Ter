@@ -5,6 +5,8 @@
  */
 package pc.src;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author keke
@@ -23,25 +25,32 @@ public class Terrain {
         terrain = new Case[height][width];
         for(int i=0 ; i<terrain.length ; i++){
             for(int j=0 ; j<terrain[i].length ; j++){
-                terrain[i][j] = new Case(i*10+j);
+                terrain[i][j] = new Case(i, j);
             }
         }
     }
     
     public Terrain(int x, int y){
-        terrain = new Case[11][24];
+        terrain = new Case[11][23];
         for(int i=0 ; i<terrain.length ; i++){
             for(int j=0 ; j<terrain[i].length ; j++){
-                terrain[i][j] = new Case(i*10+j);
+                terrain[i][j] = new Case(i, j);
+                if(i==0){
+                    terrain[i][j].addMur(NORTH);
+                }
+                if(j==0){
+                    terrain[i][j].addMur(WEST);
+                }
+                if(i==10){
+                    terrain[i][j].addMur(SOUTH);
+                }
+                if(j==22){
+                    terrain[i][j].addMur(EAST);
+                }
             }
         }
         
-        terrain[0][0].setPosCourante(true);
-        
-        terrain[0][18].setObstacle();
-        terrain[2][14].setObstacle();
-        terrain[3][8].setObstacle();
-        terrain[7][3].setObstacle();
+        /* TESTS */
         
         //premiere ligne
         addMur(0, 3, EAST);
@@ -60,9 +69,57 @@ public class Terrain {
         addMur(2, 10, EAST);
         addMur(2, 18, SOUTH);
         
-        // Et ainsi de suite ...
+        //ligne4
+        addMur(3, 0, EAST);
+        addMur(3, 18, NORTH);
+        addMur(3, 18, EAST);
         
-        terrain[9][22].setFinal();
+        //ligne5
+        addMur(4, 0, EAST);
+        addMur(4, 1, SOUTH);
+        addMur(4, 9, SOUTH);
+        addMur(4, 10, EAST);
+        addMur(4, 10, SOUTH);
+        
+        //ligne6
+        addMur(5, 10, EAST);
+        addMur(5, 22, SOUTH);
+        
+        //ligne7
+        addMur(6, 2, SOUTH);
+        
+        //ligne8
+        addMur(7, 2, EAST);
+        addMur(7, 7, EAST);
+        addMur(7, 7, SOUTH);
+        addMur(7, 14, EAST);
+        addMur(7, 21, SOUTH);
+        addMur(7, 21, WEST);
+        
+        //ligne9
+        addMur(8, 2, EAST);
+        addMur(8, 7, EAST);
+        addMur(8, 15, WEST);
+        addMur(8, 15, SOUTH);
+        addMur(8, 16, SOUTH);
+        
+        //ligne10
+        addMur(9, 5, WEST);
+        addMur(9, 5, SOUTH);
+        addMur(9, 14, EAST);
+        
+        //ligne11
+        addMur(10, 11, EAST);
+        addMur(10, 19, EAST);
+        
+        //ajout d'un mur pour avoir unz solution
+        addMur(8, 19, SOUTH);
+        
+        
+        addObstacle(0, 18);
+        addObstacle(2, 14);
+        addObstacle(3, 8);
+        addObstacle(6, 3);
     }
     
     /* GETTERS */
@@ -90,84 +147,77 @@ public class Terrain {
         }
         
     }
+    
+    public void addObstacle(int x, int y){
+        terrain[x][y].setObstacle();
+            
+        switch(x){
+            case 0 : terrain[x+1][y].addMur(NORTH);
+                break;
+            case 10 : terrain[x-1][y].addMur(SOUTH);
+                break;
+            default : terrain[x+1][y].addMur(NORTH);
+                    terrain[x-1][y].addMur(SOUTH);
+                break;
+        }
+        switch(y){
+            case 0 : terrain[x][y+1].addMur(WEST);
+                break;
+            case 22 :terrain[x][y-1].addMur(EAST);
+                break;
+            default : terrain[x][y-1].addMur(EAST);
+                terrain[x][y+1].addMur(WEST);
+                break;
+        }
+    }
 
     /* SETTERS */
     
     /* METHODS */
     
+    public void setPoids(Case caseCourante, int poids, int direction){
+        terrain[caseCourante.getX()][caseCourante.getY()].setPoids(poids, direction);
+    }
     
-    /*
-        La classe Case représente une cellule pouvant avoir des murs sur chacuns
-        de se côtés.
+    public boolean dejaVisite(Case caseCourante){
+        return terrain[caseCourante.getX()][caseCourante.getY()].getVisite();
+    }
     
-    */
-    public class Case {
-        private boolean isPosCourante, isFinal;
-        private int murs;
-        public int num;
-
-        public Case(int numero){
-            isPosCourante = isFinal = false;
-            num = numero;
-            int murs = 0;
-        }
-
-        /* GETTERS */
-        public boolean getMurNorth(){
-            return (murs & NORTH) == NORTH;
-        }
+    public void setVisite(Case caseCourante, boolean b){
+        terrain[caseCourante.getX()][caseCourante.getY()].setVisite(b);
+    }
+    
+    public Case avancer(int x, int y, int direction){
+        Case caseTmp = null;
         
-        public boolean getMurWest(){
-            return (murs & WEST) == WEST;
+        switch(direction){
+            case NORTH : caseTmp = new Case(terrain[x-1][y]);
+                break;
+            case SOUTH : caseTmp = new Case(terrain[x+1][y]);
+                break;
+            case EAST : caseTmp = new Case(terrain[x][y+1]);
+                break;
+            case WEST : caseTmp = new Case(terrain[x][y-1]);
+                break;
+            default: ;
         }
-        
-        public boolean getMurSouth(){
-            return (murs & SOUTH) == SOUTH;
+        return caseTmp;
+    }
+    
+    public Case avancer(Case caseCourante, int direction){
+        int x = caseCourante.getX();
+        int y = caseCourante.getY();
+        switch(direction){
+            case NORTH : return terrain[x-1][y];
+            case SOUTH : return terrain[x+1][y];
+            case EAST : return terrain[x][y+1];
+            case WEST : return terrain[x][y-1];
+            default: return null;
         }
-        
-        public boolean getMurEast(){
-            return (murs & EAST) == EAST;
-        }
-        
-        public int getMurs(){
-            return murs;
-        }
-        
-        
-        public boolean getFinal(){
-            return isFinal;
-        }
-        
-        public boolean estObstacle(){
-            return (murs & NORTH) == NORTH &&
-                    (murs & EAST) == EAST &&
-                    (murs & SOUTH) == SOUTH &&
-                    (murs & WEST) == WEST;
-        }
-        
-        public boolean estPosCourante(){
-            return isPosCourante;
-        }
-
-        
-        /* SETTER */
-        public void addMur(int direction){
-            if((murs & direction) == 0)
-                murs += direction;
-        }
-        
-        
-        public void setPosCourante(boolean isCourant){
-            isPosCourante = isCourant;
-        }
-        
-        public void setObstacle(){
-            murs = NORTH+WEST+SOUTH+EAST;
-        }
-        
-        public void setFinal(){
-            isFinal = true;
-        }
-
+    }
+    
+    public ArrayList<Integer> getDirections(Case caseCourante, int direction){
+        ArrayList<Integer> directionPossible = caseCourante.directionsPossible(direction);
+        return directionPossible;
     }
 }

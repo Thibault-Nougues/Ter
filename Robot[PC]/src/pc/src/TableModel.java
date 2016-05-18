@@ -36,14 +36,15 @@ public class TableModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex == 0){
-            return rowIndex+1;
+            return rowIndex;
         }
         return carte.getCase(rowIndex, columnIndex-1);
     }
     
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        super.setValueAt(aValue, rowIndex, columnIndex); //To change body of generated methods, choose Tools | Templates.
+        super.setValueAt(aValue, rowIndex, columnIndex);
+        this.fireTableDataChanged();
     }
 
     @Override
@@ -51,7 +52,8 @@ public class TableModel extends AbstractTableModel{
         if(column == 0){
             return "";
         }
-        return String.valueOf((char)(column+64));
+        return Integer.toString(column-1);
+        //return String.valueOf((char)(column+64));
     }    
     
 }
