@@ -98,7 +98,6 @@ public class Deplacement {
 	}
 	
 	public void test(){
-		System.out.println("ok");
 	}
 
 
