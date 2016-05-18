@@ -96,6 +96,10 @@ public class Deplacement {
 			this.patienter(45, MOTEUR_GAUCHE);
 		}
 	}
+	
+	public void test(){
+		System.out.println("ok");
+	}
 
 
 }
