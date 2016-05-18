@@ -99,6 +99,7 @@ public class Deplacement {
 
 	
 	public void test(){
+		System.out.print("ok");
 	}
 
 
