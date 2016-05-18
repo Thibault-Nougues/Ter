@@ -21,7 +21,7 @@ public class Constantes {
 	
 	public static final double WHEEL_SIZE = 56;
 	public static final double TRACKWIDTH = 114;
-	public static final double SPEED = 250;
+	public static final double SPEED = 300;
 	public static final double ROTATE_SPEED = 100;
 	public static final int TOLERENCE = 15;
 	public static DifferentialPilot pilote;
