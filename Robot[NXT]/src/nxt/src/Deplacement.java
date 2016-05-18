@@ -97,9 +97,5 @@ public class Deplacement {
 		}
 	}
 
-	
-	public void test(){
-		pilote.arc(TRACKWIDTH/2, 90);
-	}
 
 }
