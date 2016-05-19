@@ -59,7 +59,7 @@ public class Cartographier extends Thread {
 			deplacement.avancer();
 			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
 			try {
-				if(deplacement.redresser()){
+				if(deplacement.redresser(outputData)){
 					try {
 						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
 							deplacement.ralentir();

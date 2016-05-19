@@ -15,13 +15,20 @@ import java.io.IOException;
 public class Cartographier extends Thread {
 	
 	private static Deplacement deplacement;
-	private DataOutputStream outputData;
+	private static BTConnection pcConnect;
+	private static DataInputStream inputData;
+	private static DataOutputStream outputData;
 	
-	public Cartographier(DataOutputStream outputData){
+	public Cartographier(){
 		MOTEUR_TETE.setSpeed(100*Battery.getVoltage());
 		deplacement = new Deplacement();
-		this.outputData = outputData;
 		this.start();
+	}
+	
+	public void connexion(){
+		pcConnect = Bluetooth.waitForConnection();
+		inputData = pcConnect.openDataInputStream();
+		outputData = pcConnect.openDataOutputStream();
 	}
 	
 	public void depart(){
@@ -54,12 +61,13 @@ public class Cartographier extends Thread {
 	
 	public void run(){
 		boolean obstacle = false;
+		connexion();
 		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
 			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
 			try {
-				if(deplacement.redresser()){
+				if(deplacement.redresser(outputData)){
 					try {
 						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
 							deplacement.ralentir();

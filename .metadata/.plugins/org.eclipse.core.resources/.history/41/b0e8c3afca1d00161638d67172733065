@@ -13,7 +13,6 @@ public class Constantes {
 	public static final int ARRIERE = 1;
 	public static final int DROITE = 8;
 	public static final int GAUCHE = 2;
-	public static final int FIN = 3;
 	public static int ACTION;
 	
 	public static final byte DISTANCE_GAUCHE = 0b01111111;

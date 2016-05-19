@@ -2,11 +2,9 @@ package nxt.src;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
-import static nxt.src.Constantes.*;
 
 public class RobotRicochet {
 	
@@ -20,14 +18,14 @@ public class RobotRicochet {
 		output = pcConnect.openDataOutputStream();
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Deplacement d = new Deplacement();
 		connexion();
 		Cartographier c = new Cartographier(output);
-		do{
-			ACTION=inputData.read();
-		}while(ACTION!=FIN);
+		//do{
+			
+		//}
 		//while(!Button.ESCAPE.isDown()){
 			
 			/*for(int i = 0 ; i<1000 ; i++){

@@ -74,7 +74,7 @@ public class Deplacement {
 		while(moteur.getTachoCount()<angle_depart+angle){}
 	}
 	
-	public boolean redresser() throws IOException{
+	public boolean redresser(DataOutputStream outputData) throws IOException{
 		int angle_redresser = (int) (SPEED*0.073);
 		if(COULEUR_GAUCHE.getNormalizedLightValue()<480 
 				&& COULEUR_DROITE.getNormalizedLightValue()<480){
