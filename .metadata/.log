@@ -511,3 +511,16 @@ Robot[PC]/src/pc/src/RobotRicochet.java
 	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:396)
 	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:288)
 	... 8 more
+
+!ENTRY org.eclipse.egit.ui 4 0 2016-05-19 17:08:59.848
+!MESSAGE Cannot pull into a repository with state: MERGING_RESOLVED
+!STACK 0
+org.eclipse.jgit.api.errors.WrongRepositoryStateException: Cannot pull into a repository with state: MERGING_RESOLVED
+	at org.eclipse.jgit.api.PullCommand.call(PullCommand.java:211)
+	at org.eclipse.egit.core.op.PullOperation$1.run(PullOperation.java:106)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
+	at org.eclipse.egit.core.op.PullOperation.execute(PullOperation.java:137)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI.execute(PullOperationUI.java:140)
+	at org.eclipse.egit.ui.internal.pull.PullOperationUI$1.runInWorkspace(PullOperationUI.java:115)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)

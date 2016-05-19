@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import lejos.nxt.Button;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import static nxt.src.Constantes.*;
@@ -27,7 +28,7 @@ public class RobotRicochet {
 		Cartographier c = new Cartographier(output);
 		do{
 			ACTION=inputData.read();
-		}while(ACTION!=FIN);
+		}while(ACTION!=FIN && !Button.ESCAPE.isDown());
 		//while(!Button.ESCAPE.isDown()){
 			
 			/*for(int i = 0 ; i<1000 ; i++){

@@ -42,11 +42,13 @@ public class Fenetre extends javax.swing.JFrame {
             col = jTable1.getColumnModel().getColumn(i);
             col.setPreferredWidth(jPanel1.getWidth()/(ARENE_WIDTH+1));
         }
+        /*
         carte.getCase(depart1.x,depart1.y).setDepart();
         carte.getCase(depart2.x,depart2.y).setDepart();
         carte.getCase(depart3.x,depart3.y).setDepart();
         carte.getCase(depart4.x,depart4.y).setDepart();
         this.setVisible(true);
+        
         
         caseCourante = carte.getCase(9, 22);
         caseCourante.setPoids(0, 1);
@@ -57,6 +59,7 @@ public class Fenetre extends javax.swing.JFrame {
         algorithme(0, 0);
         jLabel3.setText(Long.toString(System.currentTimeMillis()-timer) + " ms");
         System.out.println("temps de traitement : " + jLabel3.getText());
+        */
     }
 
     /**
