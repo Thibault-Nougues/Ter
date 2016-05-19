@@ -6,114 +6,99 @@
 package pc.src;
 
 import java.util.ArrayList;
+import static pc.src.Constantes.*;
 
 /**
  *
  * @author keke
  */
 public class Terrain {
-    public static final int height = 11;
-    public static final int width = 24;
-    public static final int NORTH = 1;
-    public static final int WEST = 2;
-    public static final int SOUTH = 4;
-    public static final int EAST = 8;
     
     private Case[][] terrain;
     
-    public Terrain(){
-        terrain = new Case[height][width];
-        for(int i=0 ; i<terrain.length ; i++){
-            for(int j=0 ; j<terrain[i].length ; j++){
-                terrain[i][j] = new Case(i, j);
-            }
-        }
-    }
-    
     public Terrain(int x, int y){
-        terrain = new Case[11][23];
+        terrain = new Case[ARENE_HEIGHT][ARENE_WIDTH];
         for(int i=0 ; i<terrain.length ; i++){
             for(int j=0 ; j<terrain[i].length ; j++){
                 terrain[i][j] = new Case(i, j);
                 if(i==0){
-                    terrain[i][j].addMur(NORTH);
+                    terrain[i][j].addMur(HAUT);
+                }
+                else if(i==ARENE_HEIGHT-1){
+                    terrain[i][j].addMur(BAS);
                 }
                 if(j==0){
-                    terrain[i][j].addMur(WEST);
+                    terrain[i][j].addMur(GAUCHE);
                 }
-                if(i==10){
-                    terrain[i][j].addMur(SOUTH);
-                }
-                if(j==22){
-                    terrain[i][j].addMur(EAST);
+                else if(j==ARENE_WIDTH-1){
+                    terrain[i][j].addMur(DROITE);
                 }
             }
         }
-        
-        /* TESTS */
+/* TESTS */
         
         //premiere ligne
-        addMur(0, 3, EAST);
-        addMur(0, 15, EAST);
-        addMur(1, 5, EAST);
+        addMur(0, 3, DROITE);
+        addMur(0, 15, DROITE);
+        addMur(1, 5, DROITE);
         
         //croix
-        addMur(1, 5, SOUTH);
-        addMur(1, 10, EAST);
-        addMur(1, 10, SOUTH);
-        addMur(1, 11, SOUTH);
+        addMur(1, 5, BAS);
+        addMur(1, 10, DROITE);
+        addMur(1, 10, BAS);
+        addMur(1, 11, BAS);
         
         // le reste ligne par ligne
-        addMur(2, 1, EAST);
-        addMur(2, 1, SOUTH);
-        addMur(2, 10, EAST);
-        addMur(2, 18, SOUTH);
+        addMur(2, 1, DROITE);
+        addMur(2, 1, BAS);
+        addMur(2, 10, DROITE);
+        addMur(2, 18, BAS);
         
         //ligne4
-        addMur(3, 0, EAST);
-        addMur(3, 18, NORTH);
-        addMur(3, 18, EAST);
+        addMur(3, 0, DROITE);
+        addMur(3, 18, HAUT);
+        addMur(3, 18, DROITE);
         
         //ligne5
-        addMur(4, 0, EAST);
-        addMur(4, 1, SOUTH);
-        addMur(4, 9, SOUTH);
-        addMur(4, 10, EAST);
-        addMur(4, 10, SOUTH);
+        addMur(4, 0, DROITE);
+        addMur(4, 1, BAS);
+        addMur(4, 9, BAS);
+        addMur(4, 10, DROITE);
+        addMur(4, 10, BAS);
         
         //ligne6
-        addMur(5, 10, EAST);
-        addMur(5, 22, SOUTH);
+        addMur(5, 10, DROITE);
+        addMur(5, 22, BAS);
         
         //ligne7
-        addMur(6, 2, SOUTH);
+        addMur(6, 2, BAS);
         
         //ligne8
-        addMur(7, 2, EAST);
-        addMur(7, 7, EAST);
-        addMur(7, 7, SOUTH);
-        addMur(7, 14, EAST);
-        addMur(7, 21, SOUTH);
-        addMur(7, 21, WEST);
+        addMur(7, 2, DROITE);
+        addMur(7, 7, DROITE);
+        addMur(7, 7, BAS);
+        addMur(7, 14, DROITE);
+        addMur(7, 21, BAS);
+        addMur(7, 21, GAUCHE);
         
         //ligne9
-        addMur(8, 2, EAST);
-        addMur(8, 7, EAST);
-        addMur(8, 15, WEST);
-        addMur(8, 15, SOUTH);
-        addMur(8, 16, SOUTH);
+        addMur(8, 2, DROITE);
+        addMur(8, 7, DROITE);
+        addMur(8, 15, GAUCHE);
+        addMur(8, 15, BAS);
+        addMur(8, 16, BAS);
         
         //ligne10
-        addMur(9, 5, WEST);
-        addMur(9, 5, SOUTH);
-        addMur(9, 14, EAST);
+        addMur(9, 5, GAUCHE);
+        addMur(9, 5, BAS);
+        addMur(9, 14, DROITE);
         
         //ligne11
-        addMur(10, 11, EAST);
-        addMur(10, 19, EAST);
+        addMur(10, 11, DROITE);
+        addMur(10, 19, DROITE);
         
         //ajout d'un mur pour avoir unz solution
-        addMur(8, 19, SOUTH);
+        addMur(8, 19, BAS);
         
         
         addObstacle(0, 18);
@@ -132,17 +117,17 @@ public class Terrain {
     public void addMur(int x, int y, int dir){
         terrain[x][y].addMur(dir);
         switch(dir){
-            case NORTH: if(x>0)
-                    terrain[x-1][y].addMur(SOUTH);
+            case HAUT: if(x>0)
+                    terrain[x-1][y].addMur(BAS);
                 break;
-            case WEST: if(y>0)
-                    terrain[x][y-1].addMur(EAST);
+            case GAUCHE: if(y>0)
+                    terrain[x][y-1].addMur(DROITE);
                 break;
-            case SOUTH: if(x<height)
-                    terrain[x+1][y].addMur(NORTH);
+            case BAS: if(x<ARENE_HEIGHT)
+                    terrain[x+1][y].addMur(HAUT);
                 break;
-            case EAST: if(y<width)
-                    terrain[x][y+1].addMur(WEST);
+            case DROITE: if(y<ARENE_WIDTH)
+                    terrain[x][y+1].addMur(GAUCHE);
                 break;
         }
         
@@ -152,21 +137,21 @@ public class Terrain {
         terrain[x][y].setObstacle();
             
         switch(x){
-            case 0 : terrain[x+1][y].addMur(NORTH);
+            case 0 : terrain[x+1][y].addMur(HAUT);
                 break;
-            case 10 : terrain[x-1][y].addMur(SOUTH);
+            case 10 : terrain[x-1][y].addMur(BAS);
                 break;
-            default : terrain[x+1][y].addMur(NORTH);
-                    terrain[x-1][y].addMur(SOUTH);
+            default : terrain[x+1][y].addMur(HAUT);
+                    terrain[x-1][y].addMur(BAS);
                 break;
         }
         switch(y){
-            case 0 : terrain[x][y+1].addMur(WEST);
+            case 0 : terrain[x][y+1].addMur(GAUCHE);
                 break;
-            case 22 :terrain[x][y-1].addMur(EAST);
+            case 22 :terrain[x][y-1].addMur(DROITE);
                 break;
-            default : terrain[x][y-1].addMur(EAST);
-                terrain[x][y+1].addMur(WEST);
+            default : terrain[x][y-1].addMur(DROITE);
+                terrain[x][y+1].addMur(GAUCHE);
                 break;
         }
     }
@@ -191,13 +176,13 @@ public class Terrain {
         Case caseTmp = null;
         
         switch(direction){
-            case NORTH : caseTmp = new Case(terrain[x-1][y]);
+            case HAUT : caseTmp = new Case(terrain[x-1][y]);
                 break;
-            case SOUTH : caseTmp = new Case(terrain[x+1][y]);
+            case BAS : caseTmp = new Case(terrain[x+1][y]);
                 break;
-            case EAST : caseTmp = new Case(terrain[x][y+1]);
+            case DROITE : caseTmp = new Case(terrain[x][y+1]);
                 break;
-            case WEST : caseTmp = new Case(terrain[x][y-1]);
+            case GAUCHE : caseTmp = new Case(terrain[x][y-1]);
                 break;
             default: ;
         }
@@ -208,10 +193,10 @@ public class Terrain {
         int x = caseCourante.getX();
         int y = caseCourante.getY();
         switch(direction){
-            case NORTH : return terrain[x-1][y];
-            case SOUTH : return terrain[x+1][y];
-            case EAST : return terrain[x][y+1];
-            case WEST : return terrain[x][y-1];
+            case HAUT : return terrain[x-1][y];
+            case BAS : return terrain[x+1][y];
+            case DROITE : return terrain[x][y+1];
+            case GAUCHE : return terrain[x][y-1];
             default: return null;
         }
     }

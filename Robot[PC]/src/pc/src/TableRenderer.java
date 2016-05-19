@@ -8,10 +8,10 @@ package pc.src;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import static pc.src.Constantes.*;
 
 /**
  *
@@ -57,10 +57,10 @@ public class TableRenderer extends DefaultTableCellRenderer{
                     break;
             }*/
             int murs = caseCourante.getMurs();
-            int n = (murs & Terrain.NORTH)/Terrain.NORTH;
-            int e = (murs & Terrain.EAST)/Terrain.EAST;
-            int s = (murs & Terrain.SOUTH)/Terrain.SOUTH;
-            int w = (murs & Terrain.WEST)/Terrain.WEST;
+            int n = (murs & HAUT)/HAUT;
+            int e = (murs & DROITE)/DROITE;
+            int s = (murs & BAS)/BAS;
+            int w = (murs & GAUCHE)/GAUCHE;
             ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
                     w, 
                     s, 

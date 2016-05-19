@@ -6,6 +6,7 @@
 package pc.src;
 
 import javax.swing.table.AbstractTableModel;
+import static pc.src.Constantes.*;
 
 /**
  *
@@ -25,18 +26,18 @@ public class TableModel extends AbstractTableModel{
     
     @Override
     public int getRowCount() {
-        return Terrain.height;
+        return ARENE_HEIGHT;
     }
 
     @Override
     public int getColumnCount() {
-        return Terrain.width;
+        return ARENE_WIDTH+1;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex == 0){
-            return rowIndex;
+            return rowIndex+1;
         }
         return carte.getCase(rowIndex, columnIndex-1);
     }

@@ -4,11 +4,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.TableColumn;
+import static pc.src.Constantes.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,19 +20,15 @@ import javax.swing.table.TableColumn;
  *
  * @author keke
  */
+@SuppressWarnings("serial")
 public class Fenetre extends javax.swing.JFrame {
-    private Terrain carte;
+
+	private Terrain carte;
     
-    private TreeMap<Case, Case> listeOuverte = new TreeMap();
-    private HashMap<Case, Case> listeFermee = new HashMap();
+    private TreeMap<Case, Case> listeOuverte = new TreeMap<Case, Case>();
+    private HashMap<Case, Case> listeFermee = new HashMap<Case, Case>();
     private Case caseCourante;
     private Case caseParent;
-    public static Point depart1 = new Point(0, 0);
-    public static Point depart2 = new Point(10, 0);
-    public static Point depart3 = new Point(0, 22);
-    public static final int AVANCER = 0;
-    public static final int SAUTER = 1;
-    public static final int RECHERCHER = 2;
     
     /**
      * Creates new form Fenetre
@@ -40,16 +36,16 @@ public class Fenetre extends javax.swing.JFrame {
     public Fenetre() throws InterruptedException {
         carte = new Terrain(10,0);
         initComponents();
-        jTable1.setRowHeight((jPanel1.getHeight()-jTable1.getTableHeader().getHeight())/Terrain.height);
+        jTable1.setRowHeight((jPanel1.getHeight()-jTable1.getTableHeader().getHeight())/ARENE_HEIGHT-5);
         TableColumn col;
-        for(int i=0 ; i<Terrain.width ; i++){
+        for(int i=0 ; i<ARENE_WIDTH+1 ; i++){
             col = jTable1.getColumnModel().getColumn(i);
-            col.setPreferredWidth(jPanel1.getWidth()/Terrain.width);
+            col.setPreferredWidth(jPanel1.getWidth()/(ARENE_WIDTH+1));
         }
-        carte.getCase(9, 22).setFinal();
         carte.getCase(depart1.x,depart1.y).setDepart();
         carte.getCase(depart2.x,depart2.y).setDepart();
         carte.getCase(depart3.x,depart3.y).setDepart();
+        carte.getCase(depart4.x,depart4.y).setDepart();
         this.setVisible(true);
         
         caseCourante = carte.getCase(9, 22);
@@ -60,7 +56,7 @@ public class Fenetre extends javax.swing.JFrame {
         long timer = System.currentTimeMillis();
         algorithme(0, 0);
         jLabel3.setText(Long.toString(System.currentTimeMillis()-timer) + " ms");
-        System.out.println("temps de traitement : " + jLabel3.getText() + "ms");
+        System.out.println("temps de traitement : " + jLabel3.getText());
     }
 
     /**
@@ -118,7 +114,7 @@ public class Fenetre extends javax.swing.JFrame {
         jButton1.setText("Lancer A*");
         jPanel4.add(jButton1, new java.awt.GridBagConstraints());
 
-        jButton2.setText("Générer labyrinthe");
+        jButton2.setText("G�n�rer labyrinthe");
         jPanel4.add(jButton2, new java.awt.GridBagConstraints());
 
         jPanel2.add(jPanel4);
@@ -158,10 +154,10 @@ public class Fenetre extends javax.swing.JFrame {
 
         jLabel3.setText("jLabel3");
 
-        jLabel2.setText("temps de résolution : ");
+        jLabel2.setText("temps de r�solution : ");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Résultats");
+        jLabel1.setText("R�sultats");
 
         jLabel5.setText("jLabel5");
 
@@ -314,26 +310,21 @@ public class Fenetre extends javax.swing.JFrame {
                     .setPoids(caseCourante.getPoids()+1, directions.get(i));
             carte.getCase(caseTmp.getX(), caseTmp.getY()).setVisite(true);
             jTable1.setValueAt(caseTmp, caseTmp.getX(), caseTmp.getY());
-            Thread.sleep(50);
             
-                    caseTmp.setPoids(caseCourante.getPoids()+1, directions.get(i));
+            caseTmp.setPoids(caseCourante.getPoids()+1, directions.get(i));
                     
-            System.out.println("GET LISTE FERMEE");
             Case caseFermee = getListeFermee(caseTmp);
-            System.out.println("FIN GET LISTE FERMEE");
             
-            System.out.println("GET LISTE OUVERTE");
             Case caseOuverte = getListeOuverte(caseTmp);
-            System.out.println("FIN GET LISTE OUVERTE");
             
             if(estDepart(caseTmp)){
-                System.out.println("SOLUTION TROUVE !!!!!!!!");
+                //System.out.println("SOLUTION TROUVE !!!!!!!!");
                 ajouter_listeFermee(caseTmp, caseCourante);
                 return;
             }
             //MAJ de la case adjacente temporaire
             else if(caseFermee != null){
-                System.out.println("PRESENT DANS LISTE FERMEE");
+                //System.out.println("PRESENT DANS LISTE FERMEE");
                 if(caseTmp.getPoids()<caseFermee.getPoids()){
                     supprimer_listeFermee(caseFermee);
                     ajouter_listeOuverte(caseTmp, caseCourante);
@@ -343,7 +334,7 @@ public class Fenetre extends javax.swing.JFrame {
                 }
             } //Sinon on regarde
             else if(caseOuverte != null){ 
-                System.out.println(" PRESENT(S) DANS LISTE OUVERTE");
+                //System.out.println(" PRESENT(S) DANS LISTE OUVERTE");
                 //on regarde si on peut éliminer des choix
                 if(caseTmp.memeTrajectoire(caseOuverte.getDirection())){
                     if(caseTmp.getPoids()<caseOuverte.getPoids()){
@@ -355,7 +346,7 @@ public class Fenetre extends javax.swing.JFrame {
                 }
                 //si on avance
                 if(caseTmp.memeTrajectoire(direction)){
-                    System.out.println("AV ET AVANCER");
+                    //System.out.println("AV ET AVANCER");
                     caseAvancer = caseTmp;
                 }
             }
@@ -373,15 +364,13 @@ public class Fenetre extends javax.swing.JFrame {
             i++;
         }
         //Fin recherche cases adjacentes
-            /*if(caseOuverte != null){
-                ajouter_listeFermee(caseCourante, listeOuverte.get(caseCourante));
-            }*/
-            ajouter_listeFermee(caseCourante, new Case(caseParent));
+        ajouter_listeFermee(caseCourante, new Case(caseParent));
+    
+        supprimer_listeOuverte(caseCourante);
         
-            supprimer_listeOuverte(caseCourante);
         //condition d'arret
-        if(!listeOuverte.isEmpty() && caseAvancer == null && caseCourante.getPoids() <10000){
-            System.out.println("\nMeilleurChoix");
+        if(!listeOuverte.isEmpty() && caseAvancer == null && caseCourante.getPoids()<60){
+            //System.out.println("\nMeilleurChoix");
             supprimer_listeOuverte(caseCourante);
             
             caseCourante = listeOuverte.firstKey();
@@ -393,7 +382,7 @@ public class Fenetre extends javax.swing.JFrame {
             algorithme(caseAvancer.getDirection(), profondeur+1);
         }
         else{
-            System.out.println("DOMMAGE MAN pas de solution !!!!!");
+            System.out.println("DOMMAGE pas de solution !!!!!");
         }
     }
 
@@ -409,60 +398,34 @@ public class Fenetre extends javax.swing.JFrame {
     }
     
     private void ajouter_listeOuverte(Case caseCourante, Case caseParent){
-        System.out.println("    DEBUT AJOUTER listeOuverte");
-        System.out.println("    Case courante " + caseCourante);
         Case caseTmp = new Case(caseCourante);
         caseTmp.setVisite(false);
         listeOuverte.put(caseTmp, caseParent);
-        System.out.println("    FIN AJOUTER listeOuverte");
     }
     
     private void supprimer_listeOuverte(Case caseCourante){
-        System.out.println("\tDEBUT SUPPRIMER listeOuverte");
-        System.out.println("\tCase courante " + caseCourante);
-        
         Case caseTmp = new Case(caseCourante);
         caseTmp.setVisite(true);
         listeOuverte.remove(caseTmp);
-        System.out.println("\tFIN SUPPRIMER listeOuverte");
     }
     
     private void remplacer_listeOuverte(Case oldCase, Case newCase, Case newParent){
-        System.out.println("\tDEBUT REMPLACER listeOuverte");
-        System.out.println("\tCase " + oldCase + " remplace");
-        System.out.println("\tCase " + newCase);
         Case caseTmp = new Case(caseCourante);
         caseTmp.setVisite(true);
-        if(listeOuverte.remove(oldCase) == null){
-            System.out.println("\tREMOVE NULL listeOuverte");
-        }
-        else{
-            //System.out.println("REMOVE REUSSI listeOuverte");
-        }
         listeOuverte.put(newCase, newCase);
-        System.out.println("\tFIN REMPLACER listeOuverte");
     }
     
     private void ajouter_listeFermee(Case caseCourante, Case caseParent){
-        System.out.println("\tDEBUT AJOUTER listeFermee");
-        System.out.println("\tCase courante " + caseCourante);
         Case caseTmp = new Case(caseCourante);
         caseTmp.setVisite(true);
-        System.out.println("\tPUT listeFermee");
         listeFermee.put(caseTmp, caseParent);
-        System.out.println("\tREMOVE listeOuverte");
         listeOuverte.remove(caseTmp, caseParent);
-        System.out.println("\tFIN AJOUTER listeFermee");
     }
     
     private void supprimer_listeFermee(Case cle){
-        System.out.println("\tDEBUT MAJ listeFermee");
-        System.out.println("\tclé à supprimer " + cle + " new clé" + caseCourante);
-        
         Case caseTmp = new Case(caseCourante);
         caseTmp.setVisite(true);
         listeFermee.remove(cle);
-        System.out.println("\tFIN MAJ listeFermee");
     }
     /**
      * 

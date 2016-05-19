@@ -5,7 +5,7 @@
  */
 package pc.src;
 import java.util.ArrayList;
-import static pc.src.Terrain.*;
+import static pc.src.Constantes.*;
 
 
 /**
@@ -68,10 +68,10 @@ public class Case implements Comparable<Case>{
 
     public boolean getMur(int direction){
         switch(direction){
-            case NORTH : return (murs & NORTH) == NORTH;
-            case SOUTH : return (murs & SOUTH) == SOUTH;
-            case EAST : return (murs & EAST) == EAST;
-            case WEST : return (murs & WEST) == WEST;
+            case HAUT : return (murs & HAUT) == HAUT;
+            case BAS : return (murs & BAS) == BAS;
+            case DROITE : return (murs & DROITE) == DROITE;
+            case GAUCHE : return (murs & GAUCHE) == GAUCHE;
             default: return false;
         }
     }
@@ -85,10 +85,10 @@ public class Case implements Comparable<Case>{
     }
 
     public boolean estObstacle(){
-        return (murs & NORTH) == NORTH &&
-                (murs & EAST) == EAST &&
-                (murs & SOUTH) == SOUTH &&
-                (murs & WEST) == WEST;
+        return (murs & HAUT) == HAUT &&
+                (murs & DROITE) == DROITE &&
+                (murs & BAS) == BAS &&
+                (murs & GAUCHE) == GAUCHE;
     }
     
     /* SETTER */
@@ -109,7 +109,7 @@ public class Case implements Comparable<Case>{
     }
 
     public void setObstacle(){
-        murs = NORTH+WEST+SOUTH+EAST;
+        murs = HAUT+GAUCHE+BAS+DROITE;
     }
     
     public void setDepart(){
@@ -135,10 +135,10 @@ public class Case implements Comparable<Case>{
     public int directionOppose(int direction){
         // si trajectoires perpendiculaires
         switch(direction){
-            case NORTH : return SOUTH;
-            case SOUTH : return NORTH;
-            case EAST : return WEST;
-            case WEST : return EAST;
+            case HAUT : return BAS;
+            case BAS : return HAUT;
+            case DROITE : return GAUCHE;
+            case GAUCHE : return DROITE;
             default: return 0;
         }
     }
@@ -146,10 +146,10 @@ public class Case implements Comparable<Case>{
     public boolean directionOppose(Case caseCourante){
         // si trajectoires perpendiculaires
         switch(direction){
-            case NORTH : return caseCourante.getDirection() == SOUTH;
-            case SOUTH : return caseCourante.getDirection() == NORTH;
-            case EAST : return caseCourante.getDirection() == WEST;
-            case WEST : return caseCourante.getDirection() == EAST;
+            case HAUT : return caseCourante.getDirection() == BAS;
+            case BAS : return caseCourante.getDirection() == HAUT;
+            case DROITE : return caseCourante.getDirection() == GAUCHE;
+            case GAUCHE : return caseCourante.getDirection() == DROITE;
             default: return true;
         }
     }
@@ -165,23 +165,23 @@ public class Case implements Comparable<Case>{
             directions.add(direction);
         }
         //cas du tunnel
-        if(((murs & NORTH) == NORTH && (murs & SOUTH) == SOUTH ) ||
-                ((murs & EAST) == EAST && (murs & WEST) == WEST)){
+        if(((murs & HAUT) == HAUT && (murs & BAS) == BAS ) ||
+                ((murs & DROITE) == DROITE && (murs & GAUCHE) == GAUCHE)){
             return directions;
         }
         else{
             // test de toutes les directions
-            if((murs & NORTH) == NORTH && direction != NORTH){
-                directions.add(SOUTH);
+            if((murs & HAUT) == HAUT && direction != HAUT){
+                directions.add(BAS);
             }
-            if((murs & EAST) == EAST && direction != EAST){
-                directions.add(WEST);
+            if((murs & DROITE) == DROITE && direction != DROITE){
+                directions.add(GAUCHE);
             }
-            if((murs & SOUTH) == SOUTH && direction != SOUTH){
-                directions.add(NORTH);
+            if((murs & BAS) == BAS && direction != BAS){
+                directions.add(HAUT);
             }
-            if((murs & WEST) == WEST && direction != WEST){
-                directions.add(EAST);
+            if((murs & GAUCHE) == GAUCHE && direction != GAUCHE){
+                directions.add(DROITE);
             }
         }
 
@@ -195,14 +195,10 @@ public class Case implements Comparable<Case>{
     
     @Override
     public boolean equals(Object other){
-        
-        System.out.println("*********Méthode equals appelé");
         if (other == null) return false;
         if (other == this) return true;
         if (!(other instanceof Case))return false;
         Case caseTmp = (Case)other;
-        System.out.println("Fin Méthode equals : retour " + (x == caseTmp.x && 
-                y == caseTmp.y && this.memeTrajectoire(caseTmp.direction)));
         return x == caseTmp.x && y == caseTmp.y && this.memeTrajectoire(caseTmp.direction);
     }
     
@@ -210,23 +206,17 @@ public class Case implements Comparable<Case>{
     public int compareTo(Case o) {
         int retour = 1;
         
-        System.out.println("\tCase courante => " + this + " comparé à");
-        System.out.println("\t" + o);
         if(o.direction == 0 || direction == 0){
             if(direction == 0) retour = -1;
-            System.out.println("\tGET : comparaison des coordonnées");
             if(x==o.x && y==o.y)retour = 0;
         }        
         else if((o.dejaVisite || dejaVisite)){
             if(dejaVisite) retour = -1;
-            System.out.println("\tREMOVE : comparaison de la direction");
             if(x==o.x && y==o.y && direction == o.direction)retour = 0;
         }
         else{
-            System.out.println("\tPUT ou cas habituel: comparaison de tout");
             retour = (x==o.x && y==o.y && direction == o.direction && poids - o.poids != 0) ? poids - o.poids : 1;
         }
-        System.out.println("\tRETOUR = " + retour);
         return retour;
     }
 }
