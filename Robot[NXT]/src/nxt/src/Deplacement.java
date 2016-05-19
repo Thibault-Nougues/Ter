@@ -74,10 +74,10 @@ public class Deplacement {
 		while(moteur.getTachoCount()<angle_depart+angle){}
 	}
 	
-	public void redresser(int ligne,DataOutputStream outputData) throws IOException{
+	public boolean redresser(DataOutputStream outputData) throws IOException{
 		if(COULEUR_GAUCHE.getNormalizedLightValue()<400 && COULEUR_DROITE.getNormalizedLightValue()<400){
-			int i = MOTEUR_GAUCHE.getTachoCount();
-			while(MOTEUR_GAUCHE.getTachoCount()<i+45){}
+			this.patienter(45, MOTEUR_GAUCHE);
+			return true;
 		}else if(COULEUR_GAUCHE.getNormalizedLightValue()<450 && COULEUR_DROITE.getNormalizedLightValue()>400){
 			
 			while(COULEUR_DROITE.getNormalizedLightValue()>450)
@@ -86,15 +86,18 @@ public class Deplacement {
 			this.patienter(22, MOTEUR_DROITE);
 			this.avancer();
 			this.patienter(45, MOTEUR_DROITE);
+			return true;
 		}else if(COULEUR_DROITE.getNormalizedLightValue()<450 && COULEUR_GAUCHE.getNormalizedLightValue()>400){
 			
 			while(COULEUR_GAUCHE.getNormalizedLightValue()>450)
 				MOTEUR_DROITE.setSpeed(0);
 			pilote.setTravelSpeed(SPEED);
-			this.patienter(29, MOTEUR_GAUCHE);
+			this.patienter(22, MOTEUR_GAUCHE);
 			this.avancer();
 			this.patienter(45, MOTEUR_GAUCHE);
+			return true;
 		}
+		return false;
 	}
 
 	

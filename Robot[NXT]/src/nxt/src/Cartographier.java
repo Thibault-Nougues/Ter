@@ -44,113 +44,50 @@ public class Cartographier extends Thread {
 		//	deplacement.tourner(DROITE,false);
 	}
 	
-	public void scanner() throws IOException{
-		//for(int i = 0 ; i<250;i++){System.out.println();}
-		Sound.beep();
-		int g,d;
+	public void scanner() throws IOException{Sound.beep();
 		MOTEUR_TETE.rotate(90);
 		outputData.write(DISTANCE_GAUCHE);
 		outputData.flush();
-		//g=TETE.getDistance();
-		//outputData.write((byte)g);
+		outputData.write((byte)TETE_ARRIERE.getDistance());
 		outputData.flush();
-		MOTEUR_TETE.rotate(-180);
 		outputData.write(DISTANCE_DROITE);
 		outputData.flush();
-		//d=TETE.getDistance();
-		//outputData.write((byte)d);
+		outputData.write((byte)TETE_AVANT.getDistance());
 		outputData.flush();
-		MOTEUR_TETE.rotate(90);
+		MOTEUR_TETE.rotate(-90);
 	}
 	
 	public void run(){
 		boolean obstacle = false;
-		int ligne = (COULEUR_DROITE.getNormalizedLightValue()+COULEUR_GAUCHE.getNormalizedLightValue())/2;
-		deplacement.avancer(50);
-		System.out.println(ligne);
 		System.out.println(COULEUR_DROITE.getNormalizedLightValue());
-		System.out.println(COULEUR_GAUCHE.getNormalizedLightValue());
 		connexion();
 		
 		while(!Button.ESCAPE.isDown() && TETE_AVANT.getDistance()>20 && !obstacle ){
 			deplacement.avancer();
+			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
 			/*if((COULEUR_DROITE.readValue()<ligne+15 && COULEUR_DROITE.readValue()>ligne-15)){
 				//deplacement.arreter();
 				Sound.beep();
 				//obstacle=true;
 			}*/
 			try {
-				deplacement.redresser(ligne,outputData);
+				if(deplacement.redresser(outputData)){
+					try {
+						this.scanner();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else{
+					
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		deplacement.arreter();
-		//System.out.println(TETE.getDistance());}
-		//int i = 0;
-		/*deplacement.avancer();
-		for(int j = 0 ; j<200 ; j++){
-			System.out.println("depart");COULEUR_DROITE.readValue();
-		}
-		Sound.beep();
-		MOTEUR_DROITE.rotate(360);
-		deplacement.avancer();
-		for(int j = 0 ; j<200 ; j++){
-			System.out.println("depart");COULEUR_DROITE.readValue();
-		}
-		Sound.buzz();
-		deplacement.arreter();*/
-		//int ligne=COULEUR.readValue();
-		/*deplacement.avancer(50);
-		while(!Button.ESCAPE.isDown()){
-			//if(!obstacle)
-			deplacement.avancer();
-			System.out.println(MOTEUR_DROITE.getTachoCount());
-			i++;*/
-			/*if(COULEUR.readValue()<= ligne+5 && COULEUR.readValue()>= ligne-5){
-				deplacement.arreter();
-			}*/
-			/*if (i==500){
-				i++;
-				//obstacle=true;
-				deplacement.tourner(DROITE,true);
-			}
-		}*/
-		/*int ligne=COULEUR.readValue();
-		deplacement.avancer(50);
-		depart();
-		deplacement.avancer();
-		while(!obstacle && !Button.ESCAPE.isDown()){
-			if(COULEUR.readValue()<= ligne+5 && COULEUR.readValue()>= ligne-5){
-				
-				try {
-					scanner();
-					deplacement.avancer();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}//else{
-			//	deplacement.avancer();
-			//}
-			if (TETE.getDistance()<40){
-				obstacle=true;
-				deplacement.arreter();
-			}*//*else{
-				deplacement.arreter();
-			}*/
-		/*}
-		deplacement.demiTour();
-		obstacle=false;
-		deplacement.avancer();
-		while(!obstacle && !Button.ESCAPE.isDown()){
-			if (TETE.getDistance()<30){
-				obstacle=true;
-				deplacement.arreter();
-			}
-		}*/
-		//Button.waitForAnyPress();
+
 	}
 
 
