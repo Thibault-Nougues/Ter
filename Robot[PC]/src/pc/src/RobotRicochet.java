@@ -12,10 +12,8 @@ public class RobotRicochet {
 	private static DataOutputStream outputData;
 	private static DataInputStream inputData;
 	private static boolean connecte = false;
-	
+	private static Fenetre fen;
 	public static void cartographier() throws IOException, InterruptedException{
-		Fenetre fen = new Fenetre();
-        fen.setVisible(true);
 		while(true){
 			byte data=inputData.readByte();
 			switch(data){
@@ -36,6 +34,8 @@ public class RobotRicochet {
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
+		fen = new Fenetre();
+        fen.setVisible(true);
 		// TODO Auto-generated method stub
 		nxtConnect = new NXTConnector();
 		connecte = nxtConnect.connectTo("btspp://001653162E5B");
