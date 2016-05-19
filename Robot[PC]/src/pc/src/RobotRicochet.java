@@ -1,5 +1,6 @@
 package pc.src;
 
+import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -7,14 +8,18 @@ import lejos.pc.comm.NXTConnector;
 import static pc.src.Constantes.*;
 
 public class RobotRicochet {
-	
+
+    private Point positionCourante = depart1;
+    private static int directionCourante = BAS;
+    private static Terrain carte;
+    
 	private static NXTConnector nxtConnect;
 	private static DataOutputStream outputData;
 	private static DataInputStream inputData;
 	private static boolean connecte = false;
 	private static Fenetre fen;
 	public static void cartographier() throws IOException, InterruptedException{
-
+		/*
         int action=0;
 
 		while(true){
@@ -35,12 +40,16 @@ public class RobotRicochet {
 			fen.maj();
 			outputData.write(action);
 			
-		}
+		}*/
+		outputData.write(FIN);
+		//fen.executeAStar(directionCourante);
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		fen = new Fenetre();
+		carte = new Terrain();
+		fen = new Fenetre(carte);
         fen.setVisible(true);
+        AStar algo = new AStar(carte, new Point(9, 22));
 		// TODO Auto-generated method stub
 		nxtConnect = new NXTConnector();
 		connecte = nxtConnect.connectTo("btspp://001653162E5B");

@@ -7,6 +7,8 @@ package pc.src;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -29,7 +31,7 @@ public class TableRenderer extends DefaultTableCellRenderer{
         if(column != 0){           
             
             ((JLabel) c).setBackground(Color.LIGHT_GRAY);
-            Case caseCourante = carte.getCase(row, column-1);
+            Case caseCourante = carte.getCase(new Point(row, column-1));
             ((JLabel) c).setText(Integer.toString(caseCourante.getPoids()));
                     
             if(caseCourante.estObstacle()){
@@ -94,7 +96,6 @@ public class TableRenderer extends DefaultTableCellRenderer{
     }
     
     private Color arcEnCiel(int x){
-        int val = x;
         int r = 255;
         int g = 255;
         int b = 255;

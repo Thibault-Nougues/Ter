@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package pc.src;
+import java.awt.Point;
 import java.util.ArrayList;
 import static pc.src.Constantes.*;
 
@@ -16,17 +17,17 @@ public class Case implements Comparable<Case>{
     private boolean dejaVisite, isFinal, isDepart;
     private int murs;
     private int mursVue;
-    private int x, y;
+    private Point position;
     private int poids;
     private int direction;
 
-    public Case(int posX, int posY){
+    public Case(Point p){
         dejaVisite = isFinal = isDepart = false;
         murs = mursVue = direction = 0;
         poids = 100;
-        x = posX;
-        y = posY;
+        position = p;
     }
+    
     //Constructeur par copie
     public Case(Case c){
         dejaVisite = c.dejaVisite;
@@ -35,17 +36,20 @@ public class Case implements Comparable<Case>{
         murs = c.murs;
         direction = c.direction;
         poids = c.poids;
-        x = c.x;
-        y = c.y;
+        position = c.position;
     }
 
     /* GETTERS */
+    public Point getPosition(){
+        return position;
+    }
+    
     public int getX(){
-        return x;
+        return position.x;
     }
 
     public int getY(){
-        return y;
+        return position.y;
     }
 
     public boolean getVisite(){
@@ -53,7 +57,7 @@ public class Case implements Comparable<Case>{
     }
     @Override
     public String toString() {
-        return x + "/" + y + " : p=" + poids + " | dir=" + direction + " | visite=" + dejaVisite;
+        return position.x + "/" + position.y + " : p=" + poids + " | dir=" + direction + " | visite=" + dejaVisite;
     }
     public int getDirection(){
         return direction;
@@ -97,12 +101,16 @@ public class Case implements Comparable<Case>{
     }
     
     /* SETTER */
-    public int setX(int val){
-        return x=val;
+    public void setPosition(Point p){
+        position = p;
+    }
+    
+    public void setX(int val){
+        position.x=val;
     }
 
-    public int setY(int val){
-        return y=val;
+    public void setY(int val){
+        position.y=val;
     }
     
     public void setVisite(boolean b){
@@ -162,7 +170,7 @@ public class Case implements Comparable<Case>{
     }
 
     public ArrayList<Integer> directionsPossible(int direction){
-        ArrayList<Integer> directions = new ArrayList();
+        ArrayList<Integer> directions = new ArrayList<Integer>();
         if((murs & direction) != direction && direction != 0){
             directions.add(direction);
         }
@@ -201,7 +209,7 @@ public class Case implements Comparable<Case>{
         if (other == this) return true;
         if (!(other instanceof Case))return false;
         Case caseTmp = (Case)other;
-        return x == caseTmp.x && y == caseTmp.y && this.memeTrajectoire(caseTmp.direction);
+        return caseTmp.position.equals(position) && this.memeTrajectoire(caseTmp.direction);
     }
     
     @Override
@@ -210,14 +218,14 @@ public class Case implements Comparable<Case>{
         
         if(o.direction == 0 || direction == 0){
             if(direction == 0) retour = -1;
-            if(x==o.x && y==o.y)retour = 0;
+            if(position==o.position)retour = 0;
         }        
         else if((o.dejaVisite || dejaVisite)){
             if(dejaVisite) retour = -1;
-            if(x==o.x && y==o.y && direction == o.direction)retour = 0;
+            if(position==o.position && direction == o.direction)retour = 0;
         }
         else{
-            retour = (x==o.x && y==o.y && direction == o.direction && poids - o.poids != 0) ? poids - o.poids : 1;
+            retour = (position==o.position && direction == o.direction && poids - o.poids != 0) ? poids - o.poids : 1;
         }
         return retour;
     }
