@@ -1,6 +1,7 @@
 package pc.src;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +23,6 @@ import static pc.src.Constantes.*;
  */
 @SuppressWarnings("serial")
 public class Fenetre extends javax.swing.JFrame {
-
 	private Terrain carte;
     
     private TreeMap<Case, Case> listeOuverte = new TreeMap<Case, Case>();
@@ -124,11 +124,6 @@ public class Fenetre extends javax.swing.JFrame {
         jTable1.setEnabled(false);
         jTable1.setFocusable(false);
         jTable1.setRowSelectionAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
         jTable1.setDefaultRenderer(Object.class, new TableRenderer(carte));
         jTable1.setSize(jPanel5.getWidth(), jPanel5.getHeight());
@@ -212,19 +207,17 @@ public class Fenetre extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable1MouseClicked
+    protected void jToggleButton1ActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+	protected void jButton3ActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    /**
+	/**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -282,9 +275,12 @@ public class Fenetre extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
+    /* Méthodes pour la cartographie */
+    public Terrain getCarte(){
+    	return carte;
+    }
 
-
-    /* MÃ©thodes pour l'algorithme A* */
+    /* Méthodes pour l'algorithme A* */
     
     public void algorithme(int direction, int profondeur) throws InterruptedException{
         System.out.println("\n******************\nCASE COURANTE : " + caseCourante+ "\n******************");
@@ -297,7 +293,7 @@ public class Fenetre extends javax.swing.JFrame {
         ArrayList<Integer> directions = carte.getDirections(caseCourante, direction);
         Case caseAvancer = null;
         int i=0;
-        //on regarde les possibilitÃ©s (ajout des cases adjacentes accessibles)
+        //on regarde les possibilités (ajout des cases adjacentes accessibles)
         while(i<directions.size()){
             Case caseTmp = carte.avancer(caseCourante.getX(), caseCourante.getY(), directions.get(i));
             

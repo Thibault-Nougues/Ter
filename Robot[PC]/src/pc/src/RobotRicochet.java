@@ -13,7 +13,9 @@ public class RobotRicochet {
 	private static DataInputStream inputData;
 	private static boolean connecte = false;
 	
-	public static void cartographier() throws IOException{
+	public static void cartographier() throws IOException, InterruptedException{
+		Fenetre fen = new Fenetre();
+        fen.setVisible(true);
 		while(true){
 			byte data=inputData.readByte();
 			switch(data){
@@ -25,21 +27,24 @@ public class RobotRicochet {
 										System.out.println("droite");
 										System.out.println((int)inputData.readByte()& (0xff));
 										break;
+				default: int action = fen.getCarte().scan((int)inputData.readByte()& (0xff));
+					outputData.write(action);
+					break;
 			}
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		nxtConnect = new NXTConnector();
 		connecte = nxtConnect.connectTo("btspp://001653162E5B");
 		outputData = new DataOutputStream(nxtConnect.getOutputStream());
 		inputData = new DataInputStream(nxtConnect.getInputStream());
 		if(connecte){
-			System.out.println("connectÃ©");
+			System.out.println("connecté");
 			cartographier();
 		}else{
-			System.out.println("non connectÃ©");
+			System.out.println("non connecté");
 		}
 		
 			

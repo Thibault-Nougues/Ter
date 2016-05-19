@@ -15,13 +15,14 @@ import static pc.src.Constantes.*;
 public class Case implements Comparable<Case>{
     private boolean dejaVisite, isFinal, isDepart;
     private int murs;
+    private int mursVue;
     private int x, y;
     private int poids;
     private int direction;
 
     public Case(int posX, int posY){
         dejaVisite = isFinal = isDepart = false;
-        murs = direction = 0;
+        murs = mursVue = direction = 0;
         poids = 100;
         x = posX;
         y = posY;
@@ -80,6 +81,10 @@ public class Case implements Comparable<Case>{
         return murs;
     }
     
+    public int getMursVue(){
+        return mursVue;
+    }
+    
     public int getPoids(){
         return poids;
     }
@@ -130,17 +135,14 @@ public class Case implements Comparable<Case>{
         direction = newDirection;
     }
 
-    /*MÃ©thodes pour l'algorithme A* */
+    /*Méthodes pour l'algorithme A* */
 
     public int directionOppose(int direction){
         // si trajectoires perpendiculaires
-        switch(direction){
-            case HAUT : return BAS;
-            case BAS : return HAUT;
-            case DROITE : return GAUCHE;
-            case GAUCHE : return DROITE;
-            default: return 0;
-        }
+        if(direction == HAUT || direction == GAUCHE)
+			return direction*=4;
+		else
+			return direction/=4;
     }
     
     public boolean directionOppose(Case caseCourante){
@@ -219,4 +221,18 @@ public class Case implements Comparable<Case>{
         }
         return retour;
     }
+    
+    /* Méthodes pour la cartographie */
+    
+    public void addMursVue(int murs){
+    	//vérif murs si erreur
+    	/*
+    	 * 
+    	 * A FAIRE !!!
+    	 * 
+    	 * 
+    	 */
+		mursVue &= murs;
+    }
+    
 }

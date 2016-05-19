@@ -11,8 +11,10 @@ public class Constantes {
 	
 	public static final int AVANT = 0;
 	public static final int ARRIERE = 1;
-	public static final int DROITE = 2;
-	public static final int GAUCHE = 3;
+	public static final int DROITE = 8;
+	public static final int GAUCHE = 2;
+	public static final int STOP = 3;
+	public static int ACTION;
 	public static final int SEUIL_MIN = 15;
 	public static final int SEUIL_MAX = 25;
 	

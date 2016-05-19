@@ -56,16 +56,29 @@ public class TableRenderer extends DefaultTableCellRenderer{
                     ((JLabel) c).setIcon(null);
                     break;
             }*/
-            int murs = caseCourante.getMurs();
-            int n = (murs & HAUT)/HAUT;
-            int e = (murs & DROITE)/DROITE;
-            int s = (murs & BAS)/BAS;
-            int w = (murs & GAUCHE)/GAUCHE;
+            int mursVue = caseCourante.getMursVue();
+            int n = (mursVue & HAUT)/HAUT;
+            int e = (mursVue & DROITE)/DROITE;
+            int s = (mursVue & BAS)/BAS;
+            int w = (mursVue & GAUCHE)/GAUCHE;
             ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
                     w, 
                     s, 
                     e,
-                    Color.BLACK));
+                    Color.GREEN));
+            
+            
+            
+            int murs = caseCourante.getMurs();
+            n = (murs & HAUT)/HAUT;
+            e = (murs & DROITE)/DROITE;
+            s = (murs & BAS)/BAS;
+            w = (murs & GAUCHE)/GAUCHE;
+            ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
+                    w, 
+                    s, 
+                    e,
+                    Color.RED));
             if(caseCourante.getPoids() != 100){
                 ((JLabel) c).setBackground(arcEnCiel(caseCourante.getPoids()));
             }
