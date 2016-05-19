@@ -75,31 +75,44 @@ public class Deplacement {
 	}
 	
 	public boolean redresser(DataOutputStream outputData) throws IOException{
-		if(COULEUR_GAUCHE.getNormalizedLightValue()<400 && COULEUR_DROITE.getNormalizedLightValue()<400){
-			this.patienter(45, MOTEUR_GAUCHE);
+		int angle_redresser = (int) (SPEED*0.073);
+		if(COULEUR_GAUCHE.getNormalizedLightValue()<480 
+				&& COULEUR_DROITE.getNormalizedLightValue()<480){
+			this.patienter(360, MOTEUR_GAUCHE);
 			return true;
-		}else if(COULEUR_GAUCHE.getNormalizedLightValue()<450 && COULEUR_DROITE.getNormalizedLightValue()>400){
+		}else if(COULEUR_GAUCHE.getNormalizedLightValue()<480 
+				&& COULEUR_DROITE.getNormalizedLightValue()>450){
 			
-			while(COULEUR_DROITE.getNormalizedLightValue()>450)
+			while(COULEUR_DROITE.getNormalizedLightValue()>480)
 				MOTEUR_GAUCHE.setSpeed(0);
 			pilote.setTravelSpeed(SPEED);
-			this.patienter(22, MOTEUR_DROITE);
+			this.patienter(angle_redresser, MOTEUR_DROITE);
 			this.avancer();
-			this.patienter(45, MOTEUR_DROITE);
+			this.patienter(360, MOTEUR_DROITE);
 			return true;
-		}else if(COULEUR_DROITE.getNormalizedLightValue()<450 && COULEUR_GAUCHE.getNormalizedLightValue()>400){
+		}else if(COULEUR_DROITE.getNormalizedLightValue()<480 
+				&& COULEUR_GAUCHE.getNormalizedLightValue()>480){
 			
-			while(COULEUR_GAUCHE.getNormalizedLightValue()>450)
+			while(COULEUR_GAUCHE.getNormalizedLightValue()>480)
 				MOTEUR_DROITE.setSpeed(0);
 			pilote.setTravelSpeed(SPEED);
-			this.patienter(22, MOTEUR_GAUCHE);
+			this.patienter(angle_redresser, MOTEUR_GAUCHE);
 			this.avancer();
-			this.patienter(45, MOTEUR_GAUCHE);
+			this.patienter(360, MOTEUR_GAUCHE);
 			return true;
 		}
 		return false;
 	}
-
+	
+	public void ralentir(){
+		SPEED=175;
+		pilote.setTravelSpeed(SPEED);
+	}
+	
+	public void accelerer(){
+		SPEED=300;
+		pilote.setTravelSpeed(SPEED);
+	}
 	
 	public void test(){
 		System.out.print("ok");

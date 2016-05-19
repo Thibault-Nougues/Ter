@@ -45,6 +45,8 @@ public class Cartographier extends Thread {
 	}
 	
 	public void scanner() throws IOException{Sound.beep();
+		outputData.write((byte)TETE_AVANT.getDistance());
+		outputData.flush();
 		MOTEUR_TETE.rotate(90);
 		outputData.write(DISTANCE_GAUCHE);
 		outputData.flush();
@@ -59,21 +61,37 @@ public class Cartographier extends Thread {
 	
 	public void run(){
 		boolean obstacle = false;
-		System.out.println(COULEUR_DROITE.getNormalizedLightValue());
 		connexion();
 		
-		while(!Button.ESCAPE.isDown() && TETE_AVANT.getDistance()>20 && !obstacle ){
+		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
 			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
-			/*if((COULEUR_DROITE.readValue()<ligne+15 && COULEUR_DROITE.readValue()>ligne-15)){
-				//deplacement.arreter();
-				Sound.beep();
-				//obstacle=true;
-			}*/
 			try {
 				if(deplacement.redresser(outputData)){
 					try {
+						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
+							deplacement.ralentir();
+						}
 						this.scanner();
+						switch (ACTION) {
+						case ARRIERE:
+							deplacement.demiTour();
+							break;
+						case DROITE:
+						case GAUCHE:
+							deplacement.tourner(ACTION, false);
+							break;
+						}
+						ACTION=AVANT;
+						while(TETE_AVANT.getDistance()<35){
+							
+							deplacement.tourner(DROITE, false);
+						}
+						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
+							deplacement.ralentir();
+						}else if(TETE_AVANT.getDistance()>80){
+							deplacement.accelerer();
+						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

@@ -25,6 +25,9 @@ public class RobotRicochet {
 										System.out.println("droite");
 										System.out.println((int)inputData.readByte()& (0xff));
 										break;
+				default:				
+										System.out.println("devant");
+										System.out.println((int)inputData.readByte()& (0xff));
 			}
 		}
 	}
