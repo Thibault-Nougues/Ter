@@ -23,8 +23,9 @@ public class RobotRicochet {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+		Deplacement d = new Deplacement();
 		connexion();
-		new Cartographier(output);
+		Cartographier c = new Cartographier(output);
 		do{
 			ACTION=inputData.read();
 		}while(ACTION!=FIN && !Button.ESCAPE.isDown());

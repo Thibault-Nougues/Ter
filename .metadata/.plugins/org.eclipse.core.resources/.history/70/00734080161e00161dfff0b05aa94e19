@@ -3,7 +3,12 @@ package nxt.src;
 import lejos.nxt.Battery;
 import lejos.nxt.Button;
 import lejos.nxt.Sound;
+import lejos.nxt.comm.BTConnection;
+import lejos.nxt.comm.Bluetooth;
+
 import static nxt.src.Constantes.*;
+
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 

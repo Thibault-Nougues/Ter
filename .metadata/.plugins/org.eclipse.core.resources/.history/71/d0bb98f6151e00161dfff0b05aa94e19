@@ -3,9 +3,13 @@ package nxt.src;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import static nxt.src.Constantes.*;
+
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.Math;
 
 public class Deplacement {
 	
@@ -75,14 +79,14 @@ public class Deplacement {
 		switch (cote) {
 		case DROITE:
 			tacho=MOTEUR_GAUCHE.getTachoCount();
-			while(MOTEUR_GAUCHE.getTachoCount()<tacho+EVITERMUR_ANGLE){
+			while(MOTEUR_GAUCHE.getTachoCount()<tacho+10){
 				MOTEUR_DROITE.setSpeed(0);
 			}
 			break;
 
 		case GAUCHE :
 			tacho=MOTEUR_DROITE.getTachoCount();
-			while(MOTEUR_DROITE.getTachoCount()<tacho+EVITERMUR_ANGLE){
+			while(MOTEUR_DROITE.getTachoCount()<tacho+10){
 				MOTEUR_GAUCHE.setSpeed(0);
 			}
 			break;

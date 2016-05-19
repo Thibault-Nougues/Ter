@@ -3,9 +3,13 @@ package nxt.src;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import static nxt.src.Constantes.*;
+
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.Math;
 
 public class Deplacement {
 	
