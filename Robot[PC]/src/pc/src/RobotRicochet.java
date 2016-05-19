@@ -27,9 +27,10 @@ public class RobotRicochet {
 										System.out.println("droite");
 										System.out.println((int)inputData.readByte()& (0xff));
 										break;
+										
 				default: int action = fen.getCarte().scan((int)inputData.readByte()& (0xff));
 					outputData.write(action);
-					break;
+					break;	
 			}
 		}
 	}

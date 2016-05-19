@@ -1,13 +1,33 @@
 package nxt.src;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import lejos.nxt.comm.BTConnection;
+import lejos.nxt.comm.Bluetooth;
+import static nxt.src.Constantes.*;
 
 public class RobotRicochet {
+	
+	private static BTConnection pcConnect;
+	private static DataInputStream inputData;
+	private static DataOutputStream output;
+	
+	public static void connexion(){
+		pcConnect = Bluetooth.waitForConnection();
+		inputData = pcConnect.openDataInputStream();
+		output = pcConnect.openDataOutputStream();
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Deplacement d = new Deplacement();
-		Cartographier c = new Cartographier();
-
+		connexion();
+		Cartographier c = new Cartographier(output);
+		do{
+			ACTION=inputData.read();
+		}while(ACTION!=FIN);
 		//while(!Button.ESCAPE.isDown()){
 			
 			/*for(int i = 0 ; i<1000 ; i++){
