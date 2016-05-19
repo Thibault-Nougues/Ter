@@ -47,6 +47,7 @@ public class TableModel extends AbstractTableModel{
         super.setValueAt(aValue, rowIndex, columnIndex);
         this.fireTableDataChanged();
     }
+    
 
     @Override
     public String getColumnName(int column) {

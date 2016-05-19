@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import static pc.src.Constantes.*;
 
@@ -278,16 +280,17 @@ public class Fenetre extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
-    /* Mï¿½thodes pour la cartographie */
+    /* Méthodes pour la cartographie */
     public Terrain getCarte(){
     	return carte;
     }
     
     public void maj(){
-    	jTable1.setModel(new TableModel(carte));
+    	DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    	model.fireTableDataChanged();
     }
 
-    /* Mï¿½thodes pour l'algorithme A* */
+    /* Méthodes pour l'algorithme A* */
     
     public void algorithme(int direction, int profondeur) throws InterruptedException{
         System.out.println("\n******************\nCASE COURANTE : " + caseCourante+ "\n******************");
