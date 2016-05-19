@@ -114,7 +114,7 @@ public class Fenetre extends javax.swing.JFrame {
         jButton1.setText("Lancer A*");
         jPanel4.add(jButton1, new java.awt.GridBagConstraints());
 
-        jButton2.setText("Gï¿½nï¿½rer labyrinthe");
+        jButton2.setText("Générer labyrinthe");
         jPanel4.add(jButton2, new java.awt.GridBagConstraints());
 
         jPanel2.add(jPanel4);
@@ -149,10 +149,10 @@ public class Fenetre extends javax.swing.JFrame {
 
         jLabel3.setText("jLabel3");
 
-        jLabel2.setText("temps de rï¿½solution : ");
+        jLabel2.setText("temps de résolution : ");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Rï¿½sultats");
+        jLabel1.setText("Résultats");
 
         jLabel5.setText("jLabel5");
 
@@ -275,16 +275,12 @@ public class Fenetre extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
-    /* Mï¿½thodes pour la cartographie */
+    /* Méthodes pour la cartographie */
     public Terrain getCarte(){
     	return carte;
     }
-    
-    public void maj(){
-    	jTable1.setModel(new TableModel(carte));
-    }
 
-    /* Mï¿½thodes pour l'algorithme A* */
+    /* Méthodes pour l'algorithme A* */
     
     public void algorithme(int direction, int profondeur) throws InterruptedException{
         System.out.println("\n******************\nCASE COURANTE : " + caseCourante+ "\n******************");
@@ -297,7 +293,7 @@ public class Fenetre extends javax.swing.JFrame {
         ArrayList<Integer> directions = carte.getDirections(caseCourante, direction);
         Case caseAvancer = null;
         int i=0;
-        //on regarde les possibilitï¿½s (ajout des cases adjacentes accessibles)
+        //on regarde les possibilités (ajout des cases adjacentes accessibles)
         while(i<directions.size()){
             Case caseTmp = carte.avancer(caseCourante.getX(), caseCourante.getY(), directions.get(i));
             

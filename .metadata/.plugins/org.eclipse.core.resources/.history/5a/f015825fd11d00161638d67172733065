@@ -32,9 +32,7 @@ public class RobotRicochet {
 				default: action = fen.getCarte().scan((int)inputData.readByte()& (0xff));
 					break;	
 			}
-			fen.maj();
 			outputData.write(action);
-			
 		}
 	}
 

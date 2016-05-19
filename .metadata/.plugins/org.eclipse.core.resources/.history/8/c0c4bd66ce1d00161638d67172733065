@@ -16,7 +16,7 @@ public class RobotRicochet {
 	public static void cartographier() throws IOException, InterruptedException{
 		Fenetre fen = new Fenetre();
         fen.setVisible(true);
-        int action=0;
+        int action;
 		while(true){
 			byte data=inputData.readByte();
 			switch(data){
@@ -32,9 +32,7 @@ public class RobotRicochet {
 				default: action = fen.getCarte().scan((int)inputData.readByte()& (0xff));
 					break;	
 			}
-			fen.maj();
 			outputData.write(action);
-			
 		}
 	}
 

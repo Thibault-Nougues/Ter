@@ -280,8 +280,9 @@ public class Fenetre extends javax.swing.JFrame {
     	return carte;
     }
     
-    public void maj(){
-    	jTable1.setModel(new TableModel(carte));
+    public void maj(Terrain arene){
+    
+    	jTable1.setModel(new TableModel(arene));
     }
 
     /* M�thodes pour l'algorithme A* */
