@@ -50,6 +50,15 @@ public class Cartographier extends Thread {
 	public void run(){
 		boolean obstacle = false;
 		
+		
+		try {
+			scanner();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
 			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
@@ -90,7 +99,8 @@ public class Cartographier extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
+		
 		deplacement.arreter();
 
 	}

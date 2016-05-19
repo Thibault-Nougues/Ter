@@ -16,15 +16,12 @@ import static pc.src.Constantes.*;
 public class Terrain {
 
     private Case[][] terrain;
-
-    public Point positionCourante = depart1;
-    public int directionCourante = BAS;
     
-    public Terrain(int x, int y){
+    public Terrain(){
         terrain = new Case[ARENE_HEIGHT][ARENE_WIDTH];
         for(int i=0 ; i<terrain.length ; i++){
             for(int j=0 ; j<terrain[i].length ; j++){
-                terrain[i][j] = new Case(i, j);
+                terrain[i][j] = new Case(new Point(i, j));
                 if(i==0){
                     terrain[i][j].addMur(HAUT);
                 }
@@ -41,7 +38,7 @@ public class Terrain {
         }
         
     	/* TESTS */
-        /*
+        
         //premiere ligne
         addMur(0, 3, DROITE);
         addMur(0, 15, DROITE);
@@ -111,13 +108,12 @@ public class Terrain {
         addObstacle(3, 8);
         addObstacle(6, 3);
         
-        */
     }
     
     /* GETTERS */
     
-    public Case getCase(int x, int y){
-        return terrain[x][y];
+    public Case getCase(Point p){
+        return terrain[p.x][p.y];
     }
     
     
@@ -232,21 +228,21 @@ public class Terrain {
         return directionPossible;
     }
     
-    public void avancer(){
-    	switch(directionCourante){
-    	case HAUT: positionCourante.x -= 1;
+    public void avancer(Point position, int direction){
+    	switch(direction){
+    	case HAUT: position.x -= 1;
     		break;
-    	case BAS: positionCourante.x += 1;
+    	case BAS: position.x += 1;
     		break;
-    	case GAUCHE: positionCourante.y -= 1;
+    	case GAUCHE: position.y -= 1;
     		break;
-    	case DROITE: positionCourante.y += 1;
+    	case DROITE: position.y += 1;
     		break;
     		default:
     			break;
     	}
     }
-    
+    /*
     public void tourner(int dir){
     	switch(dir){
     	case GAUCHE: if(directionCourante!=DROITE)
@@ -323,5 +319,5 @@ public class Terrain {
     			caseCourante = avancer(caseCourante, directionCourante);
     		}
     	}
-    }
+    }*/
 }

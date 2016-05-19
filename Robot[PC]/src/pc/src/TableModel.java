@@ -8,6 +8,8 @@ package pc.src;
 import javax.swing.table.AbstractTableModel;
 import static pc.src.Constantes.*;
 
+import java.awt.Point;
+
 /**
  *
  * @author keke
@@ -39,7 +41,7 @@ public class TableModel extends AbstractTableModel{
         if(columnIndex == 0){
             return rowIndex+1;
         }
-        return carte.getCase(rowIndex, columnIndex-1);
+        return carte.getCase(new Point(rowIndex, columnIndex-1));
     }
     
     @Override
