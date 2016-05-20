@@ -49,15 +49,7 @@ public class Cartographier extends Thread {
 	
 	public void run(){
 		boolean obstacle = false;
-		
-		
-		try {
-			scanner();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+				
 		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
@@ -80,7 +72,6 @@ public class Cartographier extends Thread {
 						}
 						ACTION=AVANT;
 						while(TETE_AVANT.getDistance()<35){
-							
 							deplacement.tourner(DROITE, false);
 						}
 						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
