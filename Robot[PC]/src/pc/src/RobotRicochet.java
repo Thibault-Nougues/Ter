@@ -65,81 +65,48 @@ public class RobotRicochet {
 		return direction;
     }
     
-    public static void scan(int distance, int direction){
-    	int action = AVANT;
-    	
-    	// r�cup�ration de la direction de la t�te qui � pris la mesure
-    	if(direction == AVANT){
-    		direction = directionCourante;
-    	}
-    	else{
-    		direction = tourner(direction);
-    	}
-    	
-    	// MAJ carte
-		ajouterMursVue(distance, direction);
-        
-    	
-        switch(direction){
-    	case HAUT: if(positionCourante.x*40-distance>0){
-	    	//interieur
-    		ajouterMursVue(distance, direction);
-	    	}
+	private static void ajouterMurs(int direction, int distance){
+		int nbMur = 0;
+		switch(direction){
+    	case HAUT: nbMur = positionCourante.x-distance%40;
     		break;
-    	case BAS: positionCourante.x += 1;
+    	case BAS: nbMur = distance%40-positionCourante.x;
     		break;
-    	case GAUCHE: positionCourante.y -= 1;
+    	case GAUCHE: nbMur = positionCourante.y-distance%40;
     		break;
-    	case DROITE: if((ARENE_WIDTH-positionCourante.y)*40-distance>0){
-	    		ajouterMursVue(distance, direction);
-	    	}
+    	case DROITE: nbMur = distance%40-positionCourante.y;
     		break;
-		default:
-			break;
-    	}
-    	
-        //Sinon placer les murs
-        
-        
-    }
-    
+		}
+		int i=0;
+		Case caseCourante = carte.getCase(positionCourante);
+		while(nbMur >i && i<5){
+			caseCourante.addNoMurs(direction);
+			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
+			carte.avancer(caseCourante, direction);
+			i++;
+		}
+		if(nbMur >5)
+			caseCourante.addNoMurs(direction);
+		else
+			caseCourante.addMur(direction);
+		fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
+			
+	}
+	
+	
     /**
      * Methode qui ajoute des murs ou noMurs selon la distance mesure.
      * Attention si on sors de l'arene sinon EXCEPTION !!!
      * @param distance
      */
-    private static void ajouterMursVue(int distance, int direction){
-    	Case caseCourante = carte.getCase(positionCourante);
-    	
-    	if(distance>200){
-    		for(int i=0 ; i<5 ; i++){
-    			caseCourante.addNoMurs(direction);
-    			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
-    			caseCourante = carte.avancer(caseCourante, direction);
-    		}
-    	}
-    	else{
-    		
-    	}
-    	
-    	switch(direction){
-    	case HAUT: if(positionCourante.x*40-distance>0){
-		    	//int�rieur
 
-	    	}
-    		break;
-    	case BAS: //positionCourante.x += 1;
-    		break;
-    	case GAUCHE: //positionCourante.y -= 1;
-    		break;
-    	case DROITE: if((ARENE_WIDTH-positionCourante.y)*40-distance>0){
-    		
-	    	}
-    		break;
-		default:
-			break;
-    	}
-    	
+    private static void ajouterMursVue(){
+    	if(distances[0]<220)
+    		ajouterMurs(directionCourante, distances[0]);
+    	if(distances[1]<220)
+    		ajouterMurs(tourner(GAUCHE), distances[1]);
+    	if(distances[2]<220)
+    		ajouterMurs(tourner(DROITE), distances[2]);
     }
     
     public int calculerRedressement(){
@@ -164,6 +131,7 @@ public class RobotRicochet {
     
 
     public static int strategie(){
+    	ajouterMursVue();
     	int action = AVANT;
     	/* cas des faux murs */
     	System.out.println(distances[0]);
@@ -175,7 +143,7 @@ public class RobotRicochet {
     	}
     	/* cases inaccessibles */
     	
-    	/* aller chercher les derni�res cases */
+    	/* aller chercher les dernieres cases */
     	
     	/* fin de strategie */
     	return action;
@@ -208,8 +176,5 @@ public class RobotRicochet {
 		}else{
 			System.out.println("non connecte");
 		}
-		
-			
 	}
-
 }
