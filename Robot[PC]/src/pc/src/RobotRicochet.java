@@ -16,6 +16,7 @@ public class RobotRicochet {
 	private static Fenetre fen;
     private static Point positionCourante = depart1;
     private static int directionCourante = BAS;
+    private static int[] distances = new int[3];
     
 	private static NXTConnector nxtConnect;
 	private static DataOutputStream outputData;
@@ -29,14 +30,16 @@ public class RobotRicochet {
 		do{
 			byte data=inputData.readByte();
 			switch(data){
-				case DISTANCE_GAUCHE :	action = scan((int)inputData.readByte()& (0xff), GAUCHE);
+				case DISTANCE_GAUCHE :	distances[1] = inputData.readByte()& (0xff);
 										break;
-				case DISTANCE_DROITE :	action = scan((int)inputData.readByte()& (0xff), DROITE);
+				case DISTANCE_DROITE :	distances[2] = inputData.readByte()& (0xff);
+										action = strategie();
+										outputData.write(action);
+										outputData.flush();
 										break;
-				default: 				action = scan(data, AVANT);
+				default: 				distances[0] = data;
 										break;	
 			}
-			outputData.write(action);
 		}while(action != FIN);
 	}
 
@@ -62,7 +65,7 @@ public class RobotRicochet {
 		return direction;
     }
     
-    public static int scan(int distance, int direction){
+    public static void scan(int distance, int direction){
     	int action = AVANT;
     	
     	// récupération de la direction de la tête qui à pris la mesure
@@ -98,17 +101,16 @@ public class RobotRicochet {
         //Sinon placer les murs
         
         
-    	return action;
     }
     
-    
     /**
-     * Mï¿½thode qui ajoute des murs ou noMurs selon la distance mesurï¿½.
-     * Attention si on sors de l'arï¿½ne sinon EXCEPTION !!!
+     * Methode qui ajoute des murs ou noMurs selon la distance mesure.
+     * Attention si on sors de l'arene sinon EXCEPTION !!!
      * @param distance
      */
     private static void ajouterMursVue(int distance, int direction){
     	Case caseCourante = carte.getCase(positionCourante);
+    	
     	if(distance>200){
     		for(int i=0 ; i<5 ; i++){
     			caseCourante.addNoMurs(direction);
@@ -141,7 +143,8 @@ public class RobotRicochet {
     }
     
 
-    public void strategie(){
+    public static int strategie(){
+    	int action = AVANT;
     	/* cas des faux murs */
     	
     	/* contourner les murs */
@@ -150,7 +153,8 @@ public class RobotRicochet {
     	
     	/* aller chercher les derniï¿½res cases */
     	
-    	/* fin de stratï¿½gie */
+    	/* fin de strategie */
+    	return action;
     }
     
     

@@ -64,6 +64,7 @@ public class AStar {
     			e.printStackTrace();
     		}
             fen.jTable1.setValueAt(caseTmp, caseTmp.getX(), caseTmp.getY());
+            
             caseTmp.setPoids(caseCourante.getPoids()+1, directions.get(i));
                     
             Case caseFermee = getListeFermee(caseTmp);
