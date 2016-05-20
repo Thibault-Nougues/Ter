@@ -107,7 +107,7 @@ public class RobotRicochet {
     public int calculerRedressement(){
     	switch (directionCourante) {
 		case HAUT :
-			if(distances[1]/40<positionCourante.getY()){
+			if(distances[1]/40<positionCourante.getY() && distances[1]<255){
 				if(distances[1]%40<10){
 					return REDRESSER_DROITE;
 				}else if(distances[1]%40>20){
@@ -115,11 +115,35 @@ public class RobotRicochet {
 				}else {
 					return AVANT;
 				}
+			}else if(distances[2]/40<ARENE_WIDTH-positionCourante.getY() && distances[1]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
 			}
 		break;
 		
 		case BAS :
-			
+			if(distances[2]/40<positionCourante.getY() && distances[2]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[1]/40<ARENE_WIDTH-positionCourante.getY() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		
 		case DROITE :
