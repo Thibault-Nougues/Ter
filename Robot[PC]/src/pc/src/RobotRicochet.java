@@ -33,7 +33,7 @@ public class RobotRicochet {
 										break;
 				case DISTANCE_DROITE :	action = scan((int)inputData.readByte()& (0xff), DROITE);
 										break;
-				default: 				action = scan((int)inputData.readByte()& (0xff), AVANT);
+				default: 				action = scan(data, AVANT);
 										break;	
 			}
 			outputData.write(action);
@@ -64,6 +64,7 @@ public class RobotRicochet {
     
     public static int scan(int distance, int direction){
     	int action = AVANT;
+    	
     	// récupération de la direction de la tête qui à pris la mesure
     	if(direction == AVANT){
     		direction = directionCourante;
@@ -72,27 +73,11 @@ public class RobotRicochet {
     		direction = tourner(direction);
     	}
     	
-    	// regarder si direction sors du terrain
+    	// MAJ carte
+		ajouterMursVue(distance, direction);
+        
     	
-        switch(direction){
-    	case HAUT: if(positionCourante.x*40-distance>0){
-	    	//intérieur
-    		ajouterMursVue(distance, direction);
-	    	}
-    		break;
-    	case BAS: positionCourante.x += 1;
-    		break;
-    	case GAUCHE: positionCourante.y -= 1;
-    		break;
-    	case DROITE: if((ARENE_WIDTH-positionCourante.y)*40-distance>0){
-	    		ajouterMursVue(distance, direction);
-	    	}
-    		break;
-		default:
-			break;
-    	}
-    	
-        //Sinon placer les murs
+        //
         
         
     	return action;
@@ -109,11 +94,30 @@ public class RobotRicochet {
     	if(distance>200){
     		for(int i=0 ; i<5 ; i++){
     			caseCourante.addNoMurs(direction);
+    			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
     			caseCourante = carte.avancer(caseCourante, direction);
     		}
     	}
     	else{
     		
+    	}
+    	
+    	switch(direction){
+    	case HAUT: if(positionCourante.x*40-distance>0){
+		    	//intérieur
+
+	    	}
+    		break;
+    	case BAS: //positionCourante.x += 1;
+    		break;
+    	case GAUCHE: //positionCourante.y -= 1;
+    		break;
+    	case DROITE: if((ARENE_WIDTH-positionCourante.y)*40-distance>0){
+    		
+	    	}
+    		break;
+		default:
+			break;
     	}
     	
     }
@@ -131,10 +135,9 @@ public class RobotRicochet {
     	/* fin de stratégie */
     }
     
+    
 	public static void main(String[] args) throws IOException, InterruptedException {
 		carte = new Terrain();
-		//carte.addNoMurs(depart1, DROITE);
-		carte.addNoMurs(depart1, BAS);
 		fen = new Fenetre(carte);
     	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererCarto(carte));
     	fen.setVisible(true);
@@ -145,7 +148,7 @@ public class RobotRicochet {
 		outputData = new DataOutputStream(nxtConnect.getOutputStream());
 		inputData = new DataInputStream(nxtConnect.getInputStream());
 		if(connecte){
-			System.out.println("connectï¿½");
+			System.out.println("connecte");
 			cartographier();
 			
 			Scanner sc = new Scanner(System.in);
@@ -157,7 +160,7 @@ public class RobotRicochet {
 			/* envoyer la solution au robot */
 			
 		}else{
-			System.out.println("non connectï¿½");
+			System.out.println("non connecte");
 		}
 		
 			
