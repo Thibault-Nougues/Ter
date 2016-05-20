@@ -68,13 +68,13 @@ public class RobotRicochet {
 	private static void ajouterMurs(int direction, int distance){
 		int nbMur = 0;
 		switch(direction){
-    	case HAUT: nbMur = positionCourante.x-distance%40;
+    	case HAUT: nbMur = positionCourante.x-distance/40;
     		break;
-    	case BAS: nbMur = distance%40-positionCourante.x;
+    	case BAS: nbMur = distance/40-positionCourante.x;
     		break;
-    	case GAUCHE: nbMur = positionCourante.y-distance%40;
+    	case GAUCHE: nbMur = positionCourante.y-distance/40;
     		break;
-    	case DROITE: nbMur = distance%40-positionCourante.y;
+    	case DROITE: nbMur = distance/40-positionCourante.y;
     		break;
 		}
 		int i=0;
@@ -92,7 +92,6 @@ public class RobotRicochet {
 		fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			
 	}
-	
 	
     /**
      * Methode qui ajoute des murs ou noMurs selon la distance mesure.
