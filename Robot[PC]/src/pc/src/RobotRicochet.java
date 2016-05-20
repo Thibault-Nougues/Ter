@@ -52,7 +52,7 @@ public class RobotRicochet {
 				direction=HAUT;
     		break;
     	case DROITE: if(direction!=HAUT)
-    		direction*=2;
+    		direction/=2;
 			else
 				direction=DROITE;
     		break;
