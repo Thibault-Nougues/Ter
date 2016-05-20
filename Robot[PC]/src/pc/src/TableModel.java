@@ -15,7 +15,8 @@ import java.awt.Point;
  * @author keke
  */
 public class TableModel extends AbstractTableModel{
-    private Terrain carte;
+	private static final long serialVersionUID = 1L;
+	private Terrain carte;
     
     public TableModel(Terrain labyrinthe){
         carte = labyrinthe;

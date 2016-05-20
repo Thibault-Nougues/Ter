@@ -9,12 +9,14 @@ import java.util.ArrayList;
  * @author keke
  */
 public class GraphicPanel extends javax.swing.JPanel {
-    private ArrayList<Segment> vue;
+	private static final long serialVersionUID = 1L;
+	private ArrayList<Segment> vue;
+	
     /**
      * Creates new form GraphicPanel
      */
     public GraphicPanel() {
-        vue = new ArrayList();
+        vue = new ArrayList<Segment>();
         initComponents();
     }
 

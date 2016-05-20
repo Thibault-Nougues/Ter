@@ -38,7 +38,7 @@ public class Terrain {
         }
         
     	/* TESTS */
-        
+        /*
         //premiere ligne
         addMur(0, 3, DROITE);
         addMur(0, 15, DROITE);
@@ -107,7 +107,7 @@ public class Terrain {
         addObstacle(2, 14);
         addObstacle(3, 8);
         addObstacle(6, 3);
-        
+        */
     }
     
     /* GETTERS */
@@ -117,42 +117,40 @@ public class Terrain {
     }
     
     
-    public void addMur(int x, int y, int dir){
-        terrain[x][y].addMur(dir);
+    public void addMur(Point p, int dir){
+        terrain[p.x][p.y].addMur(dir);
         switch(dir){
-            case HAUT: if(x>0)
-                    terrain[x-1][y].addMur(BAS);
+            case HAUT: if(p.x>0)
+                    terrain[p.x-1][p.y].addMur(BAS);
                 break;
-            case GAUCHE: if(y>0)
-                    terrain[x][y-1].addMur(DROITE);
+            case GAUCHE: if(p.y>0)
+                    terrain[p.x][p.y-1].addMur(DROITE);
                 break;
-            case BAS: if(x<ARENE_HEIGHT)
-                    terrain[x+1][y].addMur(HAUT);
+            case BAS: if(p.x<ARENE_HEIGHT)
+                    terrain[p.x+1][p.y].addMur(HAUT);
                 break;
-            case DROITE: if(y<ARENE_WIDTH)
-                    terrain[x][y+1].addMur(GAUCHE);
+            case DROITE: if(p.y<ARENE_WIDTH)
+                    terrain[p.x][p.y+1].addMur(GAUCHE);
                 break;
         }
-        
     }
     
-    public void addNoMur(int x, int y, int dir){
-        terrain[x][y].addMur(dir);
+    public void addNoMurs(Point p, int dir){
+    	terrain[p.x][p.y].addNoMurs(dir);
         switch(dir){
-            case HAUT: if(x>0)
-                    terrain[x-1][y].addMursVue(BAS);
+            case HAUT: if(p.x>0)
+                    terrain[p.x-1][p.y].addNoMurs(BAS);
                 break;
-            case GAUCHE: if(y>0)
-                    terrain[x][y-1].addMur(DROITE);
+            case GAUCHE: if(p.y>0)
+                    terrain[p.x][p.y-1].addNoMurs(DROITE);
                 break;
-            case BAS: if(x<ARENE_HEIGHT)
-                    terrain[x+1][y].addMur(HAUT);
+            case BAS: if(p.x<ARENE_HEIGHT)
+                    terrain[p.x+1][p.y].addNoMurs(HAUT);
                 break;
-            case DROITE: if(y<ARENE_WIDTH)
-                    terrain[x][y+1].addMur(GAUCHE);
+            case DROITE: if(p.y<ARENE_WIDTH)
+                    terrain[p.x][p.y+1].addNoMurs(GAUCHE);
                 break;
         }
-        
     }
     
     public void addObstacle(int x, int y){
@@ -161,7 +159,7 @@ public class Terrain {
         switch(x){
             case 0 : terrain[x+1][y].addMur(HAUT);
                 break;
-            case 10 : terrain[x-1][y].addMur(BAS);
+            case ARENE_HEIGHT : terrain[x-1][y].addMur(BAS);
                 break;
             default : terrain[x+1][y].addMur(HAUT);
                     terrain[x-1][y].addMur(BAS);
@@ -170,7 +168,7 @@ public class Terrain {
         switch(y){
             case 0 : terrain[x][y+1].addMur(GAUCHE);
                 break;
-            case 22 :terrain[x][y-1].addMur(DROITE);
+            case ARENE_WIDTH :terrain[x][y-1].addMur(DROITE);
                 break;
             default : terrain[x][y-1].addMur(DROITE);
                 terrain[x][y+1].addMur(GAUCHE);
@@ -242,82 +240,4 @@ public class Terrain {
     			break;
     	}
     }
-    /*
-    public void tourner(int dir){
-    	switch(dir){
-    	case GAUCHE: if(directionCourante!=DROITE)
-				directionCourante*=2;
-			else
-    			directionCourante=HAUT;
-    		break;
-    	case DROITE: if(directionCourante!=HAUT)
-				directionCourante*=2;
-			else
-				directionCourante=DROITE;
-    		break;
-    	case ARRIERE: if(directionCourante == HAUT || directionCourante == GAUCHE)
-				directionCourante*=4;
-			else
-				directionCourante/=4;
-    		break;
-    	}
-    }
-    
-    public int scan(int distanceGauche, int distanceDroite){
-    	int action = AVANT;
-		switch(directionCourante){
-    	case HAUT: positionCourante.x -= 1;
-    		break;
-    	case BAS: positionCourante.x += 1;
-    		break;
-    	case GAUCHE: positionCourante.y -= 1;
-    		break;
-    	case DROITE: positionCourante.y += 1;
-    		break;
-    		default:
-    			break;
-    	}
-		
-    	int murGauche = distanceGauche%40;
-    	int murDroite = distanceGauche%40;
-    	
-    	
-    	return action;
-    }
-    
-    public int scan(int distanceDevant){
-    	int action = AVANT;
-    	
-        switch(directionCourante){
-    	case HAUT: if(positionCourante.x*40-distanceDevant>0){
-	    		//intérieur
-    		ajouterMursVue(distanceDevant);
-	    	}
-    		break;
-    	case BAS: positionCourante.x += 1;
-    		break;
-    	case GAUCHE: positionCourante.y -= 1;
-    		break;
-    	case DROITE: if((ARENE_WIDTH-positionCourante.y)*40-distanceDevant>0){
-	    		ajouterMursVue(distanceDevant);
-	    	}
-	    	else{
-	    		
-	    	}
-    		break;
-		default:
-			break;
-    	}
-    	return action;
-    }
-    
-    private void ajouterMursVue(int distance){
-    	Case caseCourante = getCase(positionCourante.x, positionCourante.y);
-    	if(distance>220){
-    		for(int i=0 ; i<5 ; i++){
-    			caseCourante.addMursVue(directionCourante);
-    			caseCourante = avancer(caseCourante, directionCourante);
-    		}
-    	}
-    }*/
 }

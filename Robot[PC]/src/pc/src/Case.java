@@ -118,11 +118,18 @@ public class Case implements Comparable<Case>{
     }    
     
     public void addMur(int direction){
-        murs = murs | direction;
+        murs |= direction;
+        mursVue |= direction;
     }
-
+    
+    public void addNoMurs(int murs){
+    	//vérif murs si erreur
+    	/*     A FAIRE !!!    */
+		mursVue |= murs;
+    }
+    
     public void setObstacle(){
-        murs = HAUT+GAUCHE+BAS+DROITE;
+    	mursVue = murs = HAUT+GAUCHE+BAS+DROITE;
     }
     
     public void setDepart(){
@@ -228,19 +235,6 @@ public class Case implements Comparable<Case>{
             retour = (position==o.position && direction == o.direction && poids - o.poids != 0) ? poids - o.poids : 1;
         }
         return retour;
-    }
-    
-    /* Méthodes pour la cartographie */
-    
-    public void addMursVue(int murs){
-    	//vérif murs si erreur
-    	/*
-    	 * 
-    	 * A FAIRE !!!
-    	 * 
-    	 * 
-    	 */
-		mursVue &= murs;
     }
     
 }

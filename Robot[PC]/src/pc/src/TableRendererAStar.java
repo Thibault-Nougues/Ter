@@ -10,6 +10,7 @@ import java.awt.Component;
 import java.awt.Point;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -19,10 +20,11 @@ import static pc.src.Constantes.*;
  *
  * @author keke
  */
-public class TableRenderer extends DefaultTableCellRenderer{
-    private Terrain carte;
+public class TableRendererAStar extends DefaultTableCellRenderer{
+	private static final long serialVersionUID = 1L;
+	private Terrain carte;
     
-    public TableRenderer(Terrain labyrinthe){
+    public TableRendererAStar(Terrain labyrinthe){
         carte = labyrinthe;
     }
     @Override
@@ -32,59 +34,50 @@ public class TableRenderer extends DefaultTableCellRenderer{
             
             ((JLabel) c).setBackground(Color.LIGHT_GRAY);
             Case caseCourante = carte.getCase(new Point(row, column-1));
-            ((JLabel) c).setText(Integer.toString(caseCourante.getPoids()));
                     
             if(caseCourante.estObstacle()){
                 ((JLabel) c).setBackground(Color.DARK_GRAY);
                 ((JLabel) c).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             }
-            if(caseCourante.getFinal()){
+            else if(caseCourante.getFinal()){
                 ((JLabel) c).setBackground(Color.YELLOW);
             }
-            if(caseCourante.getDepart()){
+            else if(caseCourante.getDepart()){
                 ((JLabel) c).setBackground(Color.BLUE);
-            }
-            /*switch(caseCourante.getDirection()){
-                case Terrain.NORTH : ((JLabel) c).setIcon(new ImageIcon("images/haut.png"));
+            }/*
+            switch(caseCourante.getDirection()){
+                case HAUT : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/haut.png"));
                     break;
-                case Terrain.SOUTH : ((JLabel) c).setIcon(new ImageIcon("images/bas.png"));
+                case BAS : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/bas.png"));
                     break;
-                case Terrain.EAST : ((JLabel) c).setIcon(new ImageIcon("images/droite.png"));
+                case DROITE : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/droite.png"));
                     break;
-                case Terrain.WEST : ((JLabel) c).setIcon(new ImageIcon("images/gauche.png"));
+                case GAUCHE : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/gauche.png"));
                     break;
                 default:
                     ((JLabel) c).setForeground(Color.BLACK);
                     ((JLabel) c).setIcon(null);
                     break;
-            }*/
-            int mursVue = caseCourante.getMursVue();
-            int n = (mursVue & HAUT)/HAUT;
-            int e = (mursVue & DROITE)/DROITE;
-            int s = (mursVue & BAS)/BAS;
-            int w = (mursVue & GAUCHE)/GAUCHE;
-            ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
-                    w, 
-                    s, 
-                    e,
-                    Color.GREEN));
-            
-            
+            }*/     
             
             int murs = caseCourante.getMurs();
-            n = (murs & HAUT)/HAUT;
-            e = (murs & DROITE)/DROITE;
-            s = (murs & BAS)/BAS;
-            w = (murs & GAUCHE)/GAUCHE;
+            int n = (murs & HAUT)/HAUT;
+            int e = (murs & DROITE)/DROITE;
+            int s = (murs & BAS)/BAS;
+            int w = (murs & GAUCHE)/GAUCHE;
             ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
                     w, 
                     s, 
                     e,
-                    Color.RED));
+                    Color.BLACK));
             if(caseCourante.getPoids() != 100){
                 ((JLabel) c).setBackground(arcEnCiel(caseCourante.getPoids()));
+                ((JLabel) c).setText(Integer.toString(caseCourante.getPoids()));
             }
-            
+            else{
+                ((JLabel) c).setText("");
+            }
+
             
         }
         else{

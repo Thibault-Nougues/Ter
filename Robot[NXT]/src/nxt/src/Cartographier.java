@@ -58,7 +58,7 @@ public class Cartographier extends Thread {
 			e.printStackTrace();
 		}
 		
-		/*
+		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
 			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
@@ -99,7 +99,7 @@ public class Cartographier extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
 		
 		deplacement.arreter();
 
