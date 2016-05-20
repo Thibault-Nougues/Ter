@@ -82,7 +82,7 @@ public class RobotRicochet {
 		while(nbMur >i && i<5){
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
-			carte.avancer(caseCourante, direction);
+			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
 		if(nbMur >5)
@@ -98,14 +98,10 @@ public class RobotRicochet {
      * Attention si on sors de l'arene sinon EXCEPTION !!!
      * @param distance
      */
-
     private static void ajouterMursVue(){
-    	if(distances[0]<220)
-    		ajouterMurs(directionCourante, distances[0]);
-    	if(distances[1]<220)
-    		ajouterMurs(tourner(GAUCHE), distances[1]);
-    	if(distances[2]<220)
-    		ajouterMurs(tourner(DROITE), distances[2]);
+		ajouterMurs(directionCourante, distances[0]+20);
+		ajouterMurs(tourner(GAUCHE), distances[1]+20);
+		ajouterMurs(tourner(DROITE), distances[2]+20);
     }
     
     public int calculerRedressement(){
