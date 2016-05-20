@@ -72,25 +72,24 @@ public class RobotRicochet {
     			nbMur = positionCourante.x-distance/40;
     		break;
     	case BAS: if(positionCourante.x+distance/40>ARENE_HEIGHT)
-    			nbMur = ARENE_HEIGHT-positionCourante.x-distance/40;
+    			nbMur = ARENE_HEIGHT-positionCourante.x;
     		break;
     	case GAUCHE: if(positionCourante.y-distance/40<0)
     			nbMur = positionCourante.y-distance/40;
     		break;
     	case DROITE: if(positionCourante.x-distance/40>ARENE_WIDTH)
-    		 	nbMur = ARENE_WIDTH-positionCourante.y-distance/40;
+    		 	nbMur = ARENE_WIDTH-positionCourante.y;
     		break;
 		}
 		int i=0;
 		Case caseCourante = carte.getCase(positionCourante);
-		while(nbMur >i && i<5){
-
+		while(nbMur>i && i<4){
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
-		if(nbMur >5){
+		if(nbMur >4){
 			caseCourante.addNoMurs(direction);
 		}
 		else{

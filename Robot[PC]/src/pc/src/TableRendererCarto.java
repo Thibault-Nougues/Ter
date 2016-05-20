@@ -53,10 +53,7 @@ public class TableRendererCarto extends DefaultTableCellRenderer{
                 
                 CompoundBorder customBorder = BorderFactory.createCompoundBorder();
                 customBorder = BorderFactory.createCompoundBorder(customBorder, BorderFactory.createMatteBorder(haut,gauche,bas,droite,Color.GREEN));
-
-                
                 customBorder = BorderFactory.createCompoundBorder(customBorder, BorderFactory.createMatteBorder(murHaut,murGauche,murBas,murDroite,Color.RED));
-                
                 ((JLabel) c).setBorder(customBorder);
             }
         }
