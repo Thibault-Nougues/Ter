@@ -140,8 +140,39 @@ public class RobotRicochet {
     	
     	/* aller chercher les dernieres cases */
     	
+    	switch(action){
+    	case AVANT: positionCourante = avancer(positionCourante, directionCourante);
+    		break;
+    	case DROITE:
+    	case GAUCHE:
+    		break;
+    	case ARRIERE:
+    		break;
+    	case REDRESSER_DROITE:
+    		break;
+    	case REDRESSER_GAUCHE:
+    		break;
+    	}
+    	
     	/* fin de strategie */
     	return action;
+    }
+    
+    public static Point avancer(Point p, int direction){
+        Point pointTmp = p;
+        
+        switch(direction){
+            case HAUT : pointTmp.x-=1;
+                break;
+            case BAS : pointTmp.x+=1;
+                break;
+            case DROITE : pointTmp.y+=1;
+                break;
+            case GAUCHE : pointTmp.y-=1;
+                break;
+            default: ;
+        }
+        return pointTmp;
     }
     
     
