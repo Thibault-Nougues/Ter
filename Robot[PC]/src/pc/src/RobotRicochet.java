@@ -84,6 +84,7 @@ public class RobotRicochet {
 		int i=0;
 		Case caseCourante = carte.getCase(positionCourante);
 		while(nbMur >i && i<5){
+
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			caseCourante = carte.avancer(caseCourante, direction);
@@ -113,18 +114,82 @@ public class RobotRicochet {
     public int calculerRedressement(){
     	switch (directionCourante) {
 		case HAUT :
-			
+			if(distances[1]/40<positionCourante.getY() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[2]/40<ARENE_WIDTH-positionCourante.getY() && distances[1]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		
 		case BAS :
-			
+			if(distances[2]/40<positionCourante.getY() && distances[2]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[1]/40<ARENE_WIDTH-positionCourante.getY() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		
 		case DROITE :
-			
+			if(distances[1]/40<positionCourante.getX() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[2]/40<ARENE_WIDTH-positionCourante.getX() && distances[1]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		case GAUCHE :
-			
+			if(distances[2]/40<positionCourante.getX() && distances[2]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[1]/40<ARENE_WIDTH-positionCourante.getX() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		}
     	return -1;
