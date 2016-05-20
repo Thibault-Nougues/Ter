@@ -68,13 +68,13 @@ public class RobotRicochet {
 	private static void ajouterMurs(int direction, int distance){
 		int nbMur = 0;
 		switch(direction){
-    	case HAUT: nbMur = positionCourante.x-distance%40;
+    	case HAUT: nbMur = positionCourante.x-distance/40;
     		break;
-    	case BAS: nbMur = distance%40-positionCourante.x;
+    	case BAS: nbMur = distance/40-positionCourante.x;
     		break;
-    	case GAUCHE: nbMur = positionCourante.y-distance%40;
+    	case GAUCHE: nbMur = positionCourante.y-distance/40;
     		break;
-    	case DROITE: nbMur = distance%40-positionCourante.y;
+    	case DROITE: nbMur = distance/40-positionCourante.y;
     		break;
 		}
 		int i=0;
@@ -112,7 +112,15 @@ public class RobotRicochet {
     public int calculerRedressement(){
     	switch (directionCourante) {
 		case HAUT :
-			
+			if(distances[1]/40<positionCourante.getY()){
+				if(distances[1]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		
 		case BAS :
