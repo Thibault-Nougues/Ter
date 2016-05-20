@@ -80,15 +80,20 @@ public class RobotRicochet {
 		int i=0;
 		Case caseCourante = carte.getCase(positionCourante);
 		while(nbMur >i && i<5){
+			System.out.println(caseCourante + " : noMur à " + direction);
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
-		if(nbMur >5)
+		if(nbMur >5){
+			System.out.println(caseCourante + " : FIN noMur à " + direction);
 			caseCourante.addNoMurs(direction);
-		else
+		}
+		else{
+			System.out.println(caseCourante + " : FIN Mur à " + direction);
 			caseCourante.addMur(direction);
+		}
 		fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			
 	}
