@@ -77,7 +77,25 @@ public class RobotRicochet {
 		ajouterMursVue(distance, direction);
         
     	
-        //
+        switch(direction){
+    	case HAUT: if(positionCourante.x*40-distance>0){
+	    	//interieur
+    		ajouterMursVue(distance, direction);
+	    	}
+    		break;
+    	case BAS: positionCourante.x += 1;
+    		break;
+    	case GAUCHE: positionCourante.y -= 1;
+    		break;
+    	case DROITE: if((ARENE_WIDTH-positionCourante.y)*40-distance>0){
+	    		ajouterMursVue(distance, direction);
+	    	}
+    		break;
+		default:
+			break;
+    	}
+    	
+        //Sinon placer les murs
         
         
     	return action;
@@ -85,8 +103,8 @@ public class RobotRicochet {
     
     
     /**
-     * Méthode qui ajoute des murs ou noMurs selon la distance mesuré.
-     * Attention si on sors de l'arène sinon EXCEPTION !!!
+     * Mï¿½thode qui ajoute des murs ou noMurs selon la distance mesurï¿½.
+     * Attention si on sors de l'arï¿½ne sinon EXCEPTION !!!
      * @param distance
      */
     private static void ajouterMursVue(int distance, int direction){
@@ -123,16 +141,16 @@ public class RobotRicochet {
     }
     
 
-    public void stratégie(){
+    public void strategie(){
     	/* cas des faux murs */
     	
     	/* contourner les murs */
     	
     	/* cases inaccessibles */
     	
-    	/* aller chercher les dernières cases */
+    	/* aller chercher les derniï¿½res cases */
     	
-    	/* fin de stratégie */
+    	/* fin de stratï¿½gie */
     }
     
     
