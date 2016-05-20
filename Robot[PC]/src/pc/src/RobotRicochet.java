@@ -98,6 +98,7 @@ public class RobotRicochet {
      * Attention si on sors de l'arene sinon EXCEPTION !!!
      * @param distance
      */
+
     private static void ajouterMursVue(){
     	if(distances[0]<220)
     		ajouterMurs(directionCourante, distances[0]);
@@ -107,14 +108,38 @@ public class RobotRicochet {
     		ajouterMurs(tourner(DROITE), distances[2]);
     }
     
+    public int calculerRedressement(){
+    	switch (directionCourante) {
+		case HAUT :
+			
+		break;
+		
+		case BAS :
+			
+		break;
+		
+		case DROITE :
+			
+		break;
+		case GAUCHE :
+			
+		break;
+		}
+    	return -1;
+    }
+    
 
     public static int strategie(){
     	ajouterMursVue();
     	int action = AVANT;
     	/* cas des faux murs */
-    	
+    	System.out.println(distances[0]);
     	/* contourner les murs */
-    	
+    	if(distances[0]<40){
+    		action=ARRIERE;
+    	}else{
+    		action=AVANT;
+    	}
     	/* cases inaccessibles */
     	
     	/* aller chercher les dernieres cases */
