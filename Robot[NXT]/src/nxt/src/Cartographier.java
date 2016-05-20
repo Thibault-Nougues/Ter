@@ -49,7 +49,12 @@ public class Cartographier extends Thread {
 	
 	public void run(){
 		boolean obstacle = false;
-				
+		try {
+			this.scanner();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
