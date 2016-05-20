@@ -36,7 +36,7 @@ public class TableRendererCarto extends DefaultTableCellRenderer{
                 ((JLabel) c).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             }
             else{
-            	if(caseCourante.getMursVue()==(HAUT|BAS|GAUCHE|DROITE)){
+            	if(caseCourante.getMursVue()==(HAUT+BAS+GAUCHE+DROITE)){
                 	((JLabel) c).setBackground(Color.GREEN);
             	}
             	int murs = caseCourante.getMurs();

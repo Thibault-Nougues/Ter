@@ -89,7 +89,7 @@ public class RobotRicochet {
 			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
-		if(nbMur >4){
+		if(nbMur>4){
 			caseCourante.addNoMurs(direction);
 		}
 		else{
@@ -209,6 +209,8 @@ public class RobotRicochet {
     	/* cases inaccessibles */
     	
     	/* aller chercher les dernieres cases */
+    	
+    	
     	
     	switch(action){
     	case AVANT: positionCourante = avancer(positionCourante, directionCourante);
