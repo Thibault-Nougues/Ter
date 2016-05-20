@@ -80,18 +80,18 @@ public class RobotRicochet {
 		int i=0;
 		Case caseCourante = carte.getCase(positionCourante);
 		while(nbMur >i && i<5){
-			System.out.println(caseCourante + " : noMur à " + direction);
+			System.out.println(caseCourante + " : noMur ï¿½ " + direction);
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
 		if(nbMur >5){
-			System.out.println(caseCourante + " : FIN noMur à " + direction);
+			System.out.println(caseCourante + " : FIN noMur ï¿½ " + direction);
 			caseCourante.addNoMurs(direction);
 		}
 		else{
-			System.out.println(caseCourante + " : FIN Mur à " + direction);
+			System.out.println(caseCourante + " : FIN Mur ï¿½ " + direction);
 			caseCourante.addMur(direction);
 		}
 		fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
@@ -152,10 +152,42 @@ public class RobotRicochet {
 		break;
 		
 		case DROITE :
-			
+			if(distances[1]/40<positionCourante.getX() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[2]/40<ARENE_WIDTH-positionCourante.getX() && distances[1]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		case GAUCHE :
-			
+			if(distances[2]/40<positionCourante.getX() && distances[2]<255){
+				if(distances[2]%40<10){
+					return REDRESSER_DROITE;
+				}else if(distances[2]%40>20){
+					return REDRESSER_GAUCHE;
+				}else {
+					return AVANT;
+				}
+			}else if(distances[1]/40<ARENE_WIDTH-positionCourante.getX() && distances[1]<255){
+				if(distances[1]%40<10){
+					return REDRESSER_GAUCHE;
+				}else if(distances[1]%40>20){
+					return REDRESSER_DROITE;
+				}else {
+					return AVANT;
+				}
+			}
 		break;
 		}
     	return -1;
