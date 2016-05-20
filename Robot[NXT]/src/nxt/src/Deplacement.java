@@ -95,7 +95,7 @@ public class Deplacement {
 		int angle_redresser = (int) (SPEED*0.073);
 		if(COULEUR_GAUCHE.getNormalizedLightValue()<SEUIL 
 				&& COULEUR_DROITE.getNormalizedLightValue()<SEUIL){
-			this.patienter(360, MOTEUR_GAUCHE);
+			this.patienter(180, MOTEUR_GAUCHE);
 			return true;
 		}else if(COULEUR_GAUCHE.getNormalizedLightValue()<SEUIL 
 				&& COULEUR_DROITE.getNormalizedLightValue()>SEUIL){
@@ -105,7 +105,7 @@ public class Deplacement {
 			pilote.setTravelSpeed(SPEED);
 			this.patienter(angle_redresser, MOTEUR_DROITE);
 			this.avancer();
-			this.patienter(360, MOTEUR_DROITE);
+			this.patienter(180, MOTEUR_DROITE);
 			return true;
 		}else if(COULEUR_DROITE.getNormalizedLightValue()<SEUIL 
 				&& COULEUR_GAUCHE.getNormalizedLightValue()>SEUIL){
@@ -115,7 +115,7 @@ public class Deplacement {
 			pilote.setTravelSpeed(SPEED);
 			this.patienter(angle_redresser, MOTEUR_GAUCHE);
 			this.avancer();
-			this.patienter(360, MOTEUR_GAUCHE);
+			this.patienter(180, MOTEUR_GAUCHE);
 			return true;
 		}
 		return false;

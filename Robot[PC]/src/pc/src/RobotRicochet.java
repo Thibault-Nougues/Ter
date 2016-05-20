@@ -145,7 +145,7 @@ public class RobotRicochet {
 		outputData = new DataOutputStream(nxtConnect.getOutputStream());
 		inputData = new DataInputStream(nxtConnect.getInputStream());
 		if(connecte){
-			System.out.println("connect�");
+			System.out.println("connecte");
 			cartographier();
 			
 			Scanner sc = new Scanner(System.in);
@@ -157,7 +157,7 @@ public class RobotRicochet {
 			/* envoyer la solution au robot */
 			
 		}else{
-			System.out.println("non connect�");
+			System.out.println("non connecte");
 		}
 		
 			
