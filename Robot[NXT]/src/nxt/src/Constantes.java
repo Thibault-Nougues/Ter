@@ -13,8 +13,10 @@ public class Constantes {
 	public static final int ARRIERE = 1;
 	public static final int DROITE = 8;
 	public static final int GAUCHE = 2;
-	
 	public static final int FIN = 3;
+	public static final int REDRESSER_DROITE = 5;
+	public static final int REDRESSER_GAUCHE = 6;
+	
 	public static int ACTION;
 	public static final int SEUIL = 480;
 	public static final int EVITERMUR_ANGLE = 30;

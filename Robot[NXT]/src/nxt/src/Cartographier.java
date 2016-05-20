@@ -63,16 +63,27 @@ public class Cartographier extends Thread {
 						this.scanner();
 						switch (ACTION) {
 						case ARRIERE:
+							ACTION=AVANT;
 							deplacement.demiTour();
+							
+							deplacement.avancer();
 							break;
 						case DROITE:
 						case GAUCHE:
 							deplacement.tourner(ACTION, false);
 							break;
+							
+						case REDRESSER_DROITE :
+							deplacement.eviterMur(DROITE);
+							break;
+						
+						case REDRESSER_GAUCHE : 
+							deplacement.eviterMur(GAUCHE);
+							break;
 						}
 						ACTION=AVANT;
-						while(TETE_AVANT.getDistance()<35){
-							deplacement.tourner(DROITE, false);
+						while(TETE_AVANT.getDistance()<30){
+							deplacement.arreter();
 						}
 						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
 							deplacement.ralentir();

@@ -30,14 +30,14 @@ public class RobotRicochet {
 		do{
 			byte data=inputData.readByte();
 			switch(data){
-				case DISTANCE_GAUCHE :	distances[1] = inputData.readByte()& (0xff);
+				case DISTANCE_GAUCHE :	distances[1] = (int)(inputData.readByte()& (0xff));
 										break;
-				case DISTANCE_DROITE :	distances[2] = inputData.readByte()& (0xff);
+				case DISTANCE_DROITE :	distances[2] = (int)(inputData.readByte()& (0xff));
 										action = strategie();
 										outputData.write(action);
 										outputData.flush();
 										break;
-				default: 				distances[0] = data;
+				default: 				distances[0] = (int)(data& (0xff));
 										break;	
 			}
 		}while(action != FIN);
@@ -68,7 +68,7 @@ public class RobotRicochet {
     public static void scan(int distance, int direction){
     	int action = AVANT;
     	
-    	// récupération de la direction de la tête qui à pris la mesure
+    	// rï¿½cupï¿½ration de la direction de la tï¿½te qui ï¿½ pris la mesure
     	if(direction == AVANT){
     		direction = directionCourante;
     	}
@@ -124,7 +124,7 @@ public class RobotRicochet {
     	
     	switch(direction){
     	case HAUT: if(positionCourante.x*40-distance>0){
-		    	//intérieur
+		    	//intï¿½rieur
 
 	    	}
     		break;
@@ -142,13 +142,37 @@ public class RobotRicochet {
     	
     }
     
+    public int calculerRedressement(){
+    	switch (directionCourante) {
+		case HAUT :
+			
+		break;
+		
+		case BAS :
+			
+		break;
+		
+		case DROITE :
+			
+		break;
+		case GAUCHE :
+			
+		break;
+		}
+    	return -1;
+    }
+    
 
     public static int strategie(){
     	int action = AVANT;
     	/* cas des faux murs */
-    	
+    	System.out.println(distances[0]);
     	/* contourner les murs */
-    	
+    	if(distances[0]<40){
+    		action=ARRIERE;
+    	}else{
+    		action=AVANT;
+    	}
     	/* cases inaccessibles */
     	
     	/* aller chercher les derniï¿½res cases */
