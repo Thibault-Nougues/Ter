@@ -102,12 +102,45 @@ public class RobotRicochet {
      * @param distance
      */
     private static void ajouterMursVue(){
-		ajouterMurs(directionCourante, distances[0]+30);
+		ajouterMurs(directionCourante, distances[0]+45);
 		ajouterMurs(tourner(GAUCHE), distances[1]+20);
 		ajouterMurs(tourner(DROITE), distances[2]+20);
     }
     
-    public int calculerRedressement(){
+    public int redressement (int distance, int cote){
+    	switch(cote){
+    	case DROITE :
+    		if(distance%40<10){
+    			return REDRESSER_DROITE;
+    		}else if(distance%40>20){
+    			return REDRESSER_GAUCHE;
+    		}else {
+    			return AVANT;
+    		}
+    	case GAUCHE :
+    		if(distance%40<10){
+    			return REDRESSER_GAUCHE;
+    		}else if(distance%40>20){
+    			return REDRESSER_DROITE;
+    		}else {
+    			return AVANT;
+    		}
+    	default :
+    		return -1;
+    	}
+    	
+    }
+    
+    public int calculerRedressement(int position, boolean inverse){
+    	if(distances[1]/40<position && distances[1]<255){
+			return redressement(distances[1],DROITE);
+		}else if(distances[2]/40<ARENE_WIDTH-position && distances[1]<255){
+			return redressement(distances[2],GAUCHE);
+		}
+    	return -1;
+    }
+    
+    public int calculerRedressementOriente(){
     	switch (directionCourante) {
 		case HAUT :
 			if(distances[1]/40<positionCourante.getY() && distances[1]<255){
