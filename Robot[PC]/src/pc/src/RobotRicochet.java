@@ -237,7 +237,8 @@ public class RobotRicochet {
     	
     	//Debut du contournement d'obstacle
     	if(!contourner){
-    			action = GAUCHE;
+			contourner = true;
+			action = GAUCHE;
     	}
     	else{
     	}
