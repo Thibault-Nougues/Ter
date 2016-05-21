@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import lejos.nxt.Sound;
@@ -15,12 +16,14 @@ public class RobotRicochet {
 
     private static Terrain carte;
 	private static Fenetre fen;
-    private static Point positionCourante = depart2;
-    private static int directionCourante = DROITE;
-    private static int[] distances = new int[3];
     private static int niveau = 0;
     private static boolean contourner = false;
+    private static boolean presDuMur = false;
+    private static int etapeContournement = 0;
     private static Case caseContourner = null;
+    private static Point positionCourante = depart1;
+    private static int directionCourante = BAS;
+    private static HashMap<Integer, Integer> distances = new HashMap<>(3);
     
 	private static NXTConnector nxtConnect;
 	private static DataOutputStream outputData;
@@ -35,14 +38,14 @@ public class RobotRicochet {
 		do{
 			byte data=inputData.readByte();
 			switch(data){
-				case DISTANCE_GAUCHE :	distances[1] = (int)(inputData.readByte()& (0xff));
+				case DISTANCE_GAUCHE :	distances.put(GAUCHE,(int)(inputData.readByte()& (0xff)));
 										break;
-				case DISTANCE_DROITE :	distances[2] = (int)(inputData.readByte()& (0xff));
+				case DISTANCE_DROITE :	distances.put(DROITE,(int)(inputData.readByte()& (0xff)));
 										action = strategie();
 										outputData.write(action);
 										outputData.flush();
 										break;
-				default: 				distances[0] = (int)(data& (0xff));
+				default: 				distances.put(AVANT,(int)(inputData.readByte()& (0xff)) );
 										break;	
 			}
 		}while(action != FIN);
@@ -78,6 +81,7 @@ public class RobotRicochet {
     		break;
     	case BAS: if(positionCourante.x+nbMur+1>ARENE_HEIGHT)
     			nbMur = ARENE_HEIGHT-positionCourante.x-1;
+    	System.out.println(nbMur);
     		break;
     	case GAUCHE: if(positionCourante.y-nbMur<0)
     			nbMur = positionCourante.y-nbMur;
@@ -112,9 +116,9 @@ public class RobotRicochet {
      * @param distance
      */
     private static void ajouterMursVue(){
-		ajouterMurs(directionCourante, distances[0]);
-		ajouterMurs(tourner(GAUCHE), distances[1]+20);
-		ajouterMurs(tourner(DROITE), distances[2]+20);
+		ajouterMurs(directionCourante, distances.get(AVANT));
+		ajouterMurs(tourner(GAUCHE), distances.get(GAUCHE)+20);
+		ajouterMurs(tourner(DROITE), distances.get(DROITE)+20);
     }
     
     public static int redressement (int distance, int cote){
@@ -145,18 +149,18 @@ public class RobotRicochet {
     
     public static int calculerRedressement(double position, boolean inverse, int longeur){
     	if (inverse){
-    		if(distances[1]/40<position && distances[1]<255){
+    		if(distances.get(GAUCHE)/40<position && distances.get(GAUCHE)<255){
     			System.out.println("a");
-    			return redressement(distances[1],GAUCHE);
-			}else if(distances[2]/40<longeur-position && distances[2]<255){
+    			return redressement(distances.get(GAUCHE),GAUCHE);
+			}else if(distances.get(DROITE)/40<longeur-position && distances.get(DROITE)<255){
 				System.out.println("b");
-				return redressement(distances[2],DROITE);
+				return redressement(distances.get(DROITE),DROITE);
 			}
     	}else{
-    		if(distances[2]/40<position && distances[2]<255){
-    			return redressement(distances[1],DROITE);
-			}else if(distances[1]/40<longeur-position && distances[1]<255){
-				return redressement(distances[1],GAUCHE);
+    		if(distances.get(DROITE)/40<position && distances.get(DROITE)<255){
+    			return redressement(distances.get(GAUCHE),DROITE);
+			}else if(distances.get(GAUCHE)/40<longeur-position && distances.get(GAUCHE)<255){
+				return redressement(distances.get(GAUCHE),GAUCHE);
 			}
     	}
     	return AVANT;
@@ -188,15 +192,17 @@ public class RobotRicochet {
     	ajouterMursVue();
     	int action = AVANT;
     	/* contourner les murs */
-    	if(distances[0]<40){
-    		action=ARRIERE;
-    	}else{
-    		System.out.println(distances[1]+" "+calculerRedressementOriente());
-    		action=calculerRedressementOriente();
-    	}
-    	/* contourner case */
-    	
-    	
+    	/*if(contourner){
+    		contournerMur();
+    	}else{*/
+    		if(distances.get(AVANT)<80){
+    			action=ARRIERE;
+    		}else{
+    			System.out.println(distances.get(GAUCHE)+" "+calculerRedressementOriente());
+    			action=calculerRedressementOriente();
+    		}
+    	//}
+    	/* cases inaccessibles */
     	
     	/* aller chercher les dernieres cases */
     	
@@ -234,18 +240,77 @@ public class RobotRicochet {
     
     public static int contounerMur(){
     	int action = AVANT;
+    	etapeContournement++;
     	
     	//Debut du contournement d'obstacle
     	if(!contourner){
+        	etapeContournement = 0;
 			contourner = true;
-			action = GAUCHE;
+	    	caseContourner = carte.getCase(positionCourante);
+			if(distances.get(GAUCHE) > 40){
+				action = GAUCHE;
+			}else{
+				
+			}
     	}
     	else{
+    		switch(etapeContournement){
+    		case 0:if(distances.get(GAUCHE) > 40){
+				action = GAUCHE;
+			}else{
+				
+			}
+    			break;
+    			
+    		case 1 : if(distances.get(DROITE) > 40){
+					action = DROITE;
+				}
+	    		else{
+	    			
+	    		}
+    			break;
+    		case 2 : if(distances.get(AVANT) > 40){
+				
+			}
+    		else{
+    			action = GAUCHE;
+    		}
+    			break;
+    		case 3: if(presDuMur){
+    			if(distances.get(DROITE) > 40){
+    				action = DROITE;
+    			}
+        		else{
+        			
+        		}
+    		}
+    		else{
+    			if(distances.get(AVANT) > 40){
+    				action = AVANT;
+    				presDuMur = true;
+    				etapeContournement--;
+    			}
+        		else{
+        			
+        		}
+    		}
+    			
+    		case 4:
+    			if(distances.get(GAUCHE) > 40){
+				action = GAUCHE;
+			}
+    		else{
+    			
+    		}
+    			
+    			break;
+			default:
+				break;
+    		}
     	}
     	
     	switch (directionCourante) {
 		case HAUT :
-			contourner = true;
 			break;
 		case BAS :
 			break;
