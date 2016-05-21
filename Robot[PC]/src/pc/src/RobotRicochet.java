@@ -84,14 +84,15 @@ public class RobotRicochet {
 		}
 		int i=0;
 		Case caseCourante = carte.getCase(positionCourante);
-		while(nbMur >i && i<4){
 
+		while(nbMur>i && i<4){
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
-		if(nbMur >4){
+
+		if(nbMur>4){
 			caseCourante.addNoMurs(direction);
 		}
 		else{
@@ -193,6 +194,8 @@ public class RobotRicochet {
     	/* cases inaccessibles */
     	
     	/* aller chercher les dernieres cases */
+    	
+    	
     	
     	switch(action){
     	case AVANT: positionCourante = avancer(positionCourante, directionCourante);

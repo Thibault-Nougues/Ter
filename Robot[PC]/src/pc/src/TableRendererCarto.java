@@ -36,7 +36,7 @@ public class TableRendererCarto extends DefaultTableCellRenderer{
                 ((JLabel) c).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             }
             else{
-            	if(caseCourante.getMursVue()==(HAUT|BAS|GAUCHE|DROITE)){
+            	if(caseCourante.getMursVue()==(HAUT+BAS+GAUCHE+DROITE)){
                 	((JLabel) c).setBackground(Color.GREEN);
             	}
             	int murs = caseCourante.getMurs();
@@ -53,10 +53,7 @@ public class TableRendererCarto extends DefaultTableCellRenderer{
                 
                 CompoundBorder customBorder = BorderFactory.createCompoundBorder();
                 customBorder = BorderFactory.createCompoundBorder(customBorder, BorderFactory.createMatteBorder(haut,gauche,bas,droite,Color.GREEN));
-
-                
                 customBorder = BorderFactory.createCompoundBorder(customBorder, BorderFactory.createMatteBorder(murHaut,murGauche,murBas,murDroite,Color.RED));
-                
                 ((JLabel) c).setBorder(customBorder);
             }
         }

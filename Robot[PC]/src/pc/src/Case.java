@@ -123,8 +123,6 @@ public class Case implements Comparable<Case>{
     }
     
     public void addNoMurs(int murs){
-    	//vérif murs si erreur
-    	/*     A FAIRE !!!    */
 		mursVue |= murs;
     }
     
