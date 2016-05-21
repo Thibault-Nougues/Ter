@@ -26,7 +26,8 @@ public class RobotRicochet {
 		connexion();
 		new Cartographier(output);
 		do{
-			ACTION=inputData.read();
+			ACTION=inputData.readInt();
+			System.out.println(ACTION);
 		}while(ACTION!=FIN && !Button.ESCAPE.isDown());
 	}
 

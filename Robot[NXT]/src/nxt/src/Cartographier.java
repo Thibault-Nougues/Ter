@@ -45,6 +45,27 @@ public class Cartographier extends Thread {
 		outputData.write((byte)TETE_AVANT.getDistance());
 		outputData.flush();
 		MOTEUR_TETE.rotate(-90);
+		switch (ACTION) {
+		case ARRIERE:
+			ACTION=AVANT;
+			deplacement.demiTour();
+			deplacement.avancer();
+			break;
+		case DROITE:
+		case GAUCHE:
+			if(ACTION==GAUCHE)
+				Sound.buzz();
+			deplacement.tourner(ACTION, false);
+			break;
+			
+		case REDRESSER_DROITE :
+			deplacement.eviterMur(DROITE);
+			break;
+		
+		case REDRESSER_GAUCHE : 
+			deplacement.eviterMur(GAUCHE);
+			break;
+		}
 	}
 	
 	public void run(){
@@ -58,39 +79,19 @@ public class Cartographier extends Thread {
 		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
-			System.out.println(COULEUR_DROITE.getNormalizedLightValue());
 			try {
 				if(deplacement.redresser()){
 					try {
-						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
+						if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
 							deplacement.ralentir();
 						}
 						this.scanner();
-						switch (ACTION) {
-						case ARRIERE:
-							ACTION=AVANT;
-							deplacement.demiTour();
-							
-							deplacement.avancer();
-							break;
-						case DROITE:
-						case GAUCHE:
-							deplacement.tourner(ACTION, false);
-							break;
-							
-						case REDRESSER_DROITE :
-							deplacement.eviterMur(DROITE);
-							break;
 						
-						case REDRESSER_GAUCHE : 
-							deplacement.eviterMur(GAUCHE);
-							break;
-						}
-						ACTION=AVANT;
+						//ACTION=AVANT;
 						while(TETE_AVANT.getDistance()<30){
 							deplacement.arreter();
 						}
-						if(TETE_AVANT.getDistance()<75 && TETE_AVANT.getDistance()>40){
+						if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
 							deplacement.ralentir();
 						}else if(TETE_AVANT.getDistance()>80){
 							deplacement.accelerer();
