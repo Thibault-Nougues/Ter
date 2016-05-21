@@ -16,6 +16,11 @@ public class RobotRicochet {
 
     private static Terrain carte;
 	private static Fenetre fen;
+    private static int niveau = 0;
+    private static boolean contourner = false;
+    private static boolean presDuMur = false;
+    private static int etapeContournement = 0;
+    private static Case caseContourner = null;
     private static Point positionCourante = depart1;
     private static int directionCourante = BAS;
     private static HashMap<Integer, Integer> distances = new HashMap<>(3);
@@ -28,6 +33,7 @@ public class RobotRicochet {
 	public static void cartographier() throws IOException{
 		
         int action=0;
+        caseContourner = carte.getCase(positionCourante);
 
 		do{
 			byte data=inputData.readByte();
@@ -80,7 +86,8 @@ public class RobotRicochet {
     	case GAUCHE: if(positionCourante.y-nbMur<0)
     			nbMur = positionCourante.y-nbMur;
     		break;
-    	case DROITE: if(positionCourante.y-distance/40>ARENE_WIDTH)
+
+    	case DROITE: if(positionCourante.y-nbMur>ARENE_WIDTH)
     		 	nbMur = ARENE_WIDTH-positionCourante.y-1;
     		break;
 		}
@@ -185,7 +192,6 @@ public class RobotRicochet {
     public static int strategie(){
     	ajouterMursVue();
     	int action = AVANT;
-    	/* cas des faux murs */
     	/* contourner les murs */
     	/*if(contourner){
     		contournerMur();
@@ -201,10 +207,8 @@ public class RobotRicochet {
     	
     	/* aller chercher les dernieres cases */
     	
-    	
-    	
     	switch(action){
-    	case AVANT: positionCourante = avancer(positionCourante, directionCourante);
+    	case AVANT: avancer();
     		break;
     	case DROITE:
     	case GAUCHE:
@@ -221,21 +225,107 @@ public class RobotRicochet {
     	return action;
     }
     
-    public static Point avancer(Point p, int direction){
-        Point pointTmp = p;
-        
-        switch(direction){
-            case HAUT : pointTmp.x-=1;
+    public static void avancer(){        
+        switch(directionCourante){
+            case HAUT : positionCourante.x-=1;
                 break;
-            case BAS : pointTmp.x+=1;
+            case BAS : positionCourante.x+=1;
                 break;
-            case DROITE : pointTmp.y+=1;
+            case DROITE : positionCourante.y+=1;
                 break;
-            case GAUCHE : pointTmp.y-=1;
+            case GAUCHE : positionCourante.y-=1;
                 break;
             default: ;
         }
-        return pointTmp;
+    }
+    
+    public static int contounerMur(){
+    	int action = AVANT;
+    	etapeContournement++;
+    	
+    	//Debut du contournement d'obstacle
+    	if(!contourner){
+        	etapeContournement = 0;
+			contourner = true;
+	    	caseContourner = carte.getCase(positionCourante);
+			if(distances.get(GAUCHE) > 40){
+				action = GAUCHE;
+			}else{
+				
+			}
+    	}
+    	else{
+    		switch(etapeContournement){
+    		case 0:if(distances.get(GAUCHE) > 40){
+				action = GAUCHE;
+			}else{
+				
+			}
+    			break;
+    			
+    		case 1 : if(distances.get(DROITE) > 40){
+					action = DROITE;
+				}
+	    		else{
+	    			
+	    		}
+    			break;
+    		case 2 : if(distances.get(AVANT) > 40){
+				
+			}
+    		else{
+    			action = GAUCHE;
+    		}
+    			break;
+    		case 3: if(presDuMur){
+    			if(distances.get(DROITE) > 40){
+    				action = DROITE;
+    			}
+        		else{
+        			
+        		}
+    		}
+    		else{
+    			if(distances.get(AVANT) > 40){
+    				action = AVANT;
+    				presDuMur = true;
+    				etapeContournement--;
+    			}
+        		else{
+        			
+        		}
+    		}
+    			
+    		case 4:
+    			if(distances.get(GAUCHE) > 40){
+				action = GAUCHE;
+			}
+    		else{
+    			
+    		}
+    			
+    			break;
+			default:
+				break;
+    		}
+    	}
+    	
+    	switch (directionCourante) {
+		case HAUT :
+			break;
+		case BAS :
+			break;
+		case DROITE :
+			break;
+
+		case GAUCHE :
+			break;
+			
+		default :
+		}
+    	
+    	return action;
+    	
     }
     
     
