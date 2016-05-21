@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import lejos.nxt.Sound;
 import lejos.pc.comm.NXTConnector;
 import static pc.src.Constantes.*;
 
@@ -14,8 +15,8 @@ public class RobotRicochet {
 
     private static Terrain carte;
 	private static Fenetre fen;
-    private static Point positionCourante = depart1;
-    private static int directionCourante = BAS;
+    private static Point positionCourante = depart2;
+    private static int directionCourante = DROITE;
     private static int[] distances = new int[3];
     
 	private static NXTConnector nxtConnect;
@@ -72,25 +73,25 @@ public class RobotRicochet {
     			nbMur = positionCourante.x-distance/40;
     		break;
     	case BAS: if(positionCourante.x+distance/40>ARENE_HEIGHT)
-    			nbMur = ARENE_HEIGHT-positionCourante.x-distance/40;
+    			nbMur = ARENE_HEIGHT-positionCourante.x;
     		break;
     	case GAUCHE: if(positionCourante.y-distance/40<0)
     			nbMur = positionCourante.y-distance/40;
     		break;
-    	case DROITE: if(positionCourante.x-distance/40>ARENE_WIDTH)
-    		 	nbMur = ARENE_WIDTH-positionCourante.y-distance/40;
+    	case DROITE: if(positionCourante.y-distance/40>ARENE_WIDTH)
+    		 	nbMur = ARENE_WIDTH-positionCourante.y;
     		break;
 		}
 		int i=0;
 		Case caseCourante = carte.getCase(positionCourante);
-		while(nbMur >i && i<5){
+		while(nbMur >i && i<4){
 
 			caseCourante.addNoMurs(direction);
 			fen.jTable1.setValueAt(caseCourante, caseCourante.getX(), caseCourante.getY());
 			caseCourante = carte.avancer(caseCourante, direction);
 			i++;
 		}
-		if(nbMur >5){
+		if(nbMur >4){
 			caseCourante.addNoMurs(direction);
 		}
 		else{
@@ -106,14 +107,15 @@ public class RobotRicochet {
      * @param distance
      */
     private static void ajouterMursVue(){
-		ajouterMurs(directionCourante, distances[0]+45);
+		ajouterMurs(directionCourante, distances[0]);
 		ajouterMurs(tourner(GAUCHE), distances[1]+20);
 		ajouterMurs(tourner(DROITE), distances[2]+20);
     }
     
-    public int redressement (int distance, int cote){
+    public static int redressement (int distance, int cote){
     	switch(cote){
     	case DROITE :
+    		System.out.println("droite");
     		if(distance%40<10){
     			return REDRESSER_DROITE;
     		}else if(distance%40>20){
@@ -122,6 +124,7 @@ public class RobotRicochet {
     			return AVANT;
     		}
     	case GAUCHE :
+    		System.out.println("gauche");
     		if(distance%40<10){
     			return REDRESSER_GAUCHE;
     		}else if(distance%40>20){
@@ -130,102 +133,49 @@ public class RobotRicochet {
     			return AVANT;
     		}
     	default :
-    		return -1;
+    		return AVANT;
     	}
     	
     }
     
-    public int calculerRedressement(int position, boolean inverse){
-    	if(distances[1]/40<position && distances[1]<255){
-			return redressement(distances[1],DROITE);
-		}else if(distances[2]/40<ARENE_WIDTH-position && distances[1]<255){
-			return redressement(distances[2],GAUCHE);
-		}
-    	return -1;
+    public static int calculerRedressement(double position, boolean inverse, int longeur){
+    	if (inverse){
+    		if(distances[1]/40<position && distances[1]<255){
+    			System.out.println("a");
+    			return redressement(distances[1],GAUCHE);
+			}else if(distances[2]/40<longeur-position && distances[2]<255){
+				System.out.println("b");
+				return redressement(distances[2],DROITE);
+			}
+    	}else{
+    		if(distances[2]/40<position && distances[2]<255){
+    			return redressement(distances[1],DROITE);
+			}else if(distances[1]/40<longeur-position && distances[1]<255){
+				return redressement(distances[1],GAUCHE);
+			}
+    	}
+    	return AVANT;
     }
     
-    public int calculerRedressementOriente(){
+    public static int calculerRedressementOriente(){
+
     	switch (directionCourante) {
 		case HAUT :
-			if(distances[1]/40<positionCourante.getY() && distances[1]<255){
-				if(distances[1]%40<10){
-					return REDRESSER_DROITE;
-				}else if(distances[1]%40>20){
-					return REDRESSER_GAUCHE;
-				}else {
-					return AVANT;
-				}
-			}else if(distances[2]/40<ARENE_WIDTH-positionCourante.getY() && distances[1]<255){
-				if(distances[2]%40<10){
-					return REDRESSER_GAUCHE;
-				}else if(distances[2]%40>20){
-					return REDRESSER_DROITE;
-				}else {
-					return AVANT;
-				}
-			}
-		break;
+			return(calculerRedressement(positionCourante.getY(), true, ARENE_WIDTH));
 		
 		case BAS :
-			if(distances[2]/40<positionCourante.getY() && distances[2]<255){
-				if(distances[2]%40<10){
-					return REDRESSER_DROITE;
-				}else if(distances[2]%40>20){
-					return REDRESSER_GAUCHE;
-				}else {
-					return AVANT;
-				}
-			}else if(distances[1]/40<ARENE_WIDTH-positionCourante.getY() && distances[1]<255){
-				if(distances[1]%40<10){
-					return REDRESSER_GAUCHE;
-				}else if(distances[1]%40>20){
-					return REDRESSER_DROITE;
-				}else {
-					return AVANT;
-				}
-			}
-		break;
+			return(calculerRedressement(positionCourante.getY(), false, ARENE_WIDTH));
 		
 		case DROITE :
-			if(distances[1]/40<positionCourante.getX() && distances[1]<255){
-				if(distances[1]%40<10){
-					return REDRESSER_DROITE;
-				}else if(distances[1]%40>20){
-					return REDRESSER_GAUCHE;
-				}else {
-					return AVANT;
-				}
-			}else if(distances[2]/40<ARENE_WIDTH-positionCourante.getX() && distances[1]<255){
-				if(distances[2]%40<10){
-					return REDRESSER_GAUCHE;
-				}else if(distances[2]%40>20){
-					return REDRESSER_DROITE;
-				}else {
-					return AVANT;
-				}
-			}
-		break;
+			System.out.println("droite   2 ");
+			return(calculerRedressement(positionCourante.getX(), true, ARENE_HEIGHT));
+
 		case GAUCHE :
-			if(distances[2]/40<positionCourante.getX() && distances[2]<255){
-				if(distances[2]%40<10){
-					return REDRESSER_DROITE;
-				}else if(distances[2]%40>20){
-					return REDRESSER_GAUCHE;
-				}else {
-					return AVANT;
-				}
-			}else if(distances[1]/40<ARENE_WIDTH-positionCourante.getX() && distances[1]<255){
-				if(distances[1]%40<10){
-					return REDRESSER_GAUCHE;
-				}else if(distances[1]%40>20){
-					return REDRESSER_DROITE;
-				}else {
-					return AVANT;
-				}
-			}
-		break;
+			return(calculerRedressement(positionCourante.getX(), false, ARENE_HEIGHT));
+			
+		default :
+	    	return AVANT;
 		}
-    	return -1;
     }
     
 
@@ -233,12 +183,12 @@ public class RobotRicochet {
     	ajouterMursVue();
     	int action = AVANT;
     	/* cas des faux murs */
-    	System.out.println(distances[0]);
     	/* contourner les murs */
     	if(distances[0]<40){
     		action=ARRIERE;
     	}else{
-    		action=AVANT;
+    		System.out.println(distances[1]+" "+calculerRedressementOriente());
+    		action=calculerRedressementOriente();
     	}
     	/* cases inaccessibles */
     	

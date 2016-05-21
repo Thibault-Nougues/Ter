@@ -73,14 +73,14 @@ public class Deplacement {
 	public void eviterMur(int cote){
 		int tacho = 0 ;
 		switch (cote) {
-		case DROITE:
+		case GAUCHE:
 			tacho=MOTEUR_GAUCHE.getTachoCount();
 			while(MOTEUR_GAUCHE.getTachoCount()<tacho+EVITERMUR_ANGLE){
 				MOTEUR_DROITE.setSpeed(0);
 			}
 			break;
 
-		case GAUCHE :
+		case DROITE :
 			tacho=MOTEUR_DROITE.getTachoCount();
 			while(MOTEUR_DROITE.getTachoCount()<tacho+EVITERMUR_ANGLE){
 				MOTEUR_GAUCHE.setSpeed(0);
