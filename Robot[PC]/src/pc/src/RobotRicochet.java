@@ -68,17 +68,17 @@ public class RobotRicochet {
 	private static void ajouterMurs(int direction, int distance){
 		int nbMur = distance/40;
 		switch(direction){
-    	case HAUT: if(positionCourante.x-distance/40<0)
-    			nbMur = positionCourante.x-distance/40;
+    	case HAUT: if(positionCourante.x-nbMur<0)
+    			nbMur = positionCourante.x-nbMur;
     		break;
-    	case BAS: if(positionCourante.x+distance/40>ARENE_HEIGHT)
-    			nbMur = ARENE_HEIGHT-positionCourante.x;
+    	case BAS: if(positionCourante.x+nbMur+1>ARENE_HEIGHT)
+    			nbMur = ARENE_HEIGHT-positionCourante.x-1;
     		break;
-    	case GAUCHE: if(positionCourante.y-distance/40<0)
-    			nbMur = positionCourante.y-distance/40;
+    	case GAUCHE: if(positionCourante.y-nbMur<0)
+    			nbMur = positionCourante.y-nbMur;
     		break;
-    	case DROITE: if(positionCourante.x-distance/40>ARENE_WIDTH)
-    		 	nbMur = ARENE_WIDTH-positionCourante.y;
+    	case DROITE: if(positionCourante.x-nbMur+1>ARENE_WIDTH)
+    		 	nbMur = ARENE_WIDTH-positionCourante.y-1;
     		break;
 		}
 		int i=0;
