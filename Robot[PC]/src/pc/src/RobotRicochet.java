@@ -203,6 +203,25 @@ public class RobotRicochet {
 		}
     }
     
+    public static int distanceMax(){
+    	switch (directionCourante) {
+		case HAUT :
+			return (int) positionCourante.getX();
+			
+		case BAS :
+			return ARENE_HEIGHT-(int)positionCourante.getX()-1;
+			
+		case GAUCHE :
+			return (int) positionCourante.getY();
+			
+		case DROITE :
+			return ARENE_WIDTH-(int)positionCourante.getY()-1;
+
+		default:
+			return -1;
+		}
+    }
+    
 
     public static int strategie(){
     	ajouterMursVue();
@@ -214,7 +233,7 @@ public class RobotRicochet {
     		//System.out.println(action);
     		//return action;
     	}else{
-    		if(distances.get(AVANT)<90){
+    		if(distances.get(AVANT)<90 && distances.get(AVANT)/40 <= distanceMax()){
     			action= contournerMur();
         		//System.out.println(action);
         		//return action;
@@ -311,25 +330,25 @@ public class RobotRicochet {
 						switch (tourner(action)) {
 						case HAUT:
 							if(positionCourante.getX()==1){
-								etapeContournement+=2;
+								etapeContournement++;
 							}
 							break;
 						
 						case BAS:
 							if(positionCourante.getX()==ARENE_HEIGHT-2){
-								etapeContournement+=2;
+								etapeContournement++;
 							}
 							break;
 							
 						case GAUCHE:
 							if(positionCourante.getY()==1){
-								etapeContournement+=2;
+								etapeContournement++;
 							}
 							break;
 						
 						case DROITE:
 							if(positionCourante.getY()==ARENE_WIDTH-2){
-								etapeContournement+=2;
+								etapeContournement++;
 							}
 							break;
 						}
@@ -347,20 +366,21 @@ public class RobotRicochet {
 	    				etapeContournement=-1;	    				
 	    			}
     			break;
-    		case 2 : if(distances.get(AVANT) > 40){
-    			action=AVANT;
-			}else if(presDuMur && distances.get(DROITE)>40){
-    			action=DROITE;
-    			etapeContournement++;
-    		}
-    			break;
-    		case 3: if(presDuMur){
+    		case 2 : 
+    		if(presDuMur){
     			if(distances.get(DROITE) > 40){
     				action = DROITE;
     				System.out.println("etape 3");
     			}
         		else{
-        			System.out.println("etape 32");
+        			if(distances.get(AVANT) > 40){
+        				System.out.println("etape 33");
+        				action = AVANT;
+        				etapeContournement--;
+        			}
+            		else{
+            			System.out.println("etape 34");
+            		}
         		}
     		}
     		else{
@@ -376,7 +396,7 @@ public class RobotRicochet {
     		}
     		break;
     			
-    		case 4:
+    		case 3:
     			if(distances.get(GAUCHE) > 40){
 				action = GAUCHE;
 				contourner=false;
