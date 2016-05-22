@@ -79,23 +79,24 @@ public class Cartographier extends Thread {
 		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
+			if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
+				deplacement.ralentir();
+			}else if(TETE_AVANT.getDistance()>95){
+				deplacement.accelerer();
+			}
 			try {
 				if(deplacement.redresser()){
 					try {
-						if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
-							deplacement.ralentir();
-						}
+						
 						this.scanner();
 						
 						//ACTION=AVANT;
 						while(TETE_AVANT.getDistance()<30){
 							deplacement.arreter();
 						}
-						if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
+						/*if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
 							deplacement.ralentir();
-						}else if(TETE_AVANT.getDistance()>80){
-							deplacement.accelerer();
-						}
+						}else */
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

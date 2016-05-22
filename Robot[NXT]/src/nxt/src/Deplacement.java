@@ -3,6 +3,7 @@ package nxt.src;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import static nxt.src.Constantes.*;
 import java.io.IOException;
@@ -90,6 +91,15 @@ public class Deplacement {
 		pilote.setTravelSpeed(SPEED);
 		this.avancer();
 	}
+	
+	/*public int passerLigne(){
+		if(SPEED==300){
+			return 180;
+		}else{
+			Sound.twoBeeps();
+			return 180;
+		}
+	}*/
 	
 	public boolean redresser() throws IOException{
 		int angle_redresser = (int) (SPEED*0.073);

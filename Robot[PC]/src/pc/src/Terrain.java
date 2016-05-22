@@ -126,10 +126,10 @@ public class Terrain {
             case GAUCHE: if(p.y>0)
                     terrain[p.x][p.y-1].addMur(DROITE);
                 break;
-            case BAS: if(p.x<ARENE_HEIGHT)
+            case BAS: if(p.x<ARENE_HEIGHT-1)
                     terrain[p.x+1][p.y].addMur(HAUT);
                 break;
-            case DROITE: if(p.y<ARENE_WIDTH)
+            case DROITE: if(p.y<ARENE_WIDTH-1)
                     terrain[p.x][p.y+1].addMur(GAUCHE);
                 break;
         }
@@ -144,10 +144,10 @@ public class Terrain {
             case GAUCHE: if(p.y>0)
                     terrain[p.x][p.y-1].addNoMurs(DROITE);
                 break;
-            case BAS: if(p.x<ARENE_HEIGHT)
+            case BAS: if(p.x<ARENE_HEIGHT-1)
                     terrain[p.x+1][p.y].addNoMurs(HAUT);
                 break;
-            case DROITE: if(p.y<ARENE_WIDTH)
+            case DROITE: if(p.y<ARENE_WIDTH-1)
                     terrain[p.x][p.y+1].addNoMurs(GAUCHE);
                 break;
         }
