@@ -39,7 +39,7 @@ public class RobotRicochet {
 				case DISTANCE_GAUCHE :	distances.put(GAUCHE,(int)(inputData.readByte()& (0xff)));
 										break;
 				case DISTANCE_DROITE :	distances.put(DROITE,(int)(inputData.readByte()& (0xff)));
-										//System.out.println(distances.get(AVANT)+" "+distances.get(DROITE)+" "+distances.get(GAUCHE)+" ");
+										System.out.println(distances.get(AVANT)+" "+distances.get(DROITE)+" "+distances.get(GAUCHE)+" ");
 										action = strategie();
 										//System.out.println("scanner "+action);
 										outputData.writeInt(action);
@@ -132,9 +132,9 @@ public class RobotRicochet {
      * @param distance
      */
     private static void ajouterMursVue(){
-		ajouterMurs(directionCourante, distances.get(AVANT));
-		ajouterMurs(tourner(GAUCHE), distances.get(GAUCHE)+10);
-		ajouterMurs(tourner(DROITE), distances.get(DROITE)+10);
+		ajouterMurs(directionCourante, distances.get(AVANT)+5);
+		ajouterMurs(tourner(GAUCHE), distances.get(GAUCHE)+15);
+		ajouterMurs(tourner(DROITE), distances.get(DROITE)+20);
     }
     
     public static int redressement (int distance, int cote){
@@ -228,9 +228,9 @@ public class RobotRicochet {
     		//System.out.println(action);
     		//return action;
     	}else{
-    		if(distances.get(AVANT)<50 && distances.get(AVANT)/40 <= distanceMax()){
+    		if(distances.get(AVANT)<35 && distances.get(AVANT)/40 <= distanceMax()){
     			action= contournerMur();
-        		//System.out.println(action);
+        		System.out.println(action);
         		//return action;
     		}else{
     			action=calculerRedressementOriente();
@@ -513,14 +513,7 @@ public class RobotRicochet {
     	int action = AVANT;
     	
     	//Teste si fin de contournement
-    	if(positionCourante == caseContournerArrivee.getPosition()){
-    		if(tourner(GAUCHE) != caseContournerArrivee.getDirection()){
-    			action = ARRIERE;
-    		}
-    		else{
-    			action = GAUCHE;
-    		}
-    	}
+    	
     	
     	//Debut du contournement d'obstacle, on le contourne par la gauche
     	if(!contourner){
@@ -537,8 +530,17 @@ public class RobotRicochet {
 			}
     	}// sinon on longe a droite jusqu'a retomb� derriere le mur � contourner
     	else{
-    		if(distances.get(DROITE) > 40){
-				System.out.println("tourner droie");
+    		if(positionCourante.equals(caseContournerArrivee.getPosition())){
+    			System.out.println("fini");
+        		if(tourner(GAUCHE) != caseContournerArrivee.getDirection()){
+        			action = ARRIERE;
+        		}
+        		else{
+        			action = GAUCHE;
+        		}
+        		contourner=false;
+        	}else if(distances.get(DROITE) > 40){
+				System.out.println("tourner droite");
 				action = DROITE;
 			}
 			else if(distances.get(AVANT) > 40){
