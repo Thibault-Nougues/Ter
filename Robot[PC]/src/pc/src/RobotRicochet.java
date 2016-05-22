@@ -18,7 +18,7 @@ public class RobotRicochet {
     private static int niveau = 0;
     private static boolean contourner = false;
     private static Case caseContournerArrivee = null;
-    private static Point positionCourante = depart1;
+    private static Point positionCourante = new Point(depart1);
     private static int directionCourante = BAS;
     private static HashMap<Integer, Integer> distances = new HashMap<>(3);
     
@@ -223,6 +223,8 @@ public class RobotRicochet {
     	//System.out.println("strategie "+positionCourante.getX()+" "+positionCourante.getY());
     	int action = AVANT;
     	/* contourner les murs */
+    	
+    	
     	if(contourner){
     		action= contournerMur();
     		//System.out.println(action);
@@ -512,10 +514,8 @@ public class RobotRicochet {
     public static int contournerMur(){
     	int action = AVANT;
     	
-    	//Teste si fin de contournement
-    	
-    	
     	//Debut du contournement d'obstacle, on le contourne par la gauche
+    	
     	if(!contourner){
 			contourner = true;
 			System.out.println("etape 0"+contourner);
@@ -528,30 +528,74 @@ public class RobotRicochet {
 			else{
 				action = ARRIERE;
 			}
-    	}// sinon on longe a droite jusqu'a retomb� derriere le mur � contourner
+    	}// sinon on longe a droite jusqu'a retomber derriere le mur a contourner
     	else{
+        	//Teste si fin de contournement
     		if(positionCourante.equals(caseContournerArrivee.getPosition())){
     			System.out.println("fini");
-        		if(tourner(GAUCHE) != caseContournerArrivee.getDirection()){
+        		contourner=false;
+    			if(distances.get(GAUCHE) < 40){
+    				action = ARRIERE;
+            		contourner=true;
+    			}
+    			else if(tourner(GAUCHE) != caseContournerArrivee.getDirection()){
         			action = ARRIERE;
         		}
         		else{
         			action = GAUCHE;
         		}
-        		contourner=false;
-        	}else if(distances.get(DROITE) > 40){
-				System.out.println("tourner droite");
-				action = DROITE;
-			}
-			else if(distances.get(AVANT) > 40){
-				action = AVANT;
-			}
-			else if(distances.get(GAUCHE) > 40){
-				action = GAUCHE;
-			}
-			else{
-				action =ARRIERE;
-			}
+        	}
+    		else{
+    			if(distances.get(DROITE) > 40){
+    				System.out.println("tourner droite");
+    				action = DROITE;
+    			}
+    			else if(distances.get(AVANT) > 40){
+    				action = AVANT;
+    			}
+    			else if(distances.get(GAUCHE) > 40){
+    				action = GAUCHE;
+    			}
+    			else{
+    				action =ARRIERE;
+    			}
+    			
+    			if(directionCourante == caseContournerArrivee.getDirection()){
+					action = GAUCHE;
+					contourner = false;
+    				switch (directionCourante) {
+    				case HAUT : if(positionCourante.x == niveau && distances.get(GAUCHE) < 40){
+	    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+	    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+	    					contourner = true;
+	    					action = ARRIERE;
+	    				}
+    					break;
+    				case BAS : if(positionCourante.x == ARENE_HEIGHT-niveau && distances.get(GAUCHE) < 40){
+    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+    					contourner = true;
+    					action = ARRIERE;
+    				}
+    					break;
+    				case DROITE : if(positionCourante.x == ARENE_WIDTH-niveau && distances.get(GAUCHE) < 40){
+    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+    					contourner = true;
+    					action = ARRIERE;
+    				}
+    					break;
+
+    				case GAUCHE : if(positionCourante.y == niveau && distances.get(GAUCHE) < 40){
+    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+    					contourner = true;
+    					action = ARRIERE;
+    				}
+    					break;
+    				}
+    			}
+    		}
     	}
     	
     	return action;
