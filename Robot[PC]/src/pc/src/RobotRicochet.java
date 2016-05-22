@@ -251,7 +251,6 @@ public class RobotRicochet {
             case HAUT : positionCourante.x-=1;
                 break;
             case BAS : positionCourante.x+=1;
-            System.out.println("avancer bas");
                 break;
             case DROITE : positionCourante.y+=1;
                 break;
@@ -260,7 +259,7 @@ public class RobotRicochet {
             default: ;
         }
     }
-    
+    /*
     public static int contournerMur(){
     	int action = AVANT;
     	etapeContournement++;
@@ -268,12 +267,14 @@ public class RobotRicochet {
     	if(!contourner){
         	etapeContournement = 0;
 			contourner = true;
-	    	caseContourner = carte.getCase(positionCourante);
 			System.out.println("etape 0"+contourner);
+	    	caseContourner = carte.avancer(carte.getCase(positionCourante), directionCourante);
 	    	if(distances.get(AVANT)<40){
 	    		presDuMur=true;
+	    		
 	    	}else{
 	    		presDuMur=false;
+		    	caseContourner = carte.avancer(caseContourner, directionCourante);
 	    	}
 			if(distances.get(GAUCHE) > 40){
 				System.out.println("tourner");
@@ -347,34 +348,47 @@ public class RobotRicochet {
 	    				etapeContournement=-1;	    				
 	    			}
     			break;
-    		case 2 : if(distances.get(AVANT) > 40){
-    			action=AVANT;
-			}else if(presDuMur && distances.get(DROITE)>40){
-    			action=DROITE;
-    			etapeContournement++;
-    		}
-    			break;
-    		case 3: if(presDuMur){
-    			if(distances.get(DROITE) > 40){
-    				action = DROITE;
-    				System.out.println("etape 3");
-    			}
-        		else{
-        			System.out.println("etape 32");
-        		}
-    		}
-    		else{
-    			if(distances.get(AVANT) > 40){
-    				System.out.println("etape 33");
-    				action = AVANT;
-    				presDuMur = true;
-    				etapeContournement--;
-    			}
-        		else{
-        			System.out.println("etape 34");
-        		}
-    		}
+    		case 2: 
+    			if(reculer){
+    				
+    			}else if(presDuMur){
+    	    			if(distances.get(DROITE) > 40){
+    	    				action = DROITE;
+    	    				
+    	    				System.out.println("etape 3");
+    	    			}
+    	        		else if(distances.get(AVANT) > 40){
+    	    				System.out.println("etape 33");
+    	    				action = AVANT;
+    	    				etapeContournement--;
+    	    			}
+    	        		else if(distances.get(GAUCHE) > 40 ){
+    	        			action = GAUCHE;
+    	        			etapeContournement=0;
+    	        		}
+    	        		else{
+    	        			reculer = true;
+    	        			action = ARRIERE;
+    	        			etapeContournement=-1;
+    	        		}
+    	    		}
+    	    		else{
+    	    			if(distances.get(AVANT) > 40){
+    	    				System.out.println("etape 33");
+    	    				action = AVANT;
+    	    				presDuMur = true;
+    	    				etapeContournement--;
+    	    			}
+    	        		else{
+    	        			System.out.println("etape 34");
+    	        		}
+    	    		}
+    			
+    			
     		break;
+    			
+    		case 3: action = verifFinEtape3();
+    			break;
     			
     		case 4:
     			if(distances.get(GAUCHE) > 40){
@@ -397,24 +411,63 @@ public class RobotRicochet {
     		}
     	}
     	
-    	switch (directionCourante) {
-		case HAUT :
-			break;
-		case BAS :
-			break;
-		case DROITE :
-			break;
-
-		case GAUCHE :
-			break;
-			
-		default :
-		}
-    	
     	return action;
     	
     }
     
+    public static int verifFinEtape3(){
+    	int action = AVANT;
+    			
+    	switch (directionCourante) {
+		case HAUT : 
+			break;
+		case BAS :
+			break;
+		case DROITE : if(caseContourner.getY() < positionCourante.y){
+				if(distances.get(DROITE) > 40){
+					action = DROITE;
+					reculer =true;
+					etapeContournement-=2;
+				}
+				else if(caseContourner.getX()-1 > positionCourante.x){
+					etapeContournement--;
+				}
+			}
+			else{
+			}
+			break;
+
+		case GAUCHE :
+			break;
+		}
+    	
+    	return action;
+    }*/
+    
+
+    public static int contournerMur(){
+    	int action = AVANT;
+    	
+    	//Debut du contournement d'obstacle
+    	if(!contourner){
+			contourner = true;
+			System.out.println("etape 0"+contourner);
+	    	caseContourner = carte.avancer(carte.getCase(positionCourante), directionCourante);
+	    	
+			if(distances.get(GAUCHE) > 40){
+				System.out.println("tourner");
+				return GAUCHE;
+			}
+			else{
+				
+			}
+    	}else{
+    		
+    	}
+    	
+    	return action;
+    	
+    }
     
 	public static void main(String[] args) throws IOException, InterruptedException {
 		carte = new Terrain();
