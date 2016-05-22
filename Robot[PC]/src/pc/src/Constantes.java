@@ -23,7 +23,7 @@ public class Constantes {
 	
 	public static final int FIN = 3;
 
-    public static final Point depart1 = new Point(0, 1);
+    public static final Point depart1 = new Point(0, 0);
     public static final Point depart2 = new Point(ARENE_HEIGHT-1, 0);
     public static final Point depart3 = new Point(0, ARENE_WIDTH-1);
     public static final Point depart4 = new Point(ARENE_HEIGHT-1, ARENE_WIDTH-1);    

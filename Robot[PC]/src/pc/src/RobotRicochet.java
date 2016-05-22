@@ -42,7 +42,7 @@ public class RobotRicochet {
 				case DISTANCE_GAUCHE :	distances.put(GAUCHE,(int)(inputData.readByte()& (0xff)));
 										break;
 				case DISTANCE_DROITE :	distances.put(DROITE,(int)(inputData.readByte()& (0xff)));
-										//System.out.println("scanner");
+										System.out.println(distances.get(AVANT)+" "+distances.get(DROITE)+" "+distances.get(GAUCHE)+" ");
 										action = strategie();
 										System.out.println("scanner "+action);
 										outputData.writeInt(action);
@@ -78,15 +78,16 @@ public class RobotRicochet {
     
 	private static void ajouterMurs(int direction, int distance){
 		int nbMur = distance/40;
+		System.out.println("AjouterMurs " + distance + " /direction " + direction);
 		switch(direction){
     	case HAUT: if(positionCourante.x-nbMur<0)
-    			nbMur = positionCourante.x-nbMur;
+    			nbMur = positionCourante.x;
     		break;
     	case BAS: if(positionCourante.x+nbMur+1>ARENE_HEIGHT)
     			nbMur = ARENE_HEIGHT-positionCourante.x-1;
     		break;
     	case GAUCHE: if(positionCourante.y-nbMur<0)
-    			nbMur = positionCourante.y-nbMur;
+    			nbMur = positionCourante.y;
     		break;
     	case DROITE: if(positionCourante.y+nbMur+1>ARENE_WIDTH)
     		 	nbMur = ARENE_WIDTH-positionCourante.y-1;
@@ -119,8 +120,8 @@ public class RobotRicochet {
      */
     private static void ajouterMursVue(){
 		ajouterMurs(directionCourante, distances.get(AVANT));
-		ajouterMurs(tourner(GAUCHE), distances.get(GAUCHE)+20);
-		ajouterMurs(tourner(DROITE), distances.get(DROITE)+20);
+		ajouterMurs(tourner(GAUCHE), distances.get(GAUCHE)+10);
+		ajouterMurs(tourner(DROITE), distances.get(DROITE)+10);
     }
     
     public static int redressement (int distance, int cote){
