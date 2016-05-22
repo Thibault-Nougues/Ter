@@ -18,7 +18,7 @@ public class RobotRicochet {
     private static int niveau = 0;
     private static boolean contourner = false;
     private static Case caseContournerArrivee = null;
-    private static Point positionCourante = depart1;
+    private static Point positionCourante = new Point(depart1);
     private static int directionCourante = BAS;
     private static HashMap<Integer, Integer> distances = new HashMap<>(3);
     
@@ -39,7 +39,7 @@ public class RobotRicochet {
 				case DISTANCE_GAUCHE :	distances.put(GAUCHE,(int)(inputData.readByte()& (0xff)));
 										break;
 				case DISTANCE_DROITE :	distances.put(DROITE,(int)(inputData.readByte()& (0xff)));
-										System.out.println(distances.get(AVANT)+" "+distances.get(DROITE)+" "+distances.get(GAUCHE)+" ");
+										//System.out.println(distances.get(AVANT)+" "+distances.get(DROITE)+" "+distances.get(GAUCHE)+" ");
 										action = strategie();
 										//System.out.println("scanner "+action);
 										outputData.writeInt(action);
@@ -222,8 +222,35 @@ public class RobotRicochet {
     	ajouterMursVue();
     	//System.out.println("strategie "+positionCourante.getX()+" "+positionCourante.getY());
     	int action = AVANT;
+    	Point coin;
+    	switch (directionCourante) {
+			case HAUT:
+				coin = new Point((int)positionCourante.getX()-niveau, (int)positionCourante.getY()+niveau);
+				if(coin.equals(depart3))
+					action=GAUCHE;
+			break;
+			case BAS :
+				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()-niveau);
+				if(coin.equals(depart2))
+					action=GAUCHE;
+			break;
+			case GAUCHE :
+				coin = new Point(positionCourante.x-niveau, positionCourante.y-niveau-1);
+				System.out.println("gauche"+coin.getX()+" "+coin.getY()+" d1.x"+depart1.getX()+" d1.y"+depart1.getY());
+				if(depart1.equals(coin)){
+					System.out.println("coin");
+					action=GAUCHE;
+					niveau++;
+				}
+			break;
+			case DROITE :
+				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()+niveau);
+				if(coin.equals(depart4))
+					action=GAUCHE;
+			break;
+		}
     	/* contourner les murs */
-    	if(contourner){
+    	/*if(contourner){
     		action= contournerMur();
     		//System.out.println(action);
     		//return action;
@@ -235,22 +262,16 @@ public class RobotRicochet {
     		}else{
     			action=calculerRedressementOriente();
     		}
-    	}
+    	}*/
     	/* cases inaccessibles */
     	
     	/* aller chercher les dernieres cases */
     	
     	switch(action){
-    	case AVANT:
-    		break;
     	case DROITE: 
     	case GAUCHE: directionCourante = tourner(action);
     		break;
     	case ARRIERE: demiTour();
-    		break;
-    	case REDRESSER_DROITE:
-    		break;
-    	case REDRESSER_GAUCHE:
     		break;
     	}
     	avancer();
