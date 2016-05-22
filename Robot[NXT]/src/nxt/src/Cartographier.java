@@ -70,6 +70,9 @@ public class Cartographier extends Thread {
 	
 	public void run(){
 		boolean obstacle = false;
+		/*while(!Button.ESCAPE.isDown()){
+			System.out.println(COULEUR_DROITE.getNormalizedLightValue()+" "+COULEUR_GAUCHE.getNormalizedLightValue());
+		}*/
 		try {
 			this.scanner();
 		} catch (IOException e2) {

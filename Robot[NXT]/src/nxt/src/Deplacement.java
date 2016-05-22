@@ -137,7 +137,7 @@ public class Deplacement {
 	}
 	
 	public void accelerer(){
-		SPEED=300;
+		SPEED=175;
 		pilote.setTravelSpeed(SPEED);
 	}
 	

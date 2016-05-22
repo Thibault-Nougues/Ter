@@ -435,6 +435,23 @@ public class RobotRicochet {
     	
     }
     
+    public static boolean estIlot(Case c){
+    	if(!c.getMur(HAUT) && !c.getMur(BAS) && !c.getMur(GAUCHE) && !c.getMur(DROITE)){
+    		
+    	}
+    	return false;
+    }
+    
+    public static void regarderCarte(){
+    	for(int i = 0; i < ARENE_HEIGHT;i++){
+    		for(int j = 0; j < ARENE_WIDTH; j++){
+    			if(estIlot(carte.getCase(new Point(i,j)))){
+    				carte.getCase(new Point(i,j)).setObstacle();
+    			}
+    		}
+    	}
+    }
+    
     
 	public static void main(String[] args) throws IOException, InterruptedException {
 		carte = new Terrain();

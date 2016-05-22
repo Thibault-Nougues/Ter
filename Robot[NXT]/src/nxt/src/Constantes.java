@@ -18,7 +18,7 @@ public class Constantes {
 	public static final int REDRESSER_GAUCHE = 6;
 	
 	public static int ACTION;
-	public static final int SEUIL = 480;
+	public static final int SEUIL = 500;
 	public static final int EVITERMUR_ANGLE = 60;
 	
 	public static final byte DISTANCE_GAUCHE = 0b01111111;
@@ -26,7 +26,7 @@ public class Constantes {
 	
 	public static final double WHEEL_SIZE = 56;
 	public static final double TRACKWIDTH = 114;
-	public static double SPEED = 300;
+	public static double SPEED = 175;
 	public static final double ROTATE_SPEED = 100;
 	public static DifferentialPilot pilote;
 	
