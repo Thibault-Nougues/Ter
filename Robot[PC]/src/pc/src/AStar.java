@@ -63,7 +63,8 @@ public class AStar {
             
             if(estDepart(caseTmp)){
                 //System.out.println("SOLUTION TROUVE !!!!!!!!");
-                ajouter_listeFermee(caseTmp, caseCourante);
+            	caseCourante = caseTmp;
+                ajouter_listeFermee(caseCourante, caseParent);
                 return getSolution();
             }
             //MAJ de la case adjacente temporaire
@@ -152,18 +153,27 @@ public class AStar {
     		Case caseSuivante = caseParent;
     		Case caseFinale = new Case();
         	do{
-        		if(caseCourante.tourner(DROITE)){
-        			caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), DROITE);
-        		}
-        		else{
-        			caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), GAUCHE);
-        		}
+    			caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), tourner(caseCourante, caseSuivante));
             	solution.add(caseFinale);
             	caseCourante = caseSuivante;
             	caseSuivante = listeFermee.get(caseSuivante);
         	}while(caseCourante != null);
     	}
     	return solution;
+    }
+	
+	public static int tourner(Case caseDepart, Case caseArrivee){
+    	switch(caseDepart.directionOppose(caseDepart.getDirection())){
+    	case GAUCHE: return (caseArrivee.getDirection() == HAUT)? GAUCHE : DROITE;
+
+    	case DROITE: return (caseArrivee.getDirection() == HAUT)? DROITE : GAUCHE;
+
+    	case HAUT: return (caseArrivee.getDirection() == GAUCHE)? DROITE : GAUCHE;
+
+    	case BAS: return (caseArrivee.getDirection() == GAUCHE)? GAUCHE : DROITE;
+
+    	}
+		return 0;
     }
     
     

@@ -157,23 +157,6 @@ public class Case implements Comparable<Case>{
 
     /*Méthodes pour l'algorithme A* */
 
-    public boolean tourner(int dir){
-    	int direction = 0;
-    	switch(dir){
-    	case GAUCHE: if(direction!=DROITE)
-    		direction*=2;
-			else
-				direction=HAUT;
-    		break;
-    	case DROITE: if(direction!=HAUT)
-    		direction/=2;
-			else
-				direction=DROITE;
-    		break;
-    	}
-		return direction == this.direction;
-    }
-    
     public int directionOppose(int direction){
         // si trajectoires perpendiculaires
         if(direction == HAUT || direction == GAUCHE)
