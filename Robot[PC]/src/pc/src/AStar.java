@@ -1,9 +1,6 @@
 package pc.src;
 
-import static pc.src.Constantes.depart1;
-import static pc.src.Constantes.depart2;
-import static pc.src.Constantes.depart3;
-import static pc.src.Constantes.depart4;
+import static pc.src.Constantes.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -30,10 +27,9 @@ public class AStar {
     	fen = new Fenetre(arene);
     	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
     	fen.setVisible(true);
-        algorithme(0, 0);
     }
     
-    public void algorithme(int direction, int profondeur){
+    public ArrayList<Case> algorithme(int direction, int profondeur){
         /*if(caseCourante.getPoids() == 10){
             System.out.println("ATTENTION !!!");
         }
@@ -68,7 +64,7 @@ public class AStar {
             if(estDepart(caseTmp)){
                 //System.out.println("SOLUTION TROUVE !!!!!!!!");
                 ajouter_listeFermee(caseTmp, caseCourante);
-                return;
+                return getSolution();
             }
             //MAJ de la case adjacente temporaire
             else if(caseFermee != null){
@@ -134,6 +130,7 @@ public class AStar {
         else{
             System.out.println("DOMMAGE pas de solution !!!!!");
         }
+        return new ArrayList<Case>();
     }
 
     private boolean estDepart(Case caseCourante){
@@ -147,20 +144,23 @@ public class AStar {
         
     }
     
-	public ArrayList<Case> getSolution(){
+	private ArrayList<Case> getSolution(){
     	ArrayList<Case> solution = new ArrayList<Case>();
     	
-    	/* parcourir liste fermee et retenir chaque case avec 
-    	 * comme poids le nombre de case à avanceret comme direction
-    	 * la futur direction à prendre (droite ou gauche)
-    	 */
     	if(!listeFermee.isEmpty()){
-    		Case caseCourante = caseParent;
+    		Case caseCourante = this.caseCourante;
+    		Case caseSuivante = caseParent;
+    		Case caseFinale = new Case();
         	do{
-            	solution.add(caseCourante);
-            	Case caseTmp = listeFermee.get(caseCourante);
-            	supprimer_listeFermee(caseCourante);
-            	caseCourante = caseTmp;
+        		if(caseCourante.tourner(DROITE)){
+        			caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), DROITE);
+        		}
+        		else{
+        			caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), GAUCHE);
+        		}
+            	solution.add(caseFinale);
+            	caseCourante = caseSuivante;
+            	caseSuivante = listeFermee.get(caseSuivante);
         	}while(caseCourante != null);
     	}
     	return solution;
