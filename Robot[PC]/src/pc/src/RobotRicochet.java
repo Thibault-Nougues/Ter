@@ -586,7 +586,7 @@ public class RobotRicochet {
     				action =ARRIERE;
     			}
     			
-    			if(directionCourante == caseContournerArrivee.getDirection()){
+    			if(directionCourante == caseContournerArrivee.getDirection() || !caseContournerArrivee.memeTrajectoire(directionCourante)){
     				switch (directionCourante) {
     				case HAUT : if(positionCourante.x == niveau){
 	    					if(distances.get(GAUCHE) < 40){
@@ -648,6 +648,10 @@ public class RobotRicochet {
     
 	public static void main(String[] args) throws IOException, InterruptedException {
 		carte = new Terrain();
+		AStar algo = new AStar(carte, new Point(9, 22));
+		ArrayList<Case> solution = algo.getSolution();
+		System.out.println("fergdrgrdge");
+		/*
 		fen = new Fenetre(carte);
     	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererCarto(carte));
     	fen.setVisible(true);
@@ -667,10 +671,10 @@ public class RobotRicochet {
 			
 			AStar algo = new AStar(carte, new Point(Integer.parseInt(arriveeX), Integer.parseInt(arriveeY)));
 			ArrayList<Case> solution = algo.getSolution();
-			/* envoyer la solution au robot */
+			// envoyer la solution au robot
 			
 		}else{
 			System.out.println("non connecte");
-		}
+		}*/
 	}
 }
