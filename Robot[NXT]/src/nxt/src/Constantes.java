@@ -1,5 +1,7 @@
 package nxt.src;
 
+import java.util.ArrayList;
+
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
@@ -18,6 +20,7 @@ public class Constantes {
 	public static final int REDRESSER_GAUCHE = 6;
 	
 	public static int ACTION;
+	public static ArrayList<Integer> CHEMIN;
 	public static final int SEUIL = 520;
 	public static final int EVITERMUR_ANGLE = 60;
 	
