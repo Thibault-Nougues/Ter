@@ -255,24 +255,22 @@ public class RobotRicochet {
 				}
 			break;
 		}
-    	
-    	/* contourner les murs */   	
-    	if(contourner){
-    		action= contournerMur();
-    		//System.out.println(action);
-    		//return action;
-    	}else{
-    		if(distances.get(AVANT)<35 && distances.get(AVANT)/40 <= distanceMax()){
-    			action= contournerMur();
-        		System.out.println(action);
+    	if(action != FIN){
+    		/* contourner les murs */   	
+        	if(contourner){
+        		action= contournerMur();
+        		//System.out.println(action);
         		//return action;
-    		}else if(action == AVANT){
-    			//action=calculerRedressementOriente();
-    		}
+        	}else{
+        		if(distances.get(AVANT)<35 && distances.get(AVANT)/40 <= distanceMax()){
+        			action= contournerMur();
+            		System.out.println(action);
+            		//return action;
+        		}else if(action == AVANT){
+        			//action=calculerRedressementOriente();
+        		}
+        	}
     	}
-    	/* cases inaccessibles */
-    	
-    	/* aller chercher les dernieres cases */
     	
     	switch(action){
     	case DROITE: 
