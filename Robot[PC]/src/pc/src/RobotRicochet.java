@@ -26,7 +26,6 @@ public class RobotRicochet {
 	private static DataOutputStream outputData;
 	private static DataInputStream inputData;
 	private static boolean connecte = false;
-	private static boolean reculer = false;
 	
 	public static void cartographier() throws IOException{
 		
@@ -248,8 +247,12 @@ public class RobotRicochet {
 			case DROITE :
 				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()+niveau);
 				System.out.println("droite"+coin.getX()+" "+coin.getY());
-				if(coin.equals(depart4))
+				if(coin.equals(depart4) && niveau<4)
 					action=GAUCHE;
+				else{
+					if(coin.y == depart4.y)
+						action=FIN;
+				}
 			break;
 		}
     	
