@@ -130,7 +130,8 @@ public class Case implements Comparable<Case>{
     }
     
     public void addNoMurs(int murs){
-		mursVue |= murs;
+        mursVue |= murs;
+        this.murs &= (0xF^murs);
     }
     
     public void setObstacle(){
@@ -155,7 +156,7 @@ public class Case implements Comparable<Case>{
         direction = newDirection;
     }
 
-    /*Méthodes pour l'algorithme A* */
+    /*Mï¿½thodes pour l'algorithme A* */
 
     public int directionOppose(int direction){
         // si trajectoires perpendiculaires

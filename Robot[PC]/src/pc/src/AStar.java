@@ -25,7 +25,6 @@ public class AStar {
         caseCourante.setPoids(0, 1);
 
     	fen = new Fenetre(arene);
-    	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
     	fen.setVisible(true);
     }
     
@@ -53,7 +52,6 @@ public class AStar {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
-            fen.jTable1.setValueAt(caseTmp, caseTmp.getX(), caseTmp.getY());
             
             caseTmp.setPoids(caseCourante.getPoids()+1, directions.get(i));
                     
@@ -177,7 +175,7 @@ public class AStar {
     }
     
     
-    /* Méthodes utiles pour les listes ouverte et fermée */
+    /* Mï¿½thodes utiles pour les listes ouverte et fermï¿½e */
     
     private void ajouter_listeOuverte(Case caseCourante, Case caseParent){
         Case caseTmp = new Case(caseCourante);

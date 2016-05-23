@@ -61,6 +61,9 @@ public class TableRendererCarto extends DefaultTableCellRenderer{
             ((JLabel) c).setBackground(Color.WHITE);
             ((JLabel) c).setHorizontalAlignment(RIGHT);
         }
+        if(isSelected){
+            ((JLabel) c).setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        }
         return c;
         
     }
