@@ -2,7 +2,6 @@ package nxt.src;
 
 import lejos.nxt.Battery;
 import lejos.nxt.Button;
-import lejos.nxt.Sound;
 import static nxt.src.Constantes.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class Cartographier extends Thread {
 		//	deplacement.tourner(DROITE,false);
 	}
 	
-	public void scanner() throws IOException{Sound.beep();
+	public void scanner() throws IOException{
 		outputData.write((byte)TETE_AVANT.getDistance());
 		outputData.flush();
 		MOTEUR_TETE.rotate(90);
@@ -53,8 +52,6 @@ public class Cartographier extends Thread {
 			break;
 		case DROITE:
 		case GAUCHE:
-			if(ACTION==GAUCHE)
-				Sound.buzz();
 			deplacement.tourner(ACTION, false);
 			break;
 			
