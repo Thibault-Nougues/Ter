@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class AStar {
@@ -23,15 +24,8 @@ public class AStar {
     public AStar(Terrain arene, Point arrivee) throws InterruptedException{
     	
     	carte = arene;
-    	carte.getCase(depart1).setDepart();
-        carte.getCase(depart2).setDepart();
-        carte.getCase(depart3).setDepart();
-        carte.getCase(depart4).setDepart();
-        
-        
         caseCourante = carte.getCase(arrivee);
         caseCourante.setPoids(0, 1);
-        caseParent = caseCourante;
 
     	fen = new Fenetre(arene);
     	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
@@ -82,9 +76,6 @@ public class AStar {
                 if(caseTmp.getPoids()<caseFermee.getPoids()){
                     supprimer_listeFermee(caseFermee);
                     ajouter_listeOuverte(caseTmp, caseCourante);
-                }//boucle infinie
-                else{
-                    listeFermee.remove(caseTmp);
                 }
             } //Sinon on regarde
             else if(caseOuverte != null){ 
@@ -118,7 +109,11 @@ public class AStar {
             i++;
         }
         //Fin recherche cases adjacentes
-        ajouter_listeFermee(caseCourante, new Case(caseParent));
+        if(!directions.isEmpty() && 
+        		(directions.size()>1 || 
+				!caseCourante.memeTrajectoire(directions.get(0)))){
+    		ajouter_listeFermee(caseCourante, caseParent);
+        }
     
         supprimer_listeOuverte(caseCourante);
         
@@ -127,8 +122,9 @@ public class AStar {
             //System.out.println("\nMeilleurChoix");
             supprimer_listeOuverte(caseCourante);
             
-            caseCourante = listeOuverte.firstKey();
-            caseParent = new Case(caseCourante);
+            Entry<Case, Case> first = listeOuverte.firstEntry();
+            caseCourante = first.getKey();
+            caseParent = first.getValue();
             algorithme(caseCourante.getDirection(), profondeur+1);
         }
         else if(caseAvancer != null){
@@ -151,14 +147,22 @@ public class AStar {
         
     }
     
-    public ArrayList<Case> getSolution(){
+	public ArrayList<Case> getSolution(){
     	ArrayList<Case> solution = new ArrayList<Case>();
     	
     	/* parcourir liste fermee et retenir chaque case avec 
     	 * comme poids le nombre de case à avanceret comme direction
     	 * la futur direction à prendre (droite ou gauche)
     	 */
-    	
+    	if(!listeFermee.isEmpty()){
+    		Case caseCourante = caseParent;
+        	do{
+            	solution.add(caseCourante);
+            	Case caseTmp = listeFermee.get(caseCourante);
+            	supprimer_listeFermee(caseCourante);
+            	caseCourante = caseTmp;
+        	}while(caseCourante != null);
+    	}
     	return solution;
     }
     

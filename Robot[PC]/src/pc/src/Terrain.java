@@ -38,7 +38,7 @@ public class Terrain {
         }
         
     	/* TESTS */
-        /*
+        
         //premiere ligne
         addMur(0, 3, DROITE);
         addMur(0, 15, DROITE);
@@ -107,7 +107,7 @@ public class Terrain {
         addObstacle(2, 14);
         addObstacle(3, 8);
         addObstacle(6, 3);
-        */
+        
     }
     
     /* GETTERS */
@@ -133,6 +133,11 @@ public class Terrain {
                     terrain[p.x][p.y+1].addMur(GAUCHE);
                 break;
         }
+    }
+    
+    public void addMur(int x, int y, int dir){
+    	Point p = new Point(x, y);
+        addMur(p, dir);
     }
     
     public void addNoMurs(Point p, int dir){
