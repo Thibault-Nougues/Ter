@@ -69,6 +69,19 @@ public class Cartographier extends Thread {
 	}
 	
 	public void run(){
+
+		//COULEUR_GAUCHE.calibrateHigh();
+		System.out.println(COULEUR_DROITE.getNormalizedLightValue());
+		System.out.println(COULEUR_GAUCHE.getNormalizedLightValue());
+
+		//COULEUR_GAUCHE.calibrateHigh();
+		System.out.println(COULEUR_DROITE.getNormalizedLightValue());
+		System.out.println(COULEUR_GAUCHE.getNormalizedLightValue());
+
+		//COULEUR_GAUCHE.calibrateHigh();
+		System.out.println(COULEUR_DROITE.getNormalizedLightValue());
+		System.out.println(COULEUR_GAUCHE.getNormalizedLightValue());
+		
 		boolean obstacle = false;
 		/*while(!Button.ESCAPE.isDown()){
 			System.out.println(COULEUR_DROITE.getNormalizedLightValue()+" "+COULEUR_GAUCHE.getNormalizedLightValue());
@@ -82,11 +95,11 @@ public class Cartographier extends Thread {
 		
 		while(!Button.ESCAPE.isDown() && !obstacle ){
 			deplacement.avancer();
-			if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
+			/*if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
 				deplacement.ralentir();
 			}else if(TETE_AVANT.getDistance()>95){
 				deplacement.accelerer();
-			}
+			}*/
 			try {
 				if(deplacement.redresser()){
 					try {
@@ -94,7 +107,7 @@ public class Cartographier extends Thread {
 						this.scanner();
 						
 						//ACTION=AVANT;
-						while(TETE_AVANT.getDistance()<30){
+						while(TETE_AVANT.getDistance()<10){
 							deplacement.arreter();
 						}
 						/*if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){

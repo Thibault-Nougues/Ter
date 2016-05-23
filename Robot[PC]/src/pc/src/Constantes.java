@@ -7,8 +7,8 @@ public class Constantes {
 	public static final byte DISTANCE_GAUCHE = 0b01111111;
 	public static final byte DISTANCE_DROITE = 0b00000000;
 
-    public static final int ARENE_HEIGHT = 8;
-    public static final int ARENE_WIDTH = 5;
+    public static final int ARENE_HEIGHT = 7;
+    public static final int ARENE_WIDTH = 19;
     
     public static final int HAUT = 1;
     public static final int GAUCHE = 2;

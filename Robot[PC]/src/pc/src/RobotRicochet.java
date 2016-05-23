@@ -225,11 +225,13 @@ public class RobotRicochet {
     	Point coin;
     	switch (directionCourante) {
 			case HAUT:
+				System.out.println("haut");
 				coin = new Point((int)positionCourante.getX()-niveau, (int)positionCourante.getY()+niveau);
 				if(coin.equals(depart3))
 					action=GAUCHE;
 			break;
 			case BAS :
+				System.out.println("bas");
 				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()-niveau);
 				if(coin.equals(depart2))
 					action=GAUCHE;
@@ -245,12 +247,14 @@ public class RobotRicochet {
 			break;
 			case DROITE :
 				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()+niveau);
+				System.out.println("droite"+coin.getX()+" "+coin.getY());
 				if(coin.equals(depart4))
 					action=GAUCHE;
 			break;
 		}
-    	/* contourner les murs */
-    	/*if(contourner){
+    	
+    	/* contourner les murs */   	
+    	if(contourner){
     		action= contournerMur();
     		//System.out.println(action);
     		//return action;
@@ -259,10 +263,10 @@ public class RobotRicochet {
     			action= contournerMur();
         		System.out.println(action);
         		//return action;
-    		}else{
-    			action=calculerRedressementOriente();
+    		}else if(action == AVANT){
+    			//action=calculerRedressementOriente();
     		}
-    	}*/
+    	}
     	/* cases inaccessibles */
     	
     	/* aller chercher les dernieres cases */
@@ -283,13 +287,13 @@ public class RobotRicochet {
     public static void avancer(){  
     	//System.out.println("avancer");
         switch(directionCourante){
-            case HAUT : positionCourante.x-=1;
+            case HAUT : positionCourante.x--;
                 break;
-            case BAS : positionCourante.x+=1;
+            case BAS : positionCourante.x++;
                 break;
-            case DROITE : positionCourante.y+=1;
+            case DROITE : positionCourante.y++;
                 break;
-            case GAUCHE : positionCourante.y-=1;
+            case GAUCHE : positionCourante.y--;
                 break;
             default: ;
         }
@@ -533,10 +537,8 @@ public class RobotRicochet {
     public static int contournerMur(){
     	int action = AVANT;
     	
-    	//Teste si fin de contournement
-    	
-    	
     	//Debut du contournement d'obstacle, on le contourne par la gauche
+    	
     	if(!contourner){
 			contourner = true;
 			System.out.println("etape 0"+contourner);
@@ -549,30 +551,91 @@ public class RobotRicochet {
 			else{
 				action = ARRIERE;
 			}
-    	}// sinon on longe a droite jusqu'a retomb� derriere le mur � contourner
+    	}// sinon on longe a droite jusqu'a retomber derriere le mur a contourner
     	else{
+        	//Teste si fin de contournement
     		if(positionCourante.equals(caseContournerArrivee.getPosition())){
     			System.out.println("fini");
-        		if(tourner(GAUCHE) != caseContournerArrivee.getDirection()){
+        		contourner=false;
+    			if(distances.get(GAUCHE) < 40){
+    				action = ARRIERE;
+            		contourner=true;
+    			}
+    			else if(tourner(GAUCHE) != caseContournerArrivee.getDirection()){
         			action = ARRIERE;
         		}
         		else{
         			action = GAUCHE;
         		}
-        		contourner=false;
-        	}else if(distances.get(DROITE) > 40){
-				System.out.println("tourner droite");
-				action = DROITE;
-			}
-			else if(distances.get(AVANT) > 40){
-				action = AVANT;
-			}
-			else if(distances.get(GAUCHE) > 40){
-				action = GAUCHE;
-			}
-			else{
-				action =ARRIERE;
-			}
+        	}
+    		else{
+    			if(distances.get(DROITE) > 40){
+    				System.out.println("tourner droite");
+    				action = DROITE;
+    			}
+    			else if(distances.get(AVANT) > 40){
+    				action = AVANT;
+    			}
+    			else if(distances.get(GAUCHE) > 40){
+    				action = GAUCHE;
+    			}
+    			else{
+    				action =ARRIERE;
+    			}
+    			
+    			if(directionCourante == caseContournerArrivee.getDirection()){
+    				switch (directionCourante) {
+    				case HAUT : if(positionCourante.x == niveau){
+	    					if(distances.get(GAUCHE) < 40){
+		    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+		    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+		    					contourner = true;
+		    					action = ARRIERE;
+		    				}else{
+		    					action = GAUCHE;
+		    					contourner = false;
+		    				}
+	    				}
+    					break;
+    				case BAS : if(positionCourante.x == ARENE_HEIGHT-niveau-1){
+	    					if(distances.get(GAUCHE) < 40){
+		    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+		    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+		    					contourner = true;
+		    					action = ARRIERE;
+		    				}else{
+		    					action = GAUCHE;
+		    					contourner = false;
+		    				}
+	    				}
+    					break;
+    				case DROITE : if(positionCourante.y == ARENE_WIDTH-niveau-1){
+    						if(distances.get(GAUCHE) < 40){
+	        					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+	        					caseContournerArrivee.setDirection(tourner(GAUCHE));
+	        					contourner = true;
+	        					action = ARRIERE;
+		    				}else{
+		    					action = GAUCHE;
+		    					contourner = false;	    					
+		    				}
+	    				}
+    					break;
+    				case GAUCHE : if(positionCourante.y == niveau){
+	    					if(distances.get(GAUCHE) < 40){
+		    					caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
+		    					caseContournerArrivee.setDirection(tourner(GAUCHE));
+		    					contourner = true;
+		    					action = ARRIERE;
+		    				}else{
+		    					action = GAUCHE;
+		    					contourner = false;		    					
+		    				}
+	    				}
+    					break;
+    				}
+    			}
+    		}
     	}
     	
     	return action;
