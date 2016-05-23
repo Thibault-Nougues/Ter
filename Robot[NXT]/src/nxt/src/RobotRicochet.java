@@ -29,7 +29,12 @@ public class RobotRicochet {
 			ACTION=inputData.readInt();
 			//System.out.println(ACTION);
 		}while(ACTION!=FIN && !Button.ESCAPE.isDown());
-		
+		do{
+			ACTION=inputData.readInt();
+			if(ACTION!=FIN)
+				CHEMIN.add(ACTION);
+		}while(ACTION!=FIN && !Button.ESCAPE.isDown());
+		new Exploitation();
 	}
 
 }
