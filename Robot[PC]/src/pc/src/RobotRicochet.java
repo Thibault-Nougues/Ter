@@ -648,10 +648,8 @@ public class RobotRicochet {
     
 	public static void main(String[] args) throws IOException, InterruptedException {
 		carte = new Terrain();
-		AStar algo = new AStar(carte, new Point(9, 22));
-		ArrayList<Case> solution = algo.getSolution();
-		System.out.println("fergdrgrdge");
-		/*
+		/*AStar algo = new AStar(carte, new Point(9, 22));
+		ArrayList<Case> solution = algo.getSolution();*/
 		fen = new Fenetre(carte);
     	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererCarto(carte));
     	fen.setVisible(true);
@@ -670,11 +668,24 @@ public class RobotRicochet {
 			String arriveeY = sc.nextLine();
 			
 			AStar algo = new AStar(carte, new Point(Integer.parseInt(arriveeX), Integer.parseInt(arriveeY)));
-			ArrayList<Case> solution = algo.getSolution();
-			// envoyer la solution au robot
+			ArrayList<Case> solution = algo.algorithme(0, 0);
+			for(Case caseTmp : solution){
+				outputData.write(caseTmp.getPoids());
+				outputData.flush();
+				outputData.write(caseTmp.getDirection());
+				outputData.flush();
+			}
+			outputData.write(FIN);
+			outputData.flush();
+			
+			//attente du départ
+			sc.nextLine();
+			
+			outputData.write(AVANT);
+			outputData.flush();
 			
 		}else{
 			System.out.println("non connecte");
-		}*/
+		}
 	}
 }

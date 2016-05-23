@@ -28,6 +28,13 @@ public class Case implements Comparable<Case>{
         position = p;
     }
     
+    public Case(){
+        dejaVisite = isFinal = isDepart = false;
+        murs = mursVue = direction = 0;
+        poids = 100;
+        position = new Point(0,0);
+    }
+    
     //Constructeur par copie
     public Case(Case c){
         dejaVisite = c.dejaVisite;
@@ -150,6 +157,23 @@ public class Case implements Comparable<Case>{
 
     /*Méthodes pour l'algorithme A* */
 
+    public boolean tourner(int dir){
+    	int direction = 0;
+    	switch(dir){
+    	case GAUCHE: if(direction!=DROITE)
+    		direction*=2;
+			else
+				direction=HAUT;
+    		break;
+    	case DROITE: if(direction!=HAUT)
+    		direction/=2;
+			else
+				direction=DROITE;
+    		break;
+    	}
+		return direction == this.direction;
+    }
+    
     public int directionOppose(int direction){
         // si trajectoires perpendiculaires
         if(direction == HAUT || direction == GAUCHE)
