@@ -48,6 +48,7 @@ public class RobotRicochet {
 										break;	
 			}
 		}while(action != FIN);
+		System.out.println("artographie fini !");
 	}
 
 	public static int tourner(int dir){
@@ -80,10 +81,10 @@ public class RobotRicochet {
         	case BAS : directionCourante=HAUT;
             break;
             
-        	case DROITE : directionCourante=GAUCHE;;
+        	case DROITE : directionCourante=GAUCHE;
             break;
             
-        	case GAUCHE : directionCourante=DROITE;;
+        	case GAUCHE : directionCourante=DROITE;
             break;
 		}
 	}
@@ -218,6 +219,9 @@ public class RobotRicochet {
     
 
     public static int strategie(){
+    	System.out.println("position courante : " + positionCourante.x + ", " + positionCourante.y);
+
+		System.out.println("niveau " + niveau);
     	ajouterMursVue();
     	//System.out.println("strategie "+positionCourante.getX()+" "+positionCourante.getY());
     	int action = AVANT;
@@ -232,8 +236,14 @@ public class RobotRicochet {
 			case BAS :
 				System.out.println("bas");
 				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()-niveau);
-				if(coin.equals(depart2))
+				if(coin.equals(depart2) && niveau<2){
+					System.out.println("conard");
 					action=GAUCHE;
+				}else if(coin.y == depart2.y && niveau == 2){
+					System.out.println("FINFINFIN");
+					action=FIN;
+				}else
+					System.out.println("ta mere");
 			break;
 			case GAUCHE :
 				coin = new Point(positionCourante.x-niveau, positionCourante.y-niveau-1);
@@ -247,23 +257,25 @@ public class RobotRicochet {
 			case DROITE :
 				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()+niveau);
 				System.out.println("droite"+coin.getX()+" "+coin.getY());
-				if(coin.equals(depart4) && niveau<4)
+				if(coin.equals(depart4) && niveau<2)
 					action=GAUCHE;
-				else{
-					if(coin.y == depart4.y)
+				else if(coin.y == depart4.y && niveau == 2){
+						System.out.println("FINFINFIN");
 						action=FIN;
 				}
+				System.out.println("action avant contourner" + action);
 			break;
 		}
     	if(action != FIN){
     		/* contourner les murs */   	
         	if(contourner){
         		action= contournerMur();
+				System.out.println("action après contourner" + action);
         		//System.out.println(action);
         		//return action;
         	}else{
         		//on commence � contourner
-        		if(distances.get(AVANT)<35 && distances.get(AVANT)/40 <= distanceMax()){
+        		if(distances.get(AVANT)<35 && distances.get(AVANT)/40 < distanceMax()){
         			contourner = true;
         			System.out.println("etape 0"+contourner);
         			caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), directionCourante);
@@ -275,7 +287,6 @@ public class RobotRicochet {
         			else{
         				action = ARRIERE;
         			}
-        			action= contournerMur();
             		System.out.println(action);
             		//return action;
         		}else if(action == AVANT){
@@ -294,6 +305,7 @@ public class RobotRicochet {
     	avancer();
     	
     	/* fin de strategie */
+		System.out.println("action de retour " + action);
     	return action;
     }
     
@@ -332,7 +344,6 @@ public class RobotRicochet {
     	}
 		else{
 			if(distances.get(DROITE) > 40){
-				System.out.println("tourner droite");
 				action = DROITE;
 			}
 			else if(distances.get(AVANT) > 40){
@@ -344,8 +355,8 @@ public class RobotRicochet {
 			else{
 				action =ARRIERE;
 			}    	
-			action = finContourner(action);
 		}
+		action = finContourner(action);
     	return action;
     }
     
@@ -354,8 +365,7 @@ public class RobotRicochet {
     	
     	switch (directionCourante) {
 		case HAUT :
-			if(positionCourante.x == niveau || 
-					(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x<caseContournerArrivee.getX())){
+			if(positionCourante.x == niveau){
 				if(distances.get(DROITE) > 40){
 					action = DROITE;
 				}
@@ -364,15 +374,20 @@ public class RobotRicochet {
 					caseContournerArrivee.setDirection(tourner(GAUCHE));
 					contourner = true;
 					action = ARRIERE;
-				}else{
+				}
+				else if(positionCourante.equals(caseContournerArrivee.getPosition())){
+					action = ARRIERE;
+					contourner = false;
+				}
+				else{
 					action = GAUCHE;
 					contourner = false;
 				}
 			}
 			break;
 		case BAS : 
-			if(positionCourante.x == ARENE_HEIGHT-1-niveau || 
-					(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x>caseContournerArrivee.getX())){
+			System.out.println(caseContournerArrivee);
+			if(positionCourante.x == ARENE_HEIGHT-1-niveau){
 				if(distances.get(DROITE) > 40){
 					action = DROITE;
 				}
@@ -381,15 +396,19 @@ public class RobotRicochet {
 					caseContournerArrivee.setDirection(tourner(GAUCHE));
 					contourner = true;
 					action = ARRIERE;
-				}else{
+				}
+				else if(positionCourante.equals(caseContournerArrivee.getPosition())){
+					action = ARRIERE;
+					contourner = false;
+				}
+				else{
 					action = GAUCHE;
 					contourner = false;
 				}
 			}
 			break;
 		case DROITE : 
-			if(positionCourante.y == ARENE_WIDTH-1-niveau || 
-					(positionCourante.x == caseContournerArrivee.getX() && positionCourante.y>caseContournerArrivee.getY())){
+			if(positionCourante.y == ARENE_WIDTH-1-niveau){
 				if(distances.get(DROITE) > 40){
 					action = DROITE;
 				}
@@ -398,15 +417,19 @@ public class RobotRicochet {
 					caseContournerArrivee.setDirection(tourner(GAUCHE));
 					contourner = true;
 					action = ARRIERE;
-				}else{
+				}
+				else if(positionCourante.equals(caseContournerArrivee.getPosition())){
+					action = ARRIERE;
+					contourner = false;
+				}
+				else{
 					action = GAUCHE;
 					contourner = false;	    					
 				}
 			}
 			break;
 		case GAUCHE : 
-			if(positionCourante.y == niveau || 
-					(positionCourante.x == caseContournerArrivee.getX() && positionCourante.y<caseContournerArrivee.getY())){
+			if(positionCourante.y == niveau){
 				if(distances.get(DROITE) > 40){
 					action = DROITE;
 				}
@@ -415,13 +438,17 @@ public class RobotRicochet {
 					caseContournerArrivee.setDirection(tourner(GAUCHE));
 					contourner = true;
 					action = ARRIERE;
-				}else{
+				}
+				else if(positionCourante.equals(caseContournerArrivee.getPosition())){
+					action = ARRIERE;
+					contourner = false;
+				}
+				else{
 					action = GAUCHE;
 					contourner = false;		    					
 				}
 			}
-			break;
-		}
+    	}
     	return action;
 	}
     

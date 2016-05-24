@@ -14,6 +14,7 @@ public class Cartographier extends Thread {
 	public Cartographier(DataOutputStream outputData){
 		MOTEUR_TETE.setSpeed(100*Battery.getVoltage());
 		deplacement = new Deplacement();
+		System.out.println(pilote.getMaxTravelSpeed());
 		this.outputData = outputData;
 		this.start();
 	}
@@ -90,7 +91,7 @@ public class Cartographier extends Thread {
 			e2.printStackTrace();
 		}
 		
-		while(!Button.ESCAPE.isDown() && !obstacle ){
+		while(!Button.ESCAPE.isDown() && ACTION != FIN ){
 			deplacement.avancer();
 			/*if(TETE_AVANT.getDistance()<95 && TETE_AVANT.getDistance()>40){
 				deplacement.ralentir();
