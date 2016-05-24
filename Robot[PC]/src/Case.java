@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pc.src;
+package src;
 import java.awt.Point;
 import java.util.ArrayList;
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 
 /**

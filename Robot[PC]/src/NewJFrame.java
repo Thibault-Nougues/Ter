@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pc.src;
+package src;
 
 /**
  *
@@ -28,7 +28,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        graphicPanel1 = new pc.src.GraphicPanel();
+        graphicPanel1 = new src.GraphicPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Map");
@@ -94,6 +94,6 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private pc.src.GraphicPanel graphicPanel1;
+    private src.GraphicPanel graphicPanel1;
     // End of variables declaration//GEN-END:variables
 }

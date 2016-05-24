@@ -1,8 +1,8 @@
-package nxt.src;
+package src;
 
 import lejos.nxt.Battery;
 import lejos.nxt.Button;
-import static nxt.src.Constantes.*;
+import static src.Constantes.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package pc.src;
+package src;
 
 import java.awt.Point;
 import java.io.DataInputStream;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import lejos.pc.comm.NXTConnector;
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 public class RobotRicochet {
 
@@ -275,6 +275,7 @@ public class RobotRicochet {
         			else{
         				action = ARRIERE;
         			}
+        			action= contournerMur();
             		System.out.println(action);
             		//return action;
         		}else if(action == AVANT){
@@ -343,8 +344,8 @@ public class RobotRicochet {
 			else{
 				action =ARRIERE;
 			}    	
+			action = finContourner(action);
 		}
-		action = finContourner(action);
     	return action;
     }
     

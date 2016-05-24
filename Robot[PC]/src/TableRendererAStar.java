@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pc.src;
+package src;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 /**
  *

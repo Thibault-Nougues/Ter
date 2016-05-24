@@ -1,4 +1,4 @@
-package nxt.src;
+package src;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import lejos.nxt.Button;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
-import static nxt.src.Constantes.*;
+import static src.Constantes.*;
 
 public class RobotRicochet {
 	

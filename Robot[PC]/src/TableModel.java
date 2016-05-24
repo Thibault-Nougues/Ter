@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pc.src;
+package src;
 
 import javax.swing.table.AbstractTableModel;
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 import java.awt.Point;
 
