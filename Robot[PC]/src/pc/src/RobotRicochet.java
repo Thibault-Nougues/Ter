@@ -275,7 +275,6 @@ public class RobotRicochet {
         			else{
         				action = ARRIERE;
         			}
-        			action= contournerMur();
             		System.out.println(action);
             		//return action;
         		}else if(action == AVANT){
@@ -345,11 +344,12 @@ public class RobotRicochet {
 				action =ARRIERE;
 			}    	
 		}
+		action = finContourner(action);
     	return action;
     }
     
-    private static int finContourner(){
-    	int action = AVANT;
+    private static int finContourner(int old_action){
+    	int action = old_action;
     	
     	switch (directionCourante) {
 		case HAUT :
