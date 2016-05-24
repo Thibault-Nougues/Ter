@@ -1,4 +1,4 @@
-package pc.src;
+package src;
 
 import java.awt.Point;
 

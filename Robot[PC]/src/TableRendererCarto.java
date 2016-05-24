@@ -1,9 +1,9 @@
-package pc.src;
+package src;
 
-import static pc.src.Constantes.BAS;
-import static pc.src.Constantes.DROITE;
-import static pc.src.Constantes.GAUCHE;
-import static pc.src.Constantes.HAUT;
+import static src.Constantes.BAS;
+import static src.Constantes.DROITE;
+import static src.Constantes.GAUCHE;
+import static src.Constantes.HAUT;
 
 import java.awt.Color;
 import java.awt.Component;

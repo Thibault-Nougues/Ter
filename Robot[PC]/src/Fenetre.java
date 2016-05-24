@@ -1,9 +1,9 @@
-package pc.src;
+package src;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import javax.swing.table.TableColumn;
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

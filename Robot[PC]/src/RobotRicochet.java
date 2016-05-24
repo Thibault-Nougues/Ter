@@ -1,4 +1,4 @@
-package pc.src;
+package src;
 
 import java.awt.Point;
 import java.io.DataInputStream;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import lejos.pc.comm.NXTConnector;
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 public class RobotRicochet {
 

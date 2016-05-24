@@ -1,6 +1,6 @@
-package pc.src;
+package src;
 
-import static pc.src.Constantes.*;
+import static src.Constantes.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
