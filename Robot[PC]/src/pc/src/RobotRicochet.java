@@ -131,9 +131,9 @@ public class RobotRicochet {
      * @param distance
      */
     private static void ajouterMursVue(){
-		ajouterMurs(directionCourante, distances.get(AVANT)+5);
+		ajouterMurs(directionCourante, distances.get(AVANT));
 		ajouterMurs(tourner(GAUCHE), distances.get(GAUCHE)+15);
-		ajouterMurs(tourner(DROITE), distances.get(DROITE)+20);
+		ajouterMurs(tourner(DROITE), distances.get(DROITE)+15);
     }
     
     public static int redressement (int distance, int cote){
@@ -262,7 +262,7 @@ public class RobotRicochet {
         		//System.out.println(action);
         		//return action;
         	}else{
-        		//on commence à contourner
+        		//on commence ï¿½ contourner
         		if(distances.get(AVANT)<35 && distances.get(AVANT)/40 <= distanceMax()){
         			contourner = true;
         			System.out.println("etape 0"+contourner);
@@ -421,7 +421,6 @@ public class RobotRicochet {
 			}
 			break;
 		}
-
     	return action;
 	}
     
@@ -455,7 +454,7 @@ public class RobotRicochet {
 				outputData.flush();
 			}
 			
-			//attente du départ
+			//attente du dï¿½part
 			sc.nextLine();
 			
 			outputData.write(FIN);
