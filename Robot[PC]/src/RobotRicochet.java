@@ -230,28 +230,34 @@ public class RobotRicochet {
 			case HAUT:
 				System.out.println("haut");
 				coin = new Point((int)positionCourante.getX()-niveau, (int)positionCourante.getY()+niveau);
-				if(coin.equals(depart3))
+				if(coin.equals(depart3) && niveau<2)
 					action=GAUCHE;
+				else if(coin.y == depart3.y && niveau == 2){
+					System.out.println("FINFINFIN");
+					action=FIN;
+				}
 			break;
 			case BAS :
 				System.out.println("bas");
 				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()-niveau);
 				if(coin.equals(depart2) && niveau<2){
-					System.out.println("conard");
 					action=GAUCHE;
 				}else if(coin.y == depart2.y && niveau == 2){
 					System.out.println("FINFINFIN");
 					action=FIN;
-				}else
-					System.out.println("ta mere");
+				}
 			break;
 			case GAUCHE :
 				coin = new Point(positionCourante.x-niveau, positionCourante.y-niveau-1);
 				System.out.println("gauche"+coin.getX()+" "+coin.getY()+" d1.x"+depart1.getX()+" d1.y"+depart1.getY());
-				if(depart1.equals(coin)){
+				if(depart1.equals(coin) && niveau<2){
 					System.out.println("coin");
 					action=GAUCHE;
 					niveau++;
+				}
+				else if(coin.y == depart1.y && niveau == 2){
+					System.out.println("FINFINFIN");
+					action=FIN;
 				}
 			break;
 			case DROITE :
