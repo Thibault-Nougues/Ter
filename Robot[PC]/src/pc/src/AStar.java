@@ -25,6 +25,8 @@ public class AStar {
         caseCourante.setPoids(0, 1);
 
     	fen = new Fenetre(arene);
+    	fen.setTitle("Exploitation");
+    	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
     	fen.setVisible(true);
     }
     
@@ -55,6 +57,8 @@ public class AStar {
             
             caseTmp.setPoids(caseCourante.getPoids()+1, directions.get(i));
                     
+            fen.jTable1.setValueAt(caseTmp,  caseTmp.getX(),  caseTmp.getY());
+            
             Case caseFermee = getListeFermee(caseTmp);
             
             Case caseOuverte = getListeOuverte(caseTmp);
