@@ -10,27 +10,24 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class AStar {
-	private Terrain carte;
-    
-	private Fenetre fen;
+    private Terrain carte;
+
+    private Fenetre fen;
     private TreeMap<Case, Case> listeOuverte = new TreeMap<Case, Case>();
     private HashMap<Case, Case> listeFermee = new HashMap<Case, Case>();
     private Case caseCourante;
     private Case caseParent;
 	
-    public AStar(Terrain arene, Point arrivee) throws InterruptedException{
+    public AStar(Terrain arene, Point arrivee, Fenetre fenetre) throws InterruptedException{
     	
     	carte = arene;
+        fen = fenetre;
         caseCourante = carte.getCase(arrivee);
         caseCourante.setPoids(0, 1);
-
-    	fen = new Fenetre(arene);
-    	fen.setTitle("Exploitation");
-    	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
-    	fen.setVisible(true);
+        algorithme(HAUT, 0);
     }
     
-    public ArrayList<Case> algorithme(int direction, int profondeur){
+    public void algorithme(int direction, int profondeur){
         /*if(caseCourante.getPoids() == 10){
             System.out.println("ATTENTION !!!");
         }
@@ -41,7 +38,7 @@ public class AStar {
         ArrayList<Integer> directions = carte.getDirections(caseCourante, direction);
         Case caseAvancer = null;
         int i=0;
-        //on regarde les possibilit�s (ajout des cases adjacentes accessibles)
+        //on regarde les possibilites (ajout des cases adjacentes accessibles)
         while(i<directions.size()){
             Case caseTmp = carte.avancer(caseCourante.getX(), caseCourante.getY(), directions.get(i));
                         
@@ -67,7 +64,7 @@ public class AStar {
                 //System.out.println("SOLUTION TROUVE !!!!!!!!");
             	caseCourante = caseTmp;
                 ajouter_listeFermee(caseCourante, caseParent);
-                return getSolution();
+                return;
             }
             //MAJ de la case adjacente temporaire
             else if(caseFermee != null){
@@ -133,7 +130,6 @@ public class AStar {
         else{
             System.out.println("DOMMAGE pas de solution !!!!!");
         }
-        return new ArrayList<Case>();
     }
 
     private boolean estDepart(Case caseCourante){
@@ -147,7 +143,7 @@ public class AStar {
         
     }
     
-	private ArrayList<Case> getSolution(){
+	public ArrayList<Case> getSolution(){
     	ArrayList<Case> solution = new ArrayList<Case>();
     	
     	if(!listeFermee.isEmpty()){
@@ -159,7 +155,7 @@ public class AStar {
             	solution.add(caseFinale);
             	caseCourante = caseSuivante;
             	caseSuivante = listeFermee.get(caseSuivante);
-        	}while(caseCourante != null);
+        	}while(caseSuivante != null);
     	}
     	return solution;
     }

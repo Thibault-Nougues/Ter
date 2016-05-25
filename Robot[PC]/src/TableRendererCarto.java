@@ -64,7 +64,6 @@ public class TableRendererCarto extends DefaultTableCellRenderer{
         if(isSelected){
             ((JLabel) c).setBorder(BorderFactory.createLineBorder(Color.BLUE));
         }
-        table.setRowHeight(row, getPreferredSize().height + row * 10);
         return c;
         
     }

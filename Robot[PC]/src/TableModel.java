@@ -60,5 +60,4 @@ public class TableModel extends AbstractTableModel{
         return Integer.toString(column-1);
         //return String.valueOf((char)(column+64));
     }    
-    
 }

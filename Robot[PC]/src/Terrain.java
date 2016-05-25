@@ -38,7 +38,7 @@ public class Terrain {
         }
         
     	/* TESTS */
-        /*
+        
         //premiere ligne
         addMur(0, 3, DROITE);
         addMur(0, 15, DROITE);
@@ -107,7 +107,7 @@ public class Terrain {
         addObstacle(2, 14);
         addObstacle(3, 8);
         addObstacle(6, 3);
-        */
+        
     }
     
     /* GETTERS */
@@ -164,7 +164,7 @@ public class Terrain {
         switch(x){
             case 0 : terrain[x+1][y].addMur(HAUT);
                 break;
-            case ARENE_HEIGHT : terrain[x-1][y].addMur(BAS);
+            case ARENE_HEIGHT-1 : terrain[x-1][y].addMur(BAS);
                 break;
             default : terrain[x+1][y].addMur(HAUT);
                     terrain[x-1][y].addMur(BAS);
@@ -173,7 +173,7 @@ public class Terrain {
         switch(y){
             case 0 : terrain[x][y+1].addMur(GAUCHE);
                 break;
-            case ARENE_WIDTH :terrain[x][y-1].addMur(DROITE);
+            case ARENE_WIDTH-1 :terrain[x][y-1].addMur(DROITE);
                 break;
             default : terrain[x][y-1].addMur(DROITE);
                 terrain[x][y+1].addMur(GAUCHE);

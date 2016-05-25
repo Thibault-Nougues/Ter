@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import lejos.pc.comm.NXTConnector;
 import static src.Constantes.*;
 
@@ -229,19 +231,10 @@ public class RobotRicochet {
 				if(contourner){
 					if(positionCourante.x == niveau || 
 							(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x<caseContournerArrivee.getX())){
-						if(distances.get(DROITE) > 40){
-							action = DROITE;
-						}
-						else if(distances.get(GAUCHE) < 40){
-							caseContournerArrivee = carte.avancer(carte.getCase(positionCourante), tourner(GAUCHE));
-							caseContournerArrivee.setDirection(tourner(GAUCHE));
-							contourner = true;
-							action = ARRIERE;
-						}else{
-							action = GAUCHE;
-							contourner = false;
-						}
+						action = finContourner();
 					}
+					else
+						action = contourner();
 				}
 				else{
 					coin = new Point((int)positionCourante.getX()-niveau, (int)positionCourante.getY()+niveau);
@@ -251,27 +244,61 @@ public class RobotRicochet {
 			break;
 			case BAS :
 				System.out.println("bas");
-				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()-niveau);
-				if(coin.equals(depart2))
-					action=GAUCHE;
+				if(contourner){
+					if(positionCourante.x == ARENE_HEIGHT-1-niveau || 
+							(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x>caseContournerArrivee.getX())){
+						action = finContourner();
+					}
+					else
+						action = contourner();
+				}
+				else{
+					coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()-niveau);
+					if(coin.equals(depart2))
+						action=GAUCHE;
+				}
 			break;
 			case GAUCHE :
-				coin = new Point(positionCourante.x-niveau, positionCourante.y-niveau-1);
-				System.out.println("gauche"+coin.getX()+" "+coin.getY()+" d1.x"+depart1.getX()+" d1.y"+depart1.getY());
-				if(depart1.equals(coin)){
-					System.out.println("coin");
-					action=GAUCHE;
-					niveau++;
+				if(contourner){
+					if(positionCourante.x == niveau || 
+							(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x<caseContournerArrivee.getX())){
+						action = finContourner();
+					}//passage au niveau superieur
+					else if(positionCourante.y == niveau+1 && caseContournerArrivee.getDirection() == GAUCHE){
+						action = finContourner();
+						niveau++;
+					}
+					else
+						action = contourner();
+				}
+				else{
+					coin = new Point(positionCourante.x-niveau, positionCourante.y-niveau-1);
+					System.out.println("gauche"+coin.getX()+" "+coin.getY()+" d1.x"+depart1.getX()+" d1.y"+depart1.getY());
+					if(depart1.equals(coin)){
+						System.out.println("coin");
+						action=GAUCHE;
+						niveau++;
+					}
 				}
 			break;
 			case DROITE :
-				coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()+niveau);
-				System.out.println("droite"+coin.getX()+" "+coin.getY());
-				if(coin.equals(depart4) && niveau<LEVEL_MAX)
-					action=GAUCHE;
+				if(contourner){
+					if(positionCourante.y == ARENE_WIDTH-1-niveau || 
+							(positionCourante.x == caseContournerArrivee.getX() && positionCourante.y>caseContournerArrivee.getY())){
+						action = finContourner();
+					}
+					else
+						action = contourner();
+				}
 				else{
-					if(coin.y == depart4.y)
-						action=FIN;
+					coin = new Point((int)positionCourante.getX()+niveau, (int)positionCourante.getY()+niveau);
+					System.out.println("droite"+coin.getX()+" "+coin.getY());
+					if(coin.equals(depart4) && niveau<LEVEL_MAX)
+						action=GAUCHE;
+					else{
+						if(coin.y == depart4.y)
+							action=FIN;
+					}
 				}
 			break;
 		}
@@ -324,7 +351,7 @@ public class RobotRicochet {
         }
     }
     
-    public static int contournerMur(){
+    public static int contourner(){
     	int action = AVANT;
     	
     	//Teste si fin de contournement
@@ -375,41 +402,18 @@ public class RobotRicochet {
 			contourner = false;
 		}
     	
-    	switch (directionCourante) {
-		case HAUT :
-			if(positionCourante.x == niveau || 
-					(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x<caseContournerArrivee.getX())){
-				
-			}
-			break;
-		case BAS : 
-			if(positionCourante.x == ARENE_HEIGHT-1-niveau || 
-					(positionCourante.y == caseContournerArrivee.getY() && positionCourante.x>caseContournerArrivee.getX())){
-				
-			}
-			break;
-		case DROITE : 
-			if(positionCourante.y == ARENE_WIDTH-1-niveau || 
-					(positionCourante.x == caseContournerArrivee.getX() && positionCourante.y>caseContournerArrivee.getY())){
-			}
-			break;
-		case GAUCHE : 
-			if(positionCourante.y == niveau || 
-					(positionCourante.x == caseContournerArrivee.getX() && positionCourante.y<caseContournerArrivee.getY())){
-				
-			}
-			break;
-		}
     	return action;
 	}
     
 	public static void main(String[] args) throws IOException, InterruptedException {
 		carte = new Terrain();
-		fen = new Fenetre(carte);
-    	fen.setTitle("Exploration");
-    	fen.jTable1.setDefaultRenderer(Object.class, new TableRendererCarto(carte));
+		fen = new Fenetre(carte, new JFrame(), false);
     	fen.setVisible(true);
-		
+    	//cartographier();
+    	fen.setVisible(false);
+    	ArrayList<Case> solution = fen.lancerAStar();
+    	System.out.println("FIN AFFICHAGE");
+		/*
 		// TODO Auto-generated method stub
 		nxtConnect = new NXTConnector();
 		connecte = nxtConnect.connectTo("btspp://001653162E5B");
@@ -422,8 +426,7 @@ public class RobotRicochet {
 			Scanner sc = new Scanner(System.in);
 			String arriveeX = sc.nextLine();
 			String arriveeY = sc.nextLine();
-			
-			AStar algo = new AStar(carte, new Point(Integer.parseInt(arriveeX), Integer.parseInt(arriveeY)));
+			//attendre fermeture fenetre et récupérer solution
 			ArrayList<Case> solution = algo.algorithme(0, 0);
 			
 			for(Case caseTmp : solution){
@@ -441,6 +444,6 @@ public class RobotRicochet {
 			
 		}else{
 			System.out.println("non connecte");
-		}
+		}*/
 	}
 }
