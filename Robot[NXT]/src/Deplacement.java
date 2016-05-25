@@ -38,7 +38,7 @@ public class Deplacement {
 						MOTEUR_DROITE.setSpeed(0);
 					}
 				}else{
-					this.arreter();
+					//this.arreter();
 					pilote.arc(0,-90);
 				}
 				//MOTEUR_DROITE.setSpeed(SPEED);
@@ -51,7 +51,7 @@ public class Deplacement {
 						MOTEUR_GAUCHE.setSpeed(0);
 					}
 				}else{
-					this.arreter();
+					//this.arreter();
 					pilote.arc(0,90);
 				}
 			break;
@@ -61,9 +61,9 @@ public class Deplacement {
 	}
 	
 	public void demiTour(){
-		pilote.setTravelSpeed(ROTATE_SPEED);
+		//pilote.setTravelSpeed(ROTATE_SPEED);
 		pilote.arc(0, 180);
-		pilote.setTravelSpeed(SPEED);
+		//pilote.setTravelSpeed(SPEED);
 	}
 	
 	public void patienter(int angle, NXTRegulatedMotor moteur){

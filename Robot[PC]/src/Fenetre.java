@@ -1,6 +1,8 @@
 package src;
 
+import java.awt.AWTException;
 import java.awt.Point;
+import java.awt.Robot;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
@@ -10,6 +12,9 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.table.TableColumn;
+
+import com.sun.glass.events.KeyEvent;
+
 import static src.Constantes.*;
 
 /*
@@ -224,7 +229,12 @@ public class Fenetre extends JDialog implements  ComponentListener {
         jButton1.setText("LANCER A*");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+					jButton1ActionPerformed(evt);
+				} catch (AWTException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -284,14 +294,15 @@ public class Fenetre extends JDialog implements  ComponentListener {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws AWTException {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         setTitle("Exploitation");
         jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
         jTable1.repaint();
         try {
             AStar algo = new AStar(carte, new Point(Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText())), this);
-            solution = algo.getSolution();
+            RobotRicochet.solution = algo.getSolution();
+            this.dispose();
         } catch (InterruptedException ex) {
             Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -411,9 +422,11 @@ public class Fenetre extends JDialog implements  ComponentListener {
         jTable1.requestFocus();
     }   
     
-    public ArrayList<Case> lancerAStar(){
-        new Fenetre(new Terrain(), new JFrame(), true).setVisible(true);
-        return solution;
+    public void lancerAStar(Case caseArrivee) throws NumberFormatException, InterruptedException{
+        setTitle("Exploitation");
+        jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
+    	AStar algo = new AStar(carte, new Point(caseArrivee.getX(), caseArrivee.getY()), this);
+    	jTable1.repaint();
     }
     /**
      * @param args the command line arguments

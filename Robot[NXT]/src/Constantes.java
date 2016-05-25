@@ -15,7 +15,7 @@ public class Constantes {
 	public static final int ARRIERE = 1;
 	public static final int DROITE = 8;
 	public static final int GAUCHE = 2;
-	public static final int FIN = 3;
+	public static final int FIN = -1;
 	public static final int REDRESSER_DROITE = 5;
 	public static final int REDRESSER_GAUCHE = 6;
 	
@@ -29,7 +29,7 @@ public class Constantes {
 	
 	public static final double WHEEL_SIZE = 56;
 	public static final double TRACKWIDTH = 114;
-	public static double SPEED = 300;
+	public static double SPEED = 320;
 	public static final double ROTATE_SPEED = 100;
 	public static DifferentialPilot pilote;
 	

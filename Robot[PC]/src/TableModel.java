@@ -40,7 +40,7 @@ public class TableModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex == 0){
-            return rowIndex+1;
+            return rowIndex;
         }
         return carte.getCase(new Point(rowIndex, columnIndex-1));
     }

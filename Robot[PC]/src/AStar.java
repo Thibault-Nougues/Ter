@@ -24,7 +24,6 @@ public class AStar {
         fen = fenetre;
         caseCourante = carte.getCase(arrivee);
         caseCourante.setPoids(0, 1);
-        algorithme(HAUT, 0);
     }
     
     public void algorithme(int direction, int profondeur){
@@ -144,6 +143,9 @@ public class AStar {
     }
     
 	public ArrayList<Case> getSolution(){
+
+        algorithme(HAUT, 0);
+        
     	ArrayList<Case> solution = new ArrayList<Case>();
     	
     	if(!listeFermee.isEmpty()){

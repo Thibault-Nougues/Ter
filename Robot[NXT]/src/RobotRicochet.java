@@ -3,6 +3,7 @@ package src;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import lejos.nxt.Battery;
 import lejos.nxt.Button;
@@ -22,7 +23,7 @@ public class RobotRicochet {
 		output = pcConnect.openDataOutputStream();
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		
 		connexion();
@@ -31,11 +32,14 @@ public class RobotRicochet {
 			ACTION=inputData.readInt();
 			//System.out.println(ACTION);
 		}while(ACTION!=FIN && !Button.ESCAPE.isDown());
+		CHEMIN = new ArrayList<Integer>();
 		/*do{
 			ACTION=inputData.readInt();
+			System.out.println("lecture : " + ACTION);
 			if(ACTION!=FIN)
 				CHEMIN.add(ACTION);
 		}while(ACTION!=FIN && !Button.ESCAPE.isDown());
+		System.out.println("AVANT exploitation");
 		new Exploitation();*/
 	}
 

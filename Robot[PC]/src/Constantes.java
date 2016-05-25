@@ -21,7 +21,7 @@ public class Constantes {
 	public static final int REDRESSER_DROITE = 5;
 	public static final int REDRESSER_GAUCHE = 6;
 	
-	public static final int FIN = 3;
+	public static final int FIN = -1;
 
     public static final Point depart1 = new Point(0, 0);
     public static final Point depart2 = new Point(ARENE_HEIGHT-1, 0);
