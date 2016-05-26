@@ -5,9 +5,12 @@
  */
 package src;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 import static src.Constantes.*;
 
+import java.awt.Color;
 import java.awt.Point;
 
 /**
@@ -48,7 +51,7 @@ public class TableModel extends AbstractTableModel{
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         super.setValueAt(aValue, rowIndex, columnIndex);
-        this.fireTableDataChanged();
+        fireTableDataChanged();
     }
     
 

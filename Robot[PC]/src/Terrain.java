@@ -38,7 +38,7 @@ public class Terrain {
         }
         
     	/* TESTS */
-        /*
+        
         //premiere ligne
         addMur(0, 3, DROITE);
         addMur(0, 15, DROITE);
@@ -107,7 +107,7 @@ public class Terrain {
         addObstacle(2, 14);
         addObstacle(3, 8);
         addObstacle(6, 3);
-        */
+        
         
     }
     

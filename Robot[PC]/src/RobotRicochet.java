@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -26,6 +28,7 @@ public class RobotRicochet {
     private static HashMap<Integer, Integer> distances = new HashMap<>(3);
     private static int tourneEnRond = 0;
     public static ArrayList<Case> solution;
+    public static Point objectif;
     
 	private static NXTConnector nxtConnect;
 	private static DataOutputStream outputData;
@@ -499,25 +502,12 @@ public class RobotRicochet {
 		solution = new ArrayList<Case>();
 		fen = new Fenetre(carte, new JFrame(), false);
     	fen.setVisible(true);
-    	
-    	/*fen.dispose();
-    	fen = new Fenetre(carte, new JFrame(), true);
+    	fen.dispose();
+		fen = new Fenetre(carte, new JFrame(), true);
     	fen.setVisible(true);
     	
-		System.out.println(solution.size());
-		
-		for(Case caseTmp : solution){
-			System.out.println(caseTmp);
-		}
-    	//fen.lancerAStar(solution.get(solution.size()-1));
-    	fen.lancerAStar(new Case(new Point(9, 22)));
-    	fen.setVisible(true);
-    	
-		System.out.println(solution.get(solution.size()-1));
-		
-		*/
-    	//attendre pour envoyer la solution au robot
-    	
+        AStar algo = new AStar(carte, objectif);
+        solution = algo.getSolution();
 		// TODO Auto-generated method stub
 		nxtConnect = new NXTConnector();
 		connecte = nxtConnect.connectTo("btspp://001653162E5B");
@@ -527,9 +517,12 @@ public class RobotRicochet {
 			System.out.println("connecte");
 			cartographier();
 
-			//attendre pour envoyer la solution au robot
-			Scanner sc = new Scanner(System.in);
-			sc.nextLine();
+	    	fen.dispose();
+			fen = new Fenetre(carte, new JFrame(), true);
+	    	fen.setVisible(true);
+	    	
+	        algo = new AStar(carte, objectif);
+	        solution = algo.getSolution();
 			
 			for(Case caseTmp : solution){
 				outputData.writeInt(caseTmp.getPoids());
@@ -537,16 +530,21 @@ public class RobotRicochet {
 				outputData.writeInt(caseTmp.getDirection());
 				outputData.flush();
 			}
-			System.out.println(solution.size());
 			
 			//attente du depart
-			System.out.println("Lancer robot");
+			Scanner sc = new Scanner(System.in);
+			sc.nextLine();
 			
+			System.out.println("Lancer robot");
 			outputData.writeInt(FIN);
 			outputData.flush();
-			System.out.println("apres ecriture");
+			//Quitter le programme
+			sc.nextLine();
+			sc.close();
 		}else{
 			System.out.println("non connecte");
+	    	fen.dispose();
 		}
+		System.exit(0);
 	}
 }

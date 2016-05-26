@@ -31,54 +31,48 @@ public class TableRendererAStar extends DefaultTableCellRenderer{
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if(column != 0){           
-            
-            ((JLabel) c).setBackground(Color.LIGHT_GRAY);
-            Case caseCourante = carte.getCase(new Point(row, column-1));
-                    
-            if(caseCourante.estObstacle()){
-                ((JLabel) c).setBackground(Color.DARK_GRAY);
-                ((JLabel) c).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            }
-            else if(caseCourante.getFinal()){
-                ((JLabel) c).setBackground(Color.YELLOW);
-            }
-            else if(caseCourante.getDepart()){
-                ((JLabel) c).setBackground(Color.BLUE);
-            }/*
-            switch(caseCourante.getDirection()){
-                case HAUT : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/haut.png"));
+            if(value instanceof Integer){
+            	switch((int)value){
+                case HAUT : ((JLabel) c).setIcon(new ImageIcon("src/images/haut.png"));
                     break;
-                case BAS : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/bas.png"));
+                case BAS : ((JLabel) c).setIcon(new ImageIcon("src/images/bas.png"));
                     break;
-                case DROITE : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/droite.png"));
+                case DROITE : ((JLabel) c).setIcon(new ImageIcon("src/images/droite.png"));
                     break;
-                case GAUCHE : ((JLabel) c).setIcon(new ImageIcon("src/pc/src/images/gauche.png"));
+                case GAUCHE : ((JLabel) c).setIcon(new ImageIcon("src/images/gauche.png"));
                     break;
                 default:
                     ((JLabel) c).setForeground(Color.BLACK);
                     ((JLabel) c).setIcon(null);
                     break;
-            }*/     
-            
-            int murs = caseCourante.getMurs();
-            int n = (murs & HAUT)/HAUT;
-            int e = (murs & DROITE)/DROITE;
-            int s = (murs & BAS)/BAS;
-            int w = (murs & GAUCHE)/GAUCHE;
-            ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
-                    w, 
-                    s, 
-                    e,
-                    Color.BLACK));
-            if(caseCourante.getPoids() != 100){
-                ((JLabel) c).setBackground(arcEnCiel(caseCourante.getPoids()));
-                ((JLabel) c).setText(Integer.toString(caseCourante.getPoids()));
+            	}
+            }else{
+            	((JLabel) c).setBackground(Color.LIGHT_GRAY);
+                Case caseCourante = carte.getCase(new Point(row, column-1));
+                        
+                if(caseCourante.estObstacle()){
+                    ((JLabel) c).setBackground(Color.DARK_GRAY);
+                    ((JLabel) c).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                }
+                
+                int murs = caseCourante.getMurs();
+                int n = (murs & HAUT)/HAUT;
+                int e = (murs & DROITE)/DROITE;
+                int s = (murs & BAS)/BAS;
+                int w = (murs & GAUCHE)/GAUCHE;
+                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(n, 
+                        w, 
+                        s, 
+                        e,
+                        Color.BLACK));
+                if(caseCourante.getPoids() != 100){
+                    ((JLabel) c).setBackground(arcEnCiel(caseCourante.getPoids()));
+                    ((JLabel) c).setText(Integer.toString(caseCourante.getPoids()));
+                }
+                else{
+                    ((JLabel) c).setText("");
+                }
             }
-            else{
-                ((JLabel) c).setText("");
-            }
-
-            
         }
         else{
             ((JLabel) c).setBackground(Color.WHITE);

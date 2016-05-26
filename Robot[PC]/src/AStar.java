@@ -2,11 +2,17 @@ package src;
 
 import static src.Constantes.*;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import java.util.TreeMap;
 
 public class AStar {
@@ -17,12 +23,18 @@ public class AStar {
     private HashMap<Case, Case> listeFermee = new HashMap<Case, Case>();
     private Case caseCourante;
     private Case caseParent;
+    private Point caseArrivee;
 	
-    public AStar(Terrain arene, Point arrivee, Fenetre fenetre) throws InterruptedException{
+    public AStar(Terrain arene, Point arrivee) throws InterruptedException{
     	
     	carte = arene;
-        fen = fenetre;
-        caseCourante = carte.getCase(arrivee);
+    	fen = new Fenetre(carte, new JFrame(), false);
+        fen.jTable1.setDefaultRenderer(Object.class, new TableRendererAStar(carte));
+        fen.jButton1.setText("QUITTER");
+        fen.setTitle("Exploitation");
+        fen.setVisible(true);
+        caseArrivee = arrivee;
+        caseParent = caseCourante = carte.getCase(arrivee);
         caseCourante.setPoids(0, 1);
     }
     
@@ -138,27 +150,39 @@ public class AStar {
                 pointTmp.equals(depart3);
     }
     
-    private void heuristique(){
-        
+    private int heuristique(){
+        return 0;
     }
     
 	public ArrayList<Case> getSolution(){
 
-        algorithme(HAUT, 0);
+        algorithme(0, 0);
         
     	ArrayList<Case> solution = new ArrayList<Case>();
     	
     	if(!listeFermee.isEmpty()){
     		Case caseCourante = this.caseCourante;
     		Case caseSuivante = caseParent;
+    		int i=0;
     		Case caseFinale = new Case();
         	do{
     			caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), tourner(caseCourante, caseSuivante));
-            	solution.add(caseFinale);
+            	solution.add(new Case(caseFinale));
             	caseCourante = caseSuivante;
+            	/*fen.jTable1.setValueAt(caseCourante.getDirection(), caseCourante.getX(), caseCourante.getY());
+                fen.jTable1.repaint(); 
+            	try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}*/
             	caseSuivante = listeFermee.get(caseSuivante);
-        	}while(caseSuivante != null);
+        	}while(caseSuivante != null && !caseSuivante.getPosition().equals(caseArrivee));
+        	caseFinale.setPoids(caseCourante.getPoids()-caseSuivante.getPoids(), 0);
+        	solution.add(new Case(caseFinale));
     	}
+    	
     	return solution;
     }
 	
@@ -177,7 +201,7 @@ public class AStar {
     }
     
     
-    /* M�thodes utiles pour les listes ouverte et ferm�e */
+    /* Methodes utiles pour les listes ouverte et fermee */
     
     private void ajouter_listeOuverte(Case caseCourante, Case caseParent){
         Case caseTmp = new Case(caseCourante);
